@@ -84,11 +84,11 @@
         document.addEventListener("webkitpointerlockchange", pointerlockchange, false);
 
         //Ground
-        var ground = BABYLON.Mesh.CreatePlane("ground", 20.0, scene);
+        var ground = BABYLON.Mesh.CreatePlane("ground", 100, scene);
         ground.material = new BABYLON.StandardMaterial("groundMat", scene);
         ground.material.diffuseColor = new BABYLON.Color3(1, 1, 1);
         ground.material.backFaceCulling = false;
-        ground.position = new BABYLON.Vector3(-10, 0, -10);
+        ground.position = new BABYLON.Vector3(50, 0, 50);
         ground.rotation = new BABYLON.Vector3(Math.PI / 2, 0, 0);
 
         //Simple crate
@@ -125,8 +125,38 @@
 
     function renderMap(scene){
 
-        createL(scene, 0, 0, false, false, true, false);
+        createL(scene, 0, 0, false, false, false, false);
+        //createO(scene, 10,  10, true, true, true, true);
     }
+
+   function createO(scene, x, z, open1, open2, open3, open4) {
+            //inner
+            createWallX(scene, [x - 3 , z - 3], 30);
+            createWallZ(scene, [x - 3, z - 3], 30);
+            createWallX(scene, [x - 3, z - 6], 30);
+            createWallZ(scene, [x - 6, z - 3], 30);
+            //outer (part 1)
+            createWallZ(scene, [x, z - 6], 30);
+            createWallZ(scene, [x, z], 30);
+            createWallX(scene, [x - 6, z], 30);
+            createWallX(scene, [x, z], 30);
+            createWallZ(scene, [x - 9, z - 6], 30);
+            createWallZ(scene, [x - 9, z], 30);
+            createWallX(scene, [x - 6, z - 9], 30);
+            createWallX(scene, [x, z - 9], 30);
+            if (!open1) {
+                createWallX(scene, [x - 3, z - 9], 30);
+            }
+            if (!open2) {
+                createWallZ(scene, [x - 9, z - 3], 30);
+            }
+            if (!open3) {
+                createWallX(scene, [x - 3 , z], 30);
+            }
+            if (!open4) {
+                createWallZ(scene, [x, z - 3], 30);
+            }
+    } 
 
 
     //open1 = north
@@ -134,28 +164,51 @@
     //open3 = south
     //open4 = west
     function createL(scene, x, z, open1, open2, open3, open4){
-        //inner
-        createWallX(scene, [x-3, z-3], 60);
-        createWallZ(scene, [x-3, z-3], 60);
 
-        //outer (part 1)
-        createWallZ(scene, [x, z-6], 30);
-        createWallZ(scene, [x, z], 30);
-        createWallX(scene, [x-6, z], 30);
-        createWallX(scene, [x, z], 30);
+        //Outer right wall
+        createWall(scene, [x,z], [x,z+4]);        
+        createWall(scene, [x,z+7], [x,z+10]);        
 
+        createWall(scene, [x+3,z+3], [x+3,z+10]);
+
+        //Outer bottom wall
+        createWall(scene, [x+3,z], [x+6,z]);        
+
+        createWall(scene, [x+3,z+3], [x+6,z+3]);        
+        
         if(!open1) {
-            createWallX(scene, [x, z-9], 30);
+            createWall(scene, [x,z+10], [x+3,z+10]);
         }
         if(!open2){
-            createWallZ(scene, [x-9, z], 30);
+            createWall(scene, [x+6,z], [x+6,z+3]);
         }
         if(!open3){
-            createWallX(scene, [x-3, z], 30);
+            createWall(scene, [x,z], [x+3,z]);        
         }
         if(!open4){
-            createWallZ(scene, [x, z-3], 30);
+            createWall(scene, [x,z+4], [x,z+7]);
         }
+    } 
+
+    function createWall(scene, begin, end){
+        var height = 30;
+        var scaling = .1;
+
+        var midx = (begin[0]+end[0])/2.0;
+        var midz = (begin[1]+end[1])/2.0;
+
+        var box = new BABYLON.Mesh.CreateBox("crate", scaling, scene);
+        box.material = new BABYLON.StandardMaterial("Mat", scene);
+        box.material.diffuseColor = new BABYLON.Color3(0, 0, 0);
+        box.position = new BABYLON.Vector3(midx, (height/2)*scaling, midz);
+        box.checkCollisions = true;
+        box.scaling.y = height;
+        
+
+        var xDist = begin[0]-end[0];
+        var zDist = begin[1]-end[1];
+        box.scaling.x = (Math.sqrt(xDist*xDist+zDist*zDist))*10;
+        box.rotation.y = 0-(Math.atan(zDist/xDist));
     }
 
     function createWallX(scene, begin, length){
