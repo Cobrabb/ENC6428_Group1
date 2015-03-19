@@ -128,7 +128,14 @@
 		
 		//var G = createG(scene, 0, 0, false, true, false, false);
 
-        var C = createC(scene, 0, 0, true, true, true, true);
+        var F = createF(scene, 0, 0, false,true,false,false);
+        var O = createO(scene, F.xEnd+3, 0, false,true,false,true);
+        var L1 = createL(scene, O.xEnd+3, 0, false,true,false,true);
+        var L2 = createL(scene, L1.xEnd+3, 0, false,true,false,true);
+        var Y = createY(scene, L2.xEnd+3, 0, false,false,false,true);
+
+        createWall(scene, [F.xBegin, F.zEnd], [Y.xEnd, Y.zEnd]);
+        createWall(scene, [F.xBegin, F.zBegin], [Y.xEnd, Y.zBegin]);
 		
 		//var L = createL(scene, 14, 0, false, true, false, true);
 		
