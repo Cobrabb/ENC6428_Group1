@@ -181,10 +181,10 @@
 
         //left side
         createWall(scene, [x+3,z+4.5], [x,z+9]);
-        createWall(scene, [x+3, z+4.5], [x, z]);
+        createWall(scene, [x+1, z+1.5], [x, z]);
 
         //right side
-        createWall(scene, [x+6,z+4.5], [x+9,z+9]);
+        createWall(scene, [x+8,z+7.5], [x+9,z+9]);
         createWall(scene, [x+6, z+4.5], [x+9, z]);
 
         //bottom triangle
@@ -195,14 +195,21 @@
         createWall(scene, [x+3, z+9], [x+4.5, z+7]);
         createWall(scene, [x+6, z+9], [x+4.5, z+7]);
 
+        //extra bits
+        createWall(scene, [x+6, z+9], [x+9, z+9]);
+        createWall(scene, [x, z], [x+3, z]);
 
         if(!open1){
+            createWall(scene, [x, z+9], [x+3, z+9]);
         }
         if(!open2){
+            createWall(scene, [x+6, z+4.5], [x+8, z+7.5]);
         } 
         if(!open3){
+            createWall(scene, [x+6, z], [x+9, z]);
         }
         if(!open4){
+            createWall(scene, [x+1, z+1.5], [x+3, z+4.5]);
         }
 
         
