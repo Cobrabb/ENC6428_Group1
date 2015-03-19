@@ -40,7 +40,7 @@
         var light1 = new BABYLON.PointLight("Omni", new BABYLON.Vector3(2, 20, 20), scene);
 
         // Need a free camera for collisions
-        var camera = new BABYLON.FreeCamera("FreeCamera", new BABYLON.Vector3(-15, 1, -15), scene);
+        var camera = new BABYLON.FreeCamera("FreeCamera", new BABYLON.Vector3(1, 1, 1), scene);
         camera.attachControl(canvas, true);
         camera.speed = 1;
         camera.inertia = .9;
@@ -101,7 +101,7 @@
 
         //Then apply collisions and gravity to the active camera
         camera.checkCollisions = true;
-        camera.applyGravity = false;
+        camera.applyGravity = true;
 
         //Set the ellipsoid around the camera (e.g. your player's size)
         camera.ellipsoid = new BABYLON.Vector3(1, 1, 1);
@@ -124,8 +124,16 @@
 
     function renderMap(scene){
 
-        var L = createX(scene, 0, 0, false, false, false, false);
-        var M = createX(scene, 10, 0, true, true, true, true);
+        var F = createF(scene, 0, 0, false, true, false, false);
+        var O = createO(scene, F.xEnd, 0, false, true, false, true);
+        var L1 = createL(scene, O.xEnd, 0, false, true, false, true);
+        var L2 = createL(scene, L1.xEnd+3, 0, false, true, false, true);
+        createWall(scene, [L1.xEnd, L1.zBegin], [L2.xBegin, L2.zBegin+3]);
+        createWall(scene, [L1.xEnd, L1.zBegin+3], [L2.xBegin, L2.zBegin+6]);
+
+        var Y = createY(scene, L2.xEnd+5, 0, false, true, false, true);
+        createWall(scene, [L2.xEnd, L2.zBegin], [Y.xBegin+2 ,Y.zBegin+5.7]);
+        createWall(scene, [L2.xEnd, L2.zBegin+3], [Y.xBegin, Y.zBegin+9]);
         //alert(L.xBegin + " " + L.xEnd);
         //L.checkCollision(1, 1);
     }
@@ -175,6 +183,50 @@
             this.zEnd = z+9;
             this.checkCollision = checkCollision;
         };
+    }
+
+    function createF(scene, x, z, open1, open2, open3, open4){
+        //left wall
+        createWall(scene, [x, z], [x, z+3]);
+        createWall(scene, [x, z+6], [x, z+9]);
+
+        //top wall
+        createWall(scene, [x+3,z+9], [x+6, z+9]);
+
+        //right side, first point
+        createWall(scene, [x+6, z+9], [x+6, z+6]);
+        createWall(scene, [x+6, z+6], [x+3, z+6]);
+
+        //right side, second point
+        createWall(scene, [x+6, z+3], [x+3, z+3]);
+
+        //right side, final
+        createWall(scene, [x+3, z+3], [x+3, z]);
+
+
+        if(!open1){
+            createWall(scene, [x, z+9], [x+3, z+9]);
+        }
+        if(!open2){
+            createWall(scene, [x+6, z+6], [x+6, z+3]);
+        }
+        if(!open3){
+            createWall(scene, [x+3, z], [x, z]);
+        }
+        if(!open4){
+            createWall(scene, [x, z+3], [x, z+6]); 
+        }
+        
+        return new function(){
+            this.xBegin = x;
+            this.zBegin = z;
+            //how far you go in the X direction
+            this.xEnd = x+6;
+            //this always remains the same
+            this.zEnd = z+9;
+            this.checkCollision = checkCollision;
+        };
+
     }
 
     function createX(scene, x, z, open1, open2, open3, open4){
@@ -307,7 +359,7 @@
             this.xBegin = x;
             this.zBegin = z;
             //how far you go in the X direction
-            this.xEnd = x + 6;
+            this.xEnd = x + 9;
             //this always remains the same
             this.zEnd = z + 9;
             this.checkCollision = checkCollision;
