@@ -5,6 +5,7 @@
         <script src="Babylon.js/cannon.js"></script>
         <script src="Babylon.js/Oimo.js"></script>
         <script src="Babylon.js/babylon.2.0.js"></script>
+        <script src="letters.js"></script>
     </head>
     <style>
         html, body {
@@ -29,6 +30,7 @@
 
 <script>
 
+
     var canvas = document.getElementById("renderCanvas");
     var engine = new BABYLON.Engine(canvas, true);
     
@@ -40,7 +42,7 @@
         var light1 = new BABYLON.PointLight("Omni", new BABYLON.Vector3(2, 20, 20), scene);
 
         // Need a free camera for collisions
-        var camera = new BABYLON.FreeCamera("FreeCamera", new BABYLON.Vector3(-15, 1, -15), scene);
+        var camera = new BABYLON.FreeCamera("FreeCamera", new BABYLON.Vector3(1, 1, 1), scene);
         camera.attachControl(canvas, true);
         camera.speed = 1;
         camera.inertia = .9;
