@@ -124,7 +124,7 @@
 
     function renderMap(scene){
 
-        var L = createL(scene, 0, 0, false, false, false, false);
+        var L = createQ(scene, 0, 0, false, false, false, false);
         //alert(L.xBegin + " " + L.xEnd);
         //L.checkCollision(1, 1);
     }
@@ -174,7 +174,287 @@
             this.zEnd = z+9;
             this.checkCollision = checkCollision;
         };
-    } 
+    }
+
+    function createO(scene, x, z, open1, open2, open3, open4) {
+
+        //Outer right wall
+        createWall(scene, [x, z], [x, z + 3]);
+        createWall(scene, [x, z + 6], [x, z + 9]);
+        //Outer left wall
+        createWall(scene, [x + 9, z], [x + 9, z + 3]);
+        createWall(scene, [x + 9, z + 6], [x + 9, z + 9]);
+
+        //Outer bottom wall
+        createWall(scene, [x, z], [x + 3, z]);
+        createWall(scene, [x + 6, z], [x + 9, z]);
+        //Outer top wall
+        createWall(scene, [x, z + 9], [x + 3, z + 9]);
+        createWall(scene, [x + 6, z + 9], [x + 9, z + 9]);
+
+        //Inner O
+        createWall(scene, [x + 3, z + 3], [x + 6, z + 3]);
+        createWall(scene, [x + 3, z + 6], [x + 6, z + 6]);
+        createWall(scene, [x + 6, z + 3], [x + 6, z + 6]);
+        createWall(scene, [x + 3, z + 3], [x + 3, z + 6]);
+
+        if (!open1) {
+            createWall(scene, [x + 3, z + 9], [x + 6, z + 9]);
+        }
+        if (!open2) {
+            createWall(scene, [x + 9, z + 3], [x + 9, z + 6]);
+        }
+        if (!open3) {
+            createWall(scene, [x + 3, z], [x + 6, z]);
+        }
+        if (!open4) {
+            createWall(scene, [x, z + 3], [x, z + 6]);
+        }
+
+        return new function () {
+            this.xBegin = x;
+            this.zBegin = z;
+            //how far you go in the X direction
+            this.xEnd = x + 6;
+            //this always remains the same
+            this.zEnd = z + 9;
+            this.checkCollision = checkCollision;
+        };
+    }
+
+    function createD(scene, x, z, open1, open2, open3, open4) {
+
+        //Outer right wall
+        createWall(scene, [x, z], [x, z + 3]);
+        createWall(scene, [x, z + 6], [x, z + 9]);
+        //Outer left wall
+        createWall(scene, [x + 9, z + 2], [x + 9, z + 3]);
+        createWall(scene, [x + 9, z + 6], [x + 9, z + 7]);
+    
+       //Outer bottom wall
+        createWall(scene, [x, z], [x + 3, z]);
+        createWall(scene, [x + 6, z], [x + 7, z]);
+        createWall(scene, [x + 7, z], [x + 9, z + 2]);
+        //Outer top wall
+        createWall(scene, [x, z + 9], [x + 3, z + 9]);
+        createWall(scene, [x + 6, z + 9], [x + 7, z + 9]);
+        createWall(scene, [x + 7, z + 9], [x + 9, z + 7]);
+
+        //Inner D
+        createWall(scene, [x + 3, z + 3], [x + 5, z + 3]);
+        createWall(scene, [x + 3, z + 6], [x + 5, z + 6]);
+        createWall(scene, [x + 5, z + 3], [x + 6, z + 4]);
+        createWall(scene, [x + 5, z + 6], [x + 6, z + 5]);
+        createWall(scene, [x + 6, z + 4], [x + 6, z + 5]);
+        createWall(scene, [x + 3, z + 3], [x + 3, z + 6]);
+
+        if (!open1) {
+            createWall(scene, [x + 3, z + 9], [x + 6, z + 9]);
+        }
+        if (!open2) {
+            createWall(scene, [x + 9, z + 3], [x + 9, z + 6]);
+        }
+        if (!open3) {
+            createWall(scene, [x + 3, z], [x + 6, z]);
+        }
+        if (!open4) {
+            createWall(scene, [x, z + 3], [x, z + 6]);
+        }
+
+        return new function () {
+            this.xBegin = x;
+            this.zBegin = z;
+            //how far you go in the X direction
+            this.xEnd = x + 6;
+            //this always remains the same
+            this.zEnd = z + 9;
+            this.checkCollision = checkCollision;
+        };
+    }
+
+    function createN(scene, x, z, open1, open2, open3, open4) {
+
+        createWall(scene, [x, z], [x, z + 3]);
+        createWall(scene, [x, z + 6], [x, z + 9]);
+        createWall(scene, [x + 9, z], [x + 9, z + 3]);
+        createWall(scene, [x + 9, z + 6], [x + 9, z + 9]);
+        createWall(scene, [x + 6, z + 4], [x + 6, z + 9]);
+        createWall(scene, [x, z + 9], [x + 3, z + 9]);
+        createWall(scene, [x + 3, z], [x + 3, z + 5]);
+        createWall(scene, [x + 6, z], [x + 9, z]);
+        createWall(scene, [x + 6, z + 9], [x + 9, z + 9]);
+        createWall(scene, [x + 3, z + 5], [x + 6, z]);
+        createWall(scene, [x + 3, z + 9], [x + 6, z + 4]);
+
+        if (!open1) {
+            createWall(scene, [x + 9, z + 9], [x + 9, z + 6]);
+        }
+        if (!open2) {
+            createWall(scene, [x + 9, z + 3], [x + 9, z + 6]);
+        }
+        if (!open3) {
+            createWall(scene, [x, z], [x + 3, z]);
+        }
+        if (!open4) {
+            createWall(scene, [x, z + 3], [x, z + 6]);
+        }
+
+        return new function () {
+            this.xBegin = x;
+            this.zBegin = z;
+            //how far you go in the X direction
+            this.xEnd = x + 6;
+            //this always remains the same
+            this.zEnd = z + 9;
+            this.checkCollision = checkCollision;
+        };
+    }
+
+    function createM(scene, x, z, open1, open2, open3, open4) {
+
+        //Outer right wall
+        createWall(scene, [x, z], [x, z + 3]);
+        createWall(scene, [x, z + 6], [x, z + 9]);
+        //Outer left wall
+        createWall(scene, [x + 9, z], [x + 9, z + 3]);
+        createWall(scene, [x + 9, z + 6], [x + 9, z + 9]);
+
+        //Outer bottom wall
+        createWall(scene, [x, z], [x + 3, z]);
+        
+        //Outer top wall
+        createWall(scene, [x, z + 9], [x + 3, z + 9]);
+        createWall(scene, [x + 9, z + 9], [x + 6, z + 9]);
+
+        //Inner M
+        createWall(scene, [x + 3, z], [x + 3, z + 6]);
+        createWall(scene, [x + 6, z], [x + 6, z + 6]);
+        createWall(scene, [x + 3, z + 6], [x + 4.5, z + 4.5]);
+        createWall(scene, [x + 6, z + 6], [x + 4.5, z + 4.5]);
+
+        if (!open1) {
+            createWall(scene, [x + 3, z + 9], [x + 6, z + 9]);
+        }
+        if (!open2) {
+            createWall(scene, [x + 9, z + 3], [x + 9, z + 6]);
+        }
+        if (!open3) {
+            createWall(scene, [x + 9, z], [x + 6, z]);
+        }
+        if (!open4) {
+            createWall(scene, [x, z + 3], [x, z + 6]);
+        }
+
+        return new function () {
+            this.xBegin = x;
+            this.zBegin = z;
+            //how far you go in the X direction
+            this.xEnd = x + 6;
+            //this always remains the same
+            this.zEnd = z + 9;
+            this.checkCollision = checkCollision;
+        };
+    }
+
+    function createG(scene, x, z, open1, open2, open3, open4) {
+
+        //Outer right wall
+        createWall(scene, [x, z], [x, z + 3]);
+        createWall(scene, [x, z + 6], [x, z + 9]);
+        //Outer left wall
+        createWall(scene, [x + 9, z + 3], [x + 9, z + 4.5]);
+        createWall(scene, [x + 9, z + 6], [x + 9, z + 9]);
+
+        //Outer bottom wall
+        createWall(scene, [x, z], [x + 3, z]);
+        createWall(scene, [x + 6, z], [x + 9, z]);
+        //Outer top wall
+        createWall(scene, [x, z + 9], [x + 3, z + 9]);
+        createWall(scene, [x + 6, z + 9], [x + 9, z + 9]); 
+
+        //Inner G
+        createWall(scene, [x + 3, z + 3], [x + 6, z + 3]);
+        createWall(scene, [x + 3, z + 6], [x + 9, z + 6]);
+        //createWall(scene, [x + 6, z + 3], [x + 6, z + 4.5]);
+        createWall(scene, [x + 3, z + 3], [x + 3, z + 6]);
+        createWall(scene, [x + 9, z + 4.5], [x + 4.5, z + 4.5]);
+        createWall(scene, [x + 4.5, z + 4.5], [x + 4.5, z + 3.75]);
+        createWall(scene, [x + 4.5, z + 3.75], [x + 6, z + 3.75]);
+        createWall(scene, [x + 6, z + 3.75], [x + 6, z + 3]);
+        createWall(scene, [x + 6, z + 3], [x + 3, z + 3]);
+
+        if (!open1) {
+            createWall(scene, [x + 3, z + 9], [x + 6, z + 9]);
+        }
+        if (!open2) {
+            createWall(scene, [x + 9, z], [x + 9, z + 3]);
+        }
+        if (!open3) {
+            createWall(scene, [x + 3, z], [x + 6, z]);
+        }
+        if (!open4) {
+            createWall(scene, [x, z + 3], [x, z + 6]);
+        }
+
+        return new function () {
+            this.xBegin = x;
+            this.zBegin = z;
+            //how far you go in the X direction
+            this.xEnd = x + 6;
+            //this always remains the same
+            this.zEnd = z + 9;
+            this.checkCollision = checkCollision;
+        };
+    }
+
+    function createQ(scene, x, z, open1, open2, open3, open4) {
+
+        //Outer right wall
+        createWall(scene, [x, z], [x, z + 3]);
+        createWall(scene, [x, z + 6], [x, z + 9]);
+        //Outer left wall
+        createWall(scene, [x + 9, z], [x + 9, z + 3]);
+        createWall(scene, [x + 9, z + 6], [x + 9, z + 9]);
+
+        //Outer bottom wall
+        createWall(scene, [x, z], [x + 3, z]);
+        createWall(scene, [x + 6, z], [x + 9, z]);
+        //Outer top wall
+        createWall(scene, [x, z + 9], [x + 3, z + 9]);
+        createWall(scene, [x + 6, z + 9], [x + 9, z + 9]);
+
+        //Inner Q
+        createWall(scene, [x + 3, z + 3], [x + 4.5, z + 3]);
+        createWall(scene, [x + 4.5, z + 3], [x + 4.5, z + 4.5]);
+        createWall(scene, [x + 4.5, z + 4.5], [x + 6, z + 4.5]);
+        createWall(scene, [x + 3, z + 6], [x + 6, z + 6]);
+        createWall(scene, [x + 6, z + 4.5], [x + 6, z + 6]);
+        createWall(scene, [x + 3, z + 3], [x + 3, z + 6]);
+
+        if (!open1) {
+            createWall(scene, [x + 3, z + 9], [x + 6, z + 9]);
+        }
+        if (!open2) {
+            createWall(scene, [x + 9, z + 3], [x + 9, z + 6]);
+        }
+        if (!open3) {
+            createWall(scene, [x + 3, z], [x + 6, z]);
+        }
+        if (!open4) {
+            createWall(scene, [x, z + 3], [x, z + 6]);
+        }
+
+        return new function () {
+            this.xBegin = x;
+            this.zBegin = z;
+            //how far you go in the X direction
+            this.xEnd = x + 6;
+            //this always remains the same
+            this.zEnd = z + 9;
+            this.checkCollision = checkCollision;
+        };
+    }
+
 
     function createWall(scene, begin, end){
         var height = 30;
