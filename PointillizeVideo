@@ -1,0 +1,41 @@
+// Run this program only in the Java mode inside the IDE,
+// not on Processing.js (web mode)!!
+
+// To convert images to a movie you can use:
+// ffmpeg -i seq-%04d.tga -r 25 -threads 4 video.mp4
+
+PImage img;
+int c = 255;
+int smallPoint, largePoint;
+
+void setup() {
+  size(287, 435);
+    img = loadImage("songsie.jpg");
+    smallPoint = 10;
+    largePoint = 40;
+    imageMode(CENTER);
+  background(255);
+  frameRate(25);
+  noStroke();
+  rectMode(CENTER);
+}
+void draw() {
+  float pointillize = map(mouseX, 0, width, smallPoint, largePoint);
+  int x = int(random(img.width));
+  int y = int(random(img.height));
+  color pix = img.get(x, y);
+  fill(pix, 128);
+  ellipse(x, y, pointillize, pointillize);
+
+  if(frameCount % 200 == 0) {
+    c = 255 - c; // 255 0 255 0 255 0 ..
+  }
+  saveFrame("frame-####.tif");
+
+  if(frameCount > 500) { // 20 seconds * 25 fps = 500
+    noLoop();
+  }
+}
+
+
+
