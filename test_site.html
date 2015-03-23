@@ -92,6 +92,7 @@
         ground.position = new BABYLON.Vector3(50, 0, 50);
         ground.rotation = new BABYLON.Vector3(Math.PI / 2, 0, 0);
 
+        vidSetup(scene);
         //Simple crate
         renderMap(scene);
 
@@ -126,8 +127,6 @@
 
     function renderMap(scene){
 		
-		//var G = createG(scene, 0, 0, false, true, false, false);
-
         var J = createJ(scene, 0, 0, false,true,false,false);
         var O = createO(scene, J.xEnd+3, 0, false,true,false,true);
         var L1 = createL(scene, O.xEnd+3, 0, false,true,false,true);
@@ -135,13 +134,8 @@
         var Y = createY(scene, L2.xEnd+3, 0, false,false,false,true);
 
         createWall(scene, [J.xBegin, J.zEnd], [Y.xEnd, Y.zEnd]);
-        createWall(scene, [J.xBegin, J.zBegin], [Y.xEnd, Y.zBegin]);
-		
-		//var L = createL(scene, 14, 0, false, true, false, true);
-		
-		//var L = createL(scene, 21, 0, false, false, false, true);
-        //alert(L.xBegin + " " + L.xEnd);
-        //L.checkCollision(1, 1);
+        createWall(scene, [J.xBegin, J.zBegin], [Y.xEnd, Y.zBegin]); 
+
     }
 
     function checkCollision(playerX, playerZ){
@@ -153,27 +147,6 @@
 
 
 
-
-    function createWall(scene, begin, end){
-        var height = 30;
-        var scaling = .1;
-
-        var midx = (begin[0]+end[0])/2.0;
-        var midz = (begin[1]+end[1])/2.0;
-
-        var box = new BABYLON.Mesh.CreateBox("crate", scaling, scene);
-        box.material = new BABYLON.StandardMaterial("Mat", scene);
-        box.material.diffuseColor = new BABYLON.Color3(0, 0, 0);
-        box.position = new BABYLON.Vector3(midx, (height/2)*scaling, midz);
-        box.checkCollisions = true;
-        box.scaling.y = height;
-        
-
-        var xDist = begin[0]-end[0];
-        var zDist = begin[1]-end[1];
-        box.scaling.x = (Math.sqrt(xDist*xDist+zDist*zDist))*10;
-        box.rotation.y = 0-(Math.atan(zDist/xDist));
-    }
 
 
 </script>
