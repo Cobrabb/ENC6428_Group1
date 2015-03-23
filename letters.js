@@ -627,10 +627,69 @@ function createU(scene, x, z, open1, open2, open3, open4){
 }
 
 function createV(scene, x, z, open1, open2, open3, open4){
-    alert("FUNCTION NOT DEFINED");
+    //Left half
+    createWall(scene, [x, z+9], [x+1,z+6]);
+    createWall(scene, [x+2, z+3], [x+3,z]);
+    createWall(scene, [x+3,z+9], [x+4.5,z+4.5]);
+
+    //Right half
+    createWall(scene, [x+9, z+9], [x+8,z+6]);
+    createWall(scene, [x+7, z+3], [x+6,z]);
+    createWall(scene, [x+6, z+9], [x+4.5,z+4.5])
+
+    createWall(scene, [x+6, z+9], [x+9, z+9]);
+
+    if(!open1){
+        createWall(scene, [x, z+9], [x+3, z+9]);
+    }
+    if(!open2){
+        createWall(scene, [x+8, z+6], [x+7, z+3]);
+    }
+    if(!open3){
+        createWall(scene, [x+3,z], [x+6,z]);
+    }
+    if(!open4){
+        createWall(scene, [x+1, z+6], [x+2, z+3]);
+    }
+
+    return letter(x, z, x+9);
 }
+
 function createW(scene, x, z, open1, open2, open3, open4){
-    alert("FUNCTION NOT DEFINED");
+    //Outer right wall
+    createWall(scene, [x, z+9], [x, z + 6]);
+    createWall(scene, [x, z + 3], [x, z]);
+    //Outer left wall
+    createWall(scene, [x + 9, z+9], [x + 9, z+6]);
+    createWall(scene, [x + 9, z + 3], [x + 9, z]);
+
+    //Outer bottom wall
+    createWall(scene, [x, z+9], [x + 3, z+9]);
+    
+    //Outer top wall
+    createWall(scene, [x, z ], [x + 3, z]);
+    createWall(scene, [x + 9, z], [x + 6, z]);
+
+    //Inner M
+    createWall(scene, [x + 3, z+9], [x + 3, z + 3]);
+    createWall(scene, [x + 6, z+9], [x + 6, z + 3]);
+    createWall(scene, [x + 3, z + 3], [x + 4.5, z + 4.5]);
+    createWall(scene, [x + 6, z + 3], [x + 4.5, z + 4.5]);
+
+    if (!open1) {
+        createWall(scene, [x + 9, z+9], [x + 6, z+9]);
+    }
+    if (!open2) {
+        createWall(scene, [x, z + 6], [x, z + 3]);
+    }
+    if (!open3) {
+        createWall(scene, [x + 3, z], [x + 6, z]);
+    }
+    if (!open4) {
+        createWall(scene, [x + 9, z + 6], [x + 9, z + 3]);
+    }
+
+    return letter(x,z,x+9);
 }
 
 function createX(scene, x, z, open1, open2, open3, open4){
