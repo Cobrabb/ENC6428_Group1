@@ -775,7 +775,7 @@ function createZ(scene, x, z, open1, open2, open3, open4){
 }
 
 function vidSetup(scene){
-   VIDEO = new BABYLON.VideoTexture("video", ["Pointillism1A.mp4"], 256, scene, false);
+//   VIDEO = new BABYLON.VideoTexture("video", ["Pointillism1A.mp4"], 256, scene, false);
 }
 
 function createWall(scene, begin, end){
@@ -787,10 +787,10 @@ function createWall(scene, begin, end){
 
     var box = new BABYLON.Mesh.CreateBox("crate", scaling, scene);
     box.material = new BABYLON.StandardMaterial("Mat", scene);
-    box.material.diffuseTexture = VIDEO;
+    /*box.material.diffuseTexture = VIDEO;
     box.material.diffuseTexture.backFaceCulling = false;
-    box.material.emissiveColor = new BABYLON.Color3(1,1,1);
-    //box.material.diffuseColor = new BABYLON.Color3(0, 0, 0);
+    box.material.emissiveColor = new BABYLON.Color3(1,1,1);*/
+    box.material.diffuseColor = new BABYLON.Color3(0, 0, 0);
     box.position = new BABYLON.Vector3(midx, (height/2)*scaling, midz);
     box.checkCollisions = true;
     box.scaling.y = height;
