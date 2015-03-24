@@ -119,7 +119,7 @@ function createD(scene, x, z, open1, open2, open3, open4) {
 }
 
 function createE(scene, x, z, open1, open2, open3, open4){
-    alert("FUNCTION NOT DEFINED");
+    //alert("FUNCTION NOT DEFINED");
 }
 
 
