@@ -32,11 +32,53 @@ function opening(xBegin, xEnd, zBegin, zEnd){
 //open4 = west
 
 function createA(scene, x, z, open1, open2, open3, open4){
-    alert("FUNCTION NOT DEFINED");
+    // Outer A wall
+    createWall(scene, [x+1,z+3], [x+3, z+9]);
+    createWall(scene, [x+6,z+9], [x+8, z+3]);
+    createWall(scene, [x,z],[x+3,z]);
+
+    //Inner Wall
+    createWall(scene, [x+3,z], [x+4, z+3]);
+    createWall(scene, [x+4,z+3], [x+5,z+3]);
+    createWall(scene, [x+5,z+3], [x+6,z]);
+
+    if (!open1) {
+        createWall(scene, [x, z], [x+1, z+3]);
+    }
+    if (!open2) {
+        createWall(scene, [x+3, z+9], [x+6, z+9]);
+    }
+    if (!open3) {
+        createWall(scene, [x+8,z+3], [x+9, z]);
+    }
+    if (!open4) {
+        createWall(scene, [x+6,z],[x+9,z]);
+    }
+    // Return Function
+    return letter(x,z, x+9);
 }
 
 function createB(scene, x, z, open1, open2, open3, open4){
-    alert("FUNCTION NOT DEFINED");
+    // Outer Wall
+    createWall(scene, [x,z],[x,z+6]);
+    createWall(scene, [x+3,z+9],[x+6,z+6.75]);
+    createWall(scene, [x+6,z+6.75], [x+3,z+4.5]);
+    createWall(scene, [x+6,z+2.25], [x+3,z]);
+
+    if (!open1) {
+        createWall(scene, [x, z+6], [x, z+9]);
+    }
+    if (!open2) {
+        createWall(scene, [x,z+9],[x+3,z+9]);
+    }
+    if (!open3) {
+        createWall(scene, [x+3,z+4.5],[x+6,z+2.25]);       
+    }
+    if (!open4) {
+        createWall(scene, [x,z],[x+3,z]);
+    }
+    //Return Function
+    return letter(x,z, x+6);
 }
 
 function createC(scene, x, z, open1, open2, open3, open4) {
@@ -771,7 +813,31 @@ function createY(scene, x, z, open1, open2, open3, open4){
 }
 
 function createZ(scene, x, z, open1, open2, open3, open4){
-    alert("FUNCTION NOT DEFINED");
+    //alert("FUNCTION NOT DEFINED");
+    //Outer Wall
+    createWall(scene, [x,z],[x,z+3]);
+    createWall(scene, [x,z+3],[x+6,z+6]);
+    createWall(scene, [x+6,z+6],[x,z+6]);
+    createWall(scene, [x,z+9],[x+6,z+9]);
+    createWall(scene, [x+9,z+9],[x+9,z+6]);
+    createWall(scene, [x+9,z+6],[x+3,z+3]);
+    createWall(scene, [x+3,z+3],[x+9,z+3]);
+    createWall(scene, [x+3,z],[x+9,z]);
+  
+    if(!open1){
+        createWall(scene, [x, z+6], [x,z+9]);
+    }
+    if(!open2){
+        createWall(scene, [x+6, z+9], [x+9, z+9]);
+    } 
+    if(!open3){
+        createWall(scene, [x+9,z+3], [x+9, z]);
+    }
+    if(!open4){
+        createWall(scene, [x, z], [x+3, z]);
+    }  
+
+    return letter(x,z,x+9);
 }
 
 function vidSetup(scene){
