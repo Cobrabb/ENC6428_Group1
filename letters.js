@@ -524,7 +524,7 @@ function createL(scene, x, z, open1, open2, open3, open4){
     createWall(scene, [x+3,z], [x+6,z]);        
 
     createWall(scene, [x+3,z+3], [x+6,z+3]);        
-    
+
     if(!open1) {
         createWall(scene, [x,z+9], [x+3,z+9]);
     }
@@ -1063,4 +1063,29 @@ function createWall(scene, begin, end){
     var zDist = begin[1]-end[1];
     box.scaling.x = (Math.sqrt(xDist*xDist+zDist*zDist))*10;
     box.rotation.y = 0-(Math.atan(zDist/xDist));
+} 
+
+function createRoof(scene, p1, p2, p3, p4){
+    var height = 30;
+    var scaling = .1;
+
+    var midx = (p1[0]+p3[0])/2.0;
+    var midz = (p1[1]+p3[1])/2.0;
+
+    var box = new BABYLON.Mesh.CreateBox("crate", scaling, scene);
+    box.material = new BABYLON.StandardMaterial("Mat", scene);
+    box.material.emissiveColor = new BABYLON.Color3(.7,.7,.7); 
+    box.position = new BABYLON.Vector3(midx, (height)*scaling, midz);
+    box.checkCollisions = true;
+    
+
+    var xDist = p1[0]-p3[0];
+    var zDist = p1[1]-p4[1];
+    box.scaling.x = xDist*10;
+    box.scaling.z = zDist*10;
+
+
+    var xDist2 = p1[0]-p2[0];
+    var zDist2 = p1[1]-p2[1];
+    box.rotation.y = 0-(Math.atan(zDist2/xDist2));
 } 
