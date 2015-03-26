@@ -34,7 +34,7 @@ function smartCreateLetter(scene, grid, xpos, ypos){
         createWall(scene, [xpos*gU+9, ypos*gU+9], [xpos*gU+9, ypos*gU+12]);
     }
     if(!east){
-        createWall(scene, [xpos*gU, ypos*gU], [xpos*gU, ypos*gU+9]);
+        createWall(scene, [xpos*gU+9, ypos*gU], [xpos*gU+9, ypos*gU+9]);
     }else{
         createWall(scene, [xpos*gU+9, ypos*gU], [xpos*gU+12, ypos*gU]);
         createWall(scene, [xpos*gU+9, ypos*gU+9], [xpos*gU+12, ypos*gU+9]);
@@ -43,7 +43,7 @@ function smartCreateLetter(scene, grid, xpos, ypos){
         createWall(scene, [xpos*gU, ypos*gU], [xpos*gU+9, ypos*gU]);
     }
     if(!west){
-        createWall(scene, [xpos*gU+9, ypos*gU], [xpos*gU+9, ypos*gU+9]);
+        createWall(scene, [xpos*gU, ypos*gU], [xpos*gU, ypos*gU+9]);
     }
 
     return createLetter(scene, grid[xpos][ypos], xpos*gU, ypos*gU, north, east, south, west);
