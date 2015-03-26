@@ -553,8 +553,8 @@ function createO(scene, x, z, open1, open2, open3, open4) {
 }
 
 function createP(scene, x, z, open1, open2, open3, open4){
-    alert("FUNCTION NOT DEFINED");
-}
+
+
 //Upper wall
     createWall(scene, [x, z+9], [x+3, z+9]);
 
@@ -664,8 +664,42 @@ function createR(scene, x, z, open1, open2, open3, open4){
 }
 
 function createS(scene, x, z, open1, open2, open3, open4){
-    alert("FUNCTION NOT DEFINED");
+  //Outer left wall
+    createWall(scene, [x, z], [x, z + 3]);
+    createWall(scene, [x, z + 6], [x, z + 9]);
+    //Outer right wall
+    createWall(scene, [x + 9, z], [x + 9, z + 3]);
+    createWall(scene, [x + 9, z + 6], [x + 9, z + 9]);
+
+    //Outer bottom wall
+    createWall(scene, [x, z], [x + 3, z]);
+    createWall(scene, [x + 6, z], [x + 9, z]);
+    //Outer top wall
+    createWall(scene, [x, z + 9], [x + 3, z + 9]);
+    createWall(scene, [x + 6, z + 9], [x + 9, z + 9]);
+
+    //Inner S
+    createWall(scene, [x, z + 3], [x + 3, z + 3]);
+    createWall(scene, [x + 3, z + 3], [x + 6, z + 3]);
+    createWall(scene, [x + 3, z + 6], [x + 6, z + 6]);
+    createWall(scene, [x + 6, z + 6], [x + 9, z + 6]);
+
+    if (!open1) {
+        createWall(scene, [x + 3, z + 9], [x + 6, z + 9]);
+    }
+    if (!open2) {
+        createWall(scene, [x + 9, z + 3], [x + 9, z + 6]);
+    }
+    if (!open3) {
+        createWall(scene, [x + 3, z], [x + 6, z]);
+    }
+    if (!open4) {
+        createWall(scene, [x, z + 3], [x, z + 6]);
+    }
+
+    return letter(x,z,x+9);
 }
+
 function createT(scene, x, z, open1, open2, open3, open4){
 
     //Outer bottom wall       
