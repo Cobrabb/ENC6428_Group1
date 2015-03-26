@@ -1,3 +1,112 @@
+function renderLetterGrid(scene, stringGrid){
+
+    var letterGrid = [];
+    for(var i=0; i<stringGrid.length; i++){
+        letterGrid[i] = [];
+        for(var j=0; j<stringGrid[i].length; j++){
+            if(stringGrid[i][j]!="0"){
+                letterGrid[i][j] = smartCreateLetter(scene, stringGrid, i, j);
+            }else{
+                letterGrid[i][j] = null;
+            }
+        }
+    }
+
+    return letterGrid;
+
+}
+
+function smartCreateLetter(scene, grid, xpos, ypos){
+    //the size of one 'square' in the grid
+    var gU = 12;
+
+    var north = (ypos+1<grid[xpos].length && grid[xpos][ypos+1]!="0");
+    var east = (xpos+1<grid.length && grid[xpos+1][ypos]!="0");
+    var south = (ypos-1>0 && grid[xpos][ypos-1]!="0");
+    var west = (xpos-1>0 && grid[xpos-1][ypos]!="0");
+
+    if(!north){
+        createWall(scene, [xpos*gU, ypos*gU+9], [xpos*gU+9, ypos*gU+9]);
+    }else{
+        createWall(scene, [xpos*gU, ypos*gU+9], [xpos*gU, ypos*gU+12]);
+        createWall(scene, [xpos*gU+9, ypos*gU+9], [xpos*gU+9, ypos*gU+12]);
+    }
+    if(!east){
+        createWall(scene, [xpos*gU, ypos*gU], [xpos*gU, ypos*gU+9]);
+    }else{
+        createWall(scene, [xpos*gU+9, ypos*gU], [xpos*gU+12, ypos*gU]);
+        createWall(scene, [xpos*gU+9, ypos*gU+9], [xpos*gU+12, ypos*gU+9]);
+    }
+    if(!south){
+        createWall(scene, [xpos*gU, ypos*gU], [xpos*gU+9, ypos*gU]);
+    }
+    if(!west){
+        createWall(scene, [xpos*gU+9, ypos*gU], [xpos*gU+9, ypos*gU+9]);
+    }
+
+    return createLetter(scene, grid[xpos][ypos], xpos*gU, ypos*gU, north, east, south, west);
+}
+
+function createLetter(scene,letter, x, z, open1, open2, open3, open4){
+    switch(letter){
+        case "A":
+           return createA(scene, x, z, open1, open2, open3, open4);
+        case "B":
+           return createB(scene, x, z, open1, open2, open3, open4);
+        case "C":
+           return createC(scene, x, z, open1, open2, open3, open4);
+        case "D":
+           return createD(scene, x, z, open1, open2, open3, open4);
+        case "E":
+           return createE(scene, x, z, open1, open2, open3, open4);
+        case "F":
+           return createF(scene, x, z, open1, open2, open3, open4);
+        case "G":
+           return createG(scene, x, z, open1, open2, open3, open4);
+        case "H":
+           return createH(scene, x, z, open1, open2, open3, open4);
+        case "I":
+           return createI(scene, x, z, open1, open2, open3, open4);
+        case "J":
+           return createJ(scene, x, z, open1, open2, open3, open4);
+        case "K":
+           return createK(scene, x, z, open1, open2, open3, open4);
+        case "L":
+           return createL(scene, x, z, open1, open2, open3, open4);
+        case "M":
+           return createM(scene, x, z, open1, open2, open3, open4);
+        case "N":
+           return createN(scene, x, z, open1, open2, open3, open4);
+        case "O":
+           return createO(scene, x, z, open1, open2, open3, open4);
+        case "P":
+           return createP(scene, x, z, open1, open2, open3, open4);
+        case "Q":
+           return createQ(scene, x, z, open1, open2, open3, open4);
+        case "R":
+           return createR(scene, x, z, open1, open2, open3, open4);
+        case "S":
+           return createS(scene, x, z, open1, open2, open3, open4);
+        case "T":
+           return createT(scene, x, z, open1, open2, open3, open4);
+        case "U":
+           return createU(scene, x, z, open1, open2, open3, open4);
+        case "V":
+           return createV(scene, x, z, open1, open2, open3, open4);
+        case "W":
+           return createW(scene, x, z, open1, open2, open3, open4);
+        case "X":
+           return createX(scene, x, z, open1, open2, open3, open4);
+        case "Y":
+           return createY(scene, x, z, open1, open2, open3, open4);
+        case "Z":
+           return createZ(scene, x, z, open1, open2, open3, open4);
+        default:
+            alert("CODE SHOULD NEVER REACH HERE");
+    }
+}
+
+
 function checkCollision(playerX, playerZ){
     if(playerX > this.xBegin && playerX < this.xEnd && playerZ > this.zBegin && playerZ < this.zEnd){
         //alert("TEST");
@@ -33,16 +142,16 @@ function createA(scene, x, z, open1, open2, open3, open4){
     createWall(scene, [x+5,z+3], [x+6,z]);
 
     if (!open1) {
-        createWall(scene, [x, z], [x+1, z+3]);
-    }
-    if (!open2) {
         createWall(scene, [x+3, z+9], [x+6, z+9]);
     }
-    if (!open3) {
+    if (!open2) {
         createWall(scene, [x+8,z+3], [x+9, z]);
     }
-    if (!open4) {
+    if (!open3) {
         createWall(scene, [x+6,z],[x+9,z]);
+    }
+    if (!open4) {
+        createWall(scene, [x, z], [x+1, z+3]);
     }
     // Return Function
     return letter(x,z, x+9);
@@ -55,16 +164,16 @@ function createB(scene, x, z, open1, open2, open3, open4){
     createWall(scene, [x+6,z+2.25], [x+3,z]);
 
     if (!open1) {
-        createWall(scene, [x, z+6], [x, z+9]);
-    }
-    if (!open2) {
         createWall(scene, [x,z+9],[x+3,z+9]);
     }
-    if (!open3) {
+    if (!open2) {
         createWall(scene, [x+3,z+4.5],[x+6,z+2.25]);       
     }
-    if (!open4) {
+    if (!open3) {
         createWall(scene, [x,z],[x+3,z]);
+    }
+    if (!open4) {
+        createWall(scene, [x, z+6], [x, z+9]);
     }
     //Return Function
     return letter(x,z, x+6);
@@ -101,7 +210,7 @@ function createC(scene, x, z, open1, open2, open3, open4) {
         createWall(scene, [x, z + 3], [x, z + 6]);
     }
 
-    return letter(x, z, x+6);
+    return letter(x, z, x+9);
 }
 
 function createD(scene, x, z, open1, open2, open3, open4) {
@@ -144,7 +253,7 @@ function createD(scene, x, z, open1, open2, open3, open4) {
         createWall(scene, [x, z + 3], [x, z + 6]);
     }
 
-    return letter(x,z,x+6);
+    return letter(x,z,x+9);
 }
 
 function createE(scene, x, z, open1, open2, open3, open4){
@@ -160,15 +269,12 @@ function createE(scene, x, z, open1, open2, open3, open4){
     createWall(scene, [x+6, z+6], [x+3, z+6]);
 
     //right side, second point
-    createWall(scene, [x+6, z+9], [x+6, z+6]);
-    createWall(scene, [x+6, z+6], [x+3, z+6]);
-
+    createWall(scene, [x+3, z+3], [x+6,z+3]);
    //right side, third point
-    createWall(scene, [x+6, z+9], [x+6, z+6]);
-    createWall(scene, [x+6, z+6], [x+3, z+6]);
+    createWall(scene, [x+6, z], [x+6, z+3]);
 
     //right side, final
-    createWall(scene, [x+3, z+3], [x+3, z]);
+    createWall(scene, [x+3,z], [x+6, z]);
 
 
     if(!open1){
@@ -263,7 +369,7 @@ function createG(scene, x, z, open1, open2, open3, open4) {
         createWall(scene, [x, z + 3], [x, z + 6]);
     }
 
-    return letter(x, z, x+6);
+    return letter(x, z, x+9);
 }
 
 function createH(scene, x, z, open1, open2, open3, open4){
@@ -365,7 +471,7 @@ function createJ(scene, x, z, open1, open2, open3, open4){
     }       
     
 
-    return letter(x,z,x+6);
+    return letter(x,z,x+9);
 }
 
 function createK(scene, x, z, open1, open2, open3, open4){
@@ -400,6 +506,8 @@ function createK(scene, x, z, open1, open2, open3, open4){
     if(!open4){
         createWall(scene, [x,z+3], [x,z+6]);
     }
+
+    return letter(x, z, x+9);
 }
 
 function createL(scene, x, z, open1, open2, open3, open4){
@@ -466,7 +574,7 @@ function createM(scene, x, z, open1, open2, open3, open4) {
         createWall(scene, [x, z + 3], [x, z + 6]);
     }
 
-    return letter(x,z,x+6);
+    return letter(x,z,x+9);
 }
 
 function createN(scene, x, z, open1, open2, open3, open4) {
@@ -476,7 +584,6 @@ function createN(scene, x, z, open1, open2, open3, open4) {
     createWall(scene, [x + 9, z], [x + 9, z + 3]);
     createWall(scene, [x + 9, z + 6], [x + 9, z + 9]);
     createWall(scene, [x + 6, z + 4], [x + 6, z + 9]);
-    createWall(scene, [x, z + 9], [x + 3, z + 9]);
     createWall(scene, [x + 3, z], [x + 3, z + 5]);
     createWall(scene, [x + 6, z], [x + 9, z]);
     createWall(scene, [x + 6, z + 9], [x + 9, z + 9]);
@@ -484,7 +591,7 @@ function createN(scene, x, z, open1, open2, open3, open4) {
     createWall(scene, [x + 3, z + 9], [x + 6, z + 4]);
 
     if (!open1) {
-        createWall(scene, [x + 9, z + 9], [x + 9, z + 6]);
+        createWall(scene, [x, z+ 9], [x +3, z + 9]);
     }
     if (!open2) {
         createWall(scene, [x + 9, z + 3], [x + 9, z + 6]);
@@ -496,7 +603,7 @@ function createN(scene, x, z, open1, open2, open3, open4) {
         createWall(scene, [x, z + 3], [x, z + 6]);
     }
 
-    return letter(x,z,x+6);
+    return letter(x,z,x+9);
 }
 
 function createO(scene, x, z, open1, open2, open3, open4) {
@@ -540,12 +647,12 @@ function createO(scene, x, z, open1, open2, open3, open4) {
 function createP(scene, x, z, open1, open2, open3, open4){
 
 
-//Upper wall
+    //Upper wall
     createWall(scene, [x, z+9], [x+3, z+9]);
 
     //Right wall
     createWall(scene, [x+6,z+9], [x+6,z+7.5]);
-    createWall(scene, [x+3, z], [x+3, z+1.5]);
+    createWall(scene, [x+3, z], [x+3, z+4.5]);
     
     //left wall
     createWall(scene, [x,z+9], [x,z+6]);
@@ -568,7 +675,7 @@ function createP(scene, x, z, open1, open2, open3, open4){
         createWall(scene, [x,z+3],[x,z+6]);
     }
     
-    return letter(x,z,x+9);
+    return letter(x,z,x+6);
 }
 
 function createQ(scene, x, z, open1, open2, open3, open4) {
@@ -608,7 +715,7 @@ function createQ(scene, x, z, open1, open2, open3, open4) {
         createWall(scene, [x, z + 3], [x, z + 6]);
     }
 
-    return letter(x, z, x+6);
+    return letter(x, z, x+9);
 }
 
 function createR(scene, x, z, open1, open2, open3, open4){
@@ -716,7 +823,7 @@ function createT(scene, x, z, open1, open2, open3, open4){
     }       
     
 
-    return letter(x,z,x+6);
+    return letter(x,z,x+9);
 }
 function createU(scene, x, z, open1, open2, open3, open4){
 
@@ -753,7 +860,7 @@ function createU(scene, x, z, open1, open2, open3, open4){
     }       
     
 
-    return letter(x,z,x+6);
+    return letter(x,z,x+9);
 }
 
 function createV(scene, x, z, open1, open2, open3, open4){
@@ -810,13 +917,13 @@ function createW(scene, x, z, open1, open2, open3, open4){
         createWall(scene, [x + 9, z+9], [x + 6, z+9]);
     }
     if (!open2) {
-        createWall(scene, [x, z + 6], [x, z + 3]);
+        createWall(scene, [x + 9, z + 6], [x + 9, z + 3]);
     }
     if (!open3) {
         createWall(scene, [x + 3, z], [x + 6, z]);
     }
     if (!open4) {
-        createWall(scene, [x + 9, z + 6], [x + 9, z + 3]);
+        createWall(scene, [x, z + 6], [x, z + 3]);
     }
 
     return letter(x,z,x+9);
@@ -909,16 +1016,16 @@ function createZ(scene, x, z, open1, open2, open3, open4){
     createWall(scene, [x+3,z],[x+9,z]);
   
     if(!open1){
-        createWall(scene, [x, z+6], [x,z+9]);
+        createWall(scene, [x+6, z+9], [x+9, z+9]);
     }
     if(!open2){
-        createWall(scene, [x+6, z+9], [x+9, z+9]);
+        createWall(scene, [x+9,z+3], [x+9, z]);
     } 
     if(!open3){
-        createWall(scene, [x+9,z+3], [x+9, z]);
+        createWall(scene, [x, z], [x+3, z]);
     }
     if(!open4){
-        createWall(scene, [x, z], [x+3, z]);
+        createWall(scene, [x, z+6], [x,z+9]);
     }  
 
     return letter(x,z,x+9);
