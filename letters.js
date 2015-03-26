@@ -555,6 +555,36 @@ function createO(scene, x, z, open1, open2, open3, open4) {
 function createP(scene, x, z, open1, open2, open3, open4){
     alert("FUNCTION NOT DEFINED");
 }
+//Upper wall
+    createWall(scene, [x, z+9], [x+3, z+9]);
+
+    //Right wall
+    createWall(scene, [x+6,z+9], [x+6,z+7.5]);
+    createWall(scene, [x+3, z], [x+3, z+1.5]);
+    
+    //left wall
+    createWall(scene, [x,z+9], [x,z+6]);
+    createWall(scene, [x,z+3], [x,z]);
+
+    //bottom of upper part
+    createWall(scene, [x+6, z+4.5], [x+3, z+4.5]);
+
+
+    if(!open1){
+        createWall(scene, [x+3, z+9],[x+6,z+9]);
+    }
+    if(!open2){
+        createWall(scene, [x+6, z+7.5], [x+6,z+4.5]);
+    }
+    if(!open3){
+        createWall(scene, [x,z], [x+3,z]);
+    }
+    if(!open4){
+        createWall(scene, [x,z+3],[x,z+6]);
+    }
+    
+    return letter(x,z,x+9);
+}
 
 function createQ(scene, x, z, open1, open2, open3, open4) {
 
