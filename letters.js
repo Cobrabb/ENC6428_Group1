@@ -4,7 +4,6 @@ function checkCollision(playerX, playerZ){
     }
 }
 
-//TODO: take and store 4 openings
 function letter(x, z, xEnd){
     return new function(){
         this.xBegin = x;
@@ -15,15 +14,6 @@ function letter(x, z, xEnd){
     };
 }
 
-
-function opening(xBegin, xEnd, zBegin, zEnd){
-    return new function(){
-        this.xBegin = xBegin;
-        this.xEnd = xEnd;
-        this.zBegin = zBegin;
-        this.zEnd = zEnd;
-    }
-};
 
 //Openings:
 //open1 = north
@@ -154,12 +144,7 @@ function createD(scene, x, z, open1, open2, open3, open4) {
         createWall(scene, [x, z + 3], [x, z + 6]);
     }
 
-    //TODO: Add openings to this
     return letter(x,z,x+6);
-}
-
-function createE(scene, x, z, open1, open2, open3, open4){
-    //alert("FUNCTION NOT DEFINED");
 }
 
 function createE(scene, x, z, open1, open2, open3, open4){
@@ -913,7 +898,6 @@ function createY(scene, x, z, open1, open2, open3, open4){
 }
 
 function createZ(scene, x, z, open1, open2, open3, open4){
-    //alert("FUNCTION NOT DEFINED");
     //Outer Wall
     createWall(scene, [x,z],[x,z+3]);
     createWall(scene, [x,z+3],[x+6,z+6]);
