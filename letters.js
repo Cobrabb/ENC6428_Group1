@@ -57,7 +57,6 @@ function createA(scene, x, z, open1, open2, open3, open4){
     // Return Function
     return letter(x,z, x+9);
 }
-
 function createB(scene, x, z, open1, open2, open3, open4){
     // Outer Wall
     createWall(scene, [x,z],[x,z+6]);
@@ -80,7 +79,6 @@ function createB(scene, x, z, open1, open2, open3, open4){
     //Return Function
     return letter(x,z, x+6);
 }
-
 function createC(scene, x, z, open1, open2, open3, open4) {
 
     //Outer left wall
@@ -113,7 +111,7 @@ function createC(scene, x, z, open1, open2, open3, open4) {
         createWall(scene, [x, z + 3], [x, z + 6]);
     }
 
-    return letter(x, z, x+9);
+    return letter(x, z, x+6);
 }
 
 function createD(scene, x, z, open1, open2, open3, open4) {
@@ -164,6 +162,45 @@ function createE(scene, x, z, open1, open2, open3, open4){
     //alert("FUNCTION NOT DEFINED");
 }
 
+function createE(scene, x, z, open1, open2, open3, open4){
+    //left wall
+    createWall(scene, [x, z], [x, z+3]);
+    createWall(scene, [x, z+6], [x, z+9]);
+
+    //top wall
+    createWall(scene, [x+3,z+9], [x+6, z+9]);
+
+    //right side, first point
+    createWall(scene, [x+6, z+9], [x+6, z+6]);
+    createWall(scene, [x+6, z+6], [x+3, z+6]);
+
+    //right side, second point
+    createWall(scene, [x+6, z+9], [x+6, z+6]);
+    createWall(scene, [x+6, z+6], [x+3, z+6]);
+
+   //right side, third point
+    createWall(scene, [x+6, z+9], [x+6, z+6]);
+    createWall(scene, [x+6, z+6], [x+3, z+6]);
+
+    //right side, final
+    createWall(scene, [x+3, z+3], [x+3, z]);
+
+
+    if(!open1){
+        createWall(scene, [x, z+9], [x+3, z+9]);
+    }
+    if(!open2){
+        createWall(scene, [x+6, z+6], [x+6, z+3]);
+    }
+    if(!open3){
+        createWall(scene, [x+3, z], [x, z]);
+    }
+    if(!open4){
+        createWall(scene, [x, z+3], [x, z+6]); 
+    }
+    
+    return letter(x,z,x+6);
+}
 
 function createF(scene, x, z, open1, open2, open3, open4){
     //left wall
@@ -479,11 +516,10 @@ function createN(scene, x, z, open1, open2, open3, open4) {
 
 function createO(scene, x, z, open1, open2, open3, open4) {
 
-    //Outer left wall
+    //Outer right wall
     createWall(scene, [x, z], [x, z + 3]);
     createWall(scene, [x, z + 6], [x, z + 9]);
-
-    //Outer right wall
+    //Outer left wall
     createWall(scene, [x + 9, z], [x + 9, z + 3]);
     createWall(scene, [x + 9, z + 6], [x + 9, z + 9]);
 
@@ -841,7 +877,7 @@ function createZ(scene, x, z, open1, open2, open3, open4){
 }
 
 function vidSetup(scene){
-//   VIDEO = new BABYLON.VideoTexture("video", ["Pointillism1A.mp4"], 256, scene, false);
+   // VIDEO = new BABYLON.VideoTexture("video", ["mirror.mp4"], 256, scene, false);
 }
 
 function createWall(scene, begin, end){
@@ -855,7 +891,7 @@ function createWall(scene, begin, end){
     box.material = new BABYLON.StandardMaterial("Mat", scene);
     /*box.material.diffuseTexture = VIDEO;
     box.material.diffuseTexture.backFaceCulling = false;
-    box.material.emissiveColor = new BABYLON.Color3(1,1,1);*/
+    box.material.emissiveColor = new BABYLON.Color3(1,1,1); */
     box.material.diffuseColor = new BABYLON.Color3(0, 0, 0);
     box.position = new BABYLON.Vector3(midx, (height/2)*scaling, midz);
     box.checkCollisions = true;
