@@ -1036,7 +1036,7 @@ function createZ(scene, x, z, open1, open2, open3, open4){
 function vidSetup(scene){
     VIDEO_ON = false; 
     if(VIDEO_ON){
-        VIDEO = new BABYLON.VideoTexture("video", ["mirror.mp4"], 256, scene, false);
+        VIDEO = new BABYLON.VideoTexture("video", ["Dots1B.mp4"], 256, scene, false);
     }
 }
 
