@@ -25,6 +25,8 @@ function smartCreateLetter(scene, grid, xpos, ypos){
     var south = (ypos-1>0 && grid[xpos][ypos-1]!="0");
     var west = (xpos-1>0 && grid[xpos-1][ypos]!="0");
 
+    //The if not case creates a 9 length wall on that side.
+    //The elses create 3 length  wall attachements to connect the next letters walls
     if(!north){
         createWall(scene, [xpos*gU, ypos*gU+9], [xpos*gU+9, ypos*gU+9]);
     }else{
