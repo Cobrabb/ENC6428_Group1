@@ -255,8 +255,15 @@ function createD(scene, x, z, open1, open2, open3, open4) {
         createWall(scene, [x, z + 3], [x, z + 6]);
     }
 
+<<<<<<< Updated upstream
     return letter(x,z,x+9);
 }
+=======
+    //TODO: Add openings to this
+    return letter(x,z,x+6);
+}
+
+>>>>>>> Stashed changes
 
 function createE(scene, x, z, open1, open2, open3, open4){
     //left wall
