@@ -94,7 +94,7 @@
         document.addEventListener("webkitpointerlockchange", pointerlockchange, false);
 
         //Ground
-        var ground = BABYLON.Mesh.CreatePlane("ground", 100, scene);
+        var ground = BABYLON.Mesh.CreatePlane("ground", 200, scene);
         ground.material = new BABYLON.StandardMaterial("groundMat", scene);
         ground.material.diffuseColor = new BABYLON.Color3(1, 1, 1);
         ground.material.backFaceCulling = false;
@@ -113,7 +113,7 @@
 
         //Then apply collisions and gravity to the active camera
         camera.checkCollisions = true;
-        camera.applyGravity = true;
+        camera.applyGravity = false;
 
         //Set the ellipsoid around the camera (e.g. your player's size)
         camera.ellipsoid = new BABYLON.Vector3(1, 1, 1);
@@ -145,8 +145,12 @@
             }
         }
 
-        addWordX(stringGrid, [1, 5], "JOLLY");
-        addWordZ(stringGrid, [2, 6], "FOLLY");
+        addWordX(stringGrid, [1, 5], "DELIGHT");
+		addWordX(stringGrid, [3, 3], "MOTHERS");
+		//addWordX(stringGrid, [5, 7], "SPRING");
+        addWordZ(stringGrid, [3, 5], "LAMB");
+		addWordZ(stringGrid, [5, 7], "SIGHT");
+		addWordZ(stringGrid, [7, 8], "BROTHERS");
 
         var letterGrid = renderLetterGrid(scene, stringGrid);
 
