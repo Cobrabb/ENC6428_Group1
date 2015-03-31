@@ -145,23 +145,23 @@
             }
         }
 
-        addWordX(stringGrid, 1, 5, "JOLLY");
+        addWordX(stringGrid, [1, 5], "JOLLY");
+        addWordZ(stringGrid, [2, 6], "FOLLY");
 
-        addWordZ(stringGrid, 6, 2, "FOLLY");
         var letterGrid = renderLetterGrid(scene, stringGrid);
 
     }
 
     //these functions simulate the crossword for now
-    function addWordX(grid, start, zPos, word){
+    function addWordX(grid, coord, word){
         for(var i=0; i<word.length; i++){
-            grid[i+start][zPos] = word[i];
+            grid[i+coord[0]][coord[1]] = word[i];
         }
     }
 
-    function addWordZ(grid, start, xPos, word){
+    function addWordZ(grid, coord, word){
         for(var i=word.length-1; i>=0; i--){
-            grid[xPos][start-i] = word[i];
+            grid[coord[0]][coord[1]-i] = word[i];
         }
     }
 
