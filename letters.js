@@ -103,6 +103,8 @@ function createLetter(scene,letter, x, z, open1, open2, open3, open4){
            return createY(scene, x, z, open1, open2, open3, open4);
         case "Z":
            return createZ(scene, x, z, open1, open2, open3, open4);
+        case " ":
+           return createSp(scene, x, z, open1, open2, open3, open4);
         default:
             alert("CODE SHOULD NEVER REACH HERE");
     }
@@ -131,6 +133,24 @@ function letter(x, z, xEnd){
 //open2 = east
 //open3 = south
 //open4 = west
+
+function createSp(scene, x, z, open1, open2, open3, open4){
+    if(!open1){
+        createWall(scene, [x,z+9], [x+9, z+9]);
+    }
+    if(!open2){
+        createWall(scene, [x+9,z], [x+9, z+9]);
+    }
+    if(!open3){
+        createWall(scene, [x+9,z], [x, z]);
+
+    }
+    if(!open4){
+        createWall(scene, [x,z+9], [x, z]);
+    }
+
+    return letter(x, z, x+9);
+}
 
 function createA(scene, x, z, open1, open2, open3, open4){
     // Outer A wall
