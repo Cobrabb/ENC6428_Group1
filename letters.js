@@ -1067,8 +1067,13 @@ function createWall(scene, begin, end){
     var midx = (begin[0]+end[0])/2.0;
     var midz = (begin[1]+end[1])/2.0;
 
-    var box = new BABYLON.Mesh.CreateBox("crate", scaling, scene);
-    box.material = new BABYLON.StandardMaterial("Mat", scene);
+    //var box = new BABYLON.Mesh.CreateBox("crate", scaling, scene);
+    //box.material = new BABYLON.StandardMaterial("Mat", scene);
+	var box = new BABYLON.Mesh.CreateBox("crate", scaling, scene);
+	var bumpMaterial = new BABYLON.StandardMaterial("texture1", scene);
+	box.material = bumpMaterial;
+	box.material.bumpTexture = new BABYLON.Texture("NormalMap.jpg", scene);
+	//box.material.bumpTexture.pictureTexture = new BABYLON.Texture("songstexture1.jpg", scene);
     if(VIDEO_ON){
         box.material.diffuseTexture = VIDEO;
         box.material.diffuseTexture.backFaceCulling = false;
