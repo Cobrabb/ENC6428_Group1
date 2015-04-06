@@ -6,6 +6,7 @@
         <script src="Babylon.js/Oimo.js"></script>
         <script src="Babylon.js/babylon.2.0.js"></script>
         <script src="letters.js"></script>
+        <script src="crossword.js"></script>
     </head>
     <style>
         html, body {
@@ -145,14 +146,22 @@
             }
         }
 
-        addWordX(stringGrid, [1, 5], "DELIGHT");
+        var wordList = ["DELIGHT", "MOTHERS", "LAMB", "SIGHT", "BROTHERS"]; 
+        var clues = ["", "", "", "", ""];
+
+        var cw = new Crossword(wordList, clues);
+        var grid = cw.getSquareGrid(10);
+        var letterGrid = renderLetterGrid(scene, grid);
+        //alert(grid);
+
+        /*addWordX(stringGrid, [1, 5], "DELIGHT");
 		addWordX(stringGrid, [3, 3], "MOTHERS");
 		//addWordX(stringGrid, [5, 7], "SPRING");
         addWordZ(stringGrid, [3, 5], "LAMB");
 		addWordZ(stringGrid, [5, 7], "SIGHT");
-		addWordZ(stringGrid, [7, 8], "BROTHERS");
+		addWordZ(stringGrid, [7, 8], "BROTHERS");*/
 
-        var letterGrid = renderLetterGrid(scene, stringGrid);
+        //var letterGrid = renderLetterGrid(scene, stringGrid);
 
     }
 

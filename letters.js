@@ -4,7 +4,7 @@ function renderLetterGrid(scene, stringGrid){
     for(var i=0; i<stringGrid.length; i++){
         letterGrid[i] = [];
         for(var j=0; j<stringGrid[i].length; j++){
-            if(stringGrid[i][j]!="0"){
+            if(stringGrid[i][j]!=null){
                 letterGrid[i][j] = smartCreateLetter(scene, stringGrid, i, j);
             }else{
                 letterGrid[i][j] = null;
@@ -20,10 +20,10 @@ function smartCreateLetter(scene, grid, xpos, ypos){
     //the size of one 'square' in the grid
     var gU = 12;
 
-    var north = (ypos+1<grid[xpos].length && grid[xpos][ypos+1]!="0");
-    var east = (xpos+1<grid.length && grid[xpos+1][ypos]!="0");
-    var south = (ypos-1>0 && grid[xpos][ypos-1]!="0");
-    var west = (xpos-1>0 && grid[xpos-1][ypos]!="0");
+    var north = (ypos+1<grid[xpos].length && grid[xpos][ypos+1]!=null);
+    var east = (xpos+1<grid.length && grid[xpos+1][ypos]!=null);
+    var south = (ypos-1>0 && grid[xpos][ypos-1]!=null);
+    var west = (xpos-1>0 && grid[xpos-1][ypos]!=null);
 
     //The if not case creates a 9 length wall on that side.
     //The elses create 3 length  wall attachements to connect the next letters walls
@@ -46,7 +46,7 @@ function smartCreateLetter(scene, grid, xpos, ypos){
         createWall(scene, [xpos*gU, ypos*gU], [xpos*gU, ypos*gU+9]);
     }
 
-    return createLetter(scene, grid[xpos][ypos], xpos*gU, ypos*gU, north, east, south, west);
+    return createLetter(scene, grid[xpos][ypos].char, xpos*gU, ypos*gU, north, east, south, west);
 }
 
 function createLetter(scene,letter, x, z, open1, open2, open3, open4){
