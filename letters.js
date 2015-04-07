@@ -161,7 +161,10 @@ function createA(scene, x, z, open1, open2, open3, open4){
     //Inner Wall
     createWall(scene, [x+3,z], [x+4, z+3]);
     createWall(scene, [x+4,z+3], [x+5,z+3]);
-    createWall(scene, [x+5,z+3], [x+6,z]);
+    createWall(scene, [x + 5, z + 3], [x + 6, z]);
+
+    //CREATE FLOOR
+    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'yellow');
 
     if (!open1) {
         createWall(scene, [x+3, z+9], [x+6, z+9]);
@@ -184,6 +187,9 @@ function createB(scene, x, z, open1, open2, open3, open4){
     createWall(scene, [x+3,z+9],[x+6,z+6.75]);
     createWall(scene, [x+6,z+6.75], [x+3,z+4.5]);
     createWall(scene, [x+6,z+2.25], [x+3,z]);
+
+    //CREATE FLOOR
+    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'yellow');
 
     if (!open1) {
         createWall(scene, [x,z+9],[x+3,z+9]);
@@ -218,6 +224,9 @@ function createC(scene, x, z, open1, open2, open3, open4) {
     createWall(scene, [x + 3, z + 3], [x + 9, z + 3]);
     createWall(scene, [x + 3, z + 6], [x + 9, z + 6]);
     createWall(scene, [x + 3, z + 3], [x + 3, z + 6]);
+
+    //CREATE FLOOR
+    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'yellow');
 
     if (!open1) {
         createWall(scene, [x + 3, z + 9], [x + 6, z + 9]);
@@ -261,6 +270,9 @@ function createD(scene, x, z, open1, open2, open3, open4) {
     createWall(scene, [x + 6, z + 4], [x + 6, z + 5]);
     createWall(scene, [x + 3, z + 3], [x + 3, z + 6]);
 
+    //CREATE FLOOR
+    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'yellow');
+
     //TODO: Set up openings, and when wall is there, set to null
     if (!open1) {
         createWall(scene, [x + 3, z + 9], [x + 6, z + 9]);
@@ -296,7 +308,10 @@ function createE(scene, x, z, open1, open2, open3, open4){
     createWall(scene, [x+6, z], [x+6, z+3]);
 
     //right side, final
-    createWall(scene, [x+3,z], [x+6, z]);
+    createWall(scene, [x + 3, z], [x + 6, z]);
+
+    //CREATE FLOOR
+    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'yellow');
 
 
     if(!open1){
@@ -331,7 +346,10 @@ function createF(scene, x, z, open1, open2, open3, open4){
     createWall(scene, [x+6, z+3], [x+3, z+3]);
 
     //right side, final
-    createWall(scene, [x+3, z+3], [x+3, z]);
+    createWall(scene, [x + 3, z + 3], [x + 3, z]);
+
+    //CREATE FLOOR
+    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'yellow');
 
 
     if(!open1){
@@ -378,6 +396,9 @@ function createG(scene, x, z, open1, open2, open3, open4) {
     createWall(scene, [x + 6, z + 3.75], [x + 6, z + 3]);
     createWall(scene, [x + 6, z + 3], [x + 3, z + 3]);
 
+    //CREATE FLOOR
+    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'yellow');
+
     if (!open1) {
         createWall(scene, [x + 3, z + 9], [x + 6, z + 9]);
     }
@@ -413,7 +434,10 @@ function createH(scene, x, z, open1, open2, open3, open4){
     createWall(scene, [x+3,z+9], [x+3,z+6]);
     createWall(scene, [x+3,z+6], [x+6, z+6]);
     createWall(scene, [x+6, z+6], [x+6, z+9]);
-    createWall(scene, [x+6, z+9], [x+9, z+9]);
+    createWall(scene, [x + 6, z + 9], [x + 9, z + 9]);
+
+    //CREATE FLOOR
+    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'yellow');
 
     if(!open1){
         createWall(scene, [x,z+9], [x+3,z+9]);
@@ -440,7 +464,10 @@ function createI(scene, x, z, open1, open2, open3, open4){
     //Outer top wall      
     //Outer left wall
     createWall(scene, [x,z], [x,z+3]);
-    createWall(scene, [x,z+6], [x,z+9]);  
+    createWall(scene, [x, z + 6], [x, z + 9]);
+
+    //CREATE FLOOR
+    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'yellow');
     
      if(!open1) {
         createWall(scene, [x,z+9], [x+3,z+9]);
@@ -477,7 +504,10 @@ function createJ(scene, x, z, open1, open2, open3, open4){
 	//inner bottom wall
 	createWall(scene, [x+3, z+3], [x+6, z+3]);
 	//inner right wall
-	createWall(scene, [x+6, z+3], [x+6, z+9]);
+	createWall(scene, [x + 6, z + 3], [x + 6, z + 9]);
+
+	//CREATE FLOOR
+	createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'yellow');
     
      if(!open1) {
         createWall(scene, [x+6,z+9], [x+9,z+9]);
@@ -513,7 +543,10 @@ function createK(scene, x, z, open1, open2, open3, open4){
     //Lower point
     createWall(scene, [x+3,z+3], [x+9, z]);
     createWall(scene, [x+6, z+4.5], [x+9, z+3]);
-    createWall(scene, [x+9,z], [x+9,z+3]);
+    createWall(scene, [x + 9, z], [x + 9, z + 3]);
+
+    //CREATE FLOOR
+    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'yellow');
 
 
     if(!open1){
@@ -541,9 +574,12 @@ function createL(scene, x, z, open1, open2, open3, open4){
     createWall(scene, [x+3,z+3], [x+3,z+9]);
 
     //Outer bottom wall
-    createWall(scene, [x+3,z], [x+6,z]);        
+    createWall(scene, [x+3,z], [x+6,z]);
 
-    createWall(scene, [x+3,z+3], [x+6,z+3]);        
+    createWall(scene, [x + 3, z + 3], [x + 6, z + 3]);
+
+    //CREATE FLOOR
+    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'yellow');        
 
     if(!open1) {
         createWall(scene, [x,z+9], [x+3,z+9]);
@@ -583,6 +619,9 @@ function createM(scene, x, z, open1, open2, open3, open4) {
     createWall(scene, [x + 3, z + 6], [x + 4.5, z + 4.5]);
     createWall(scene, [x + 6, z + 6], [x + 4.5, z + 4.5]);
 
+    //CREATE FLOOR
+    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'yellow');
+
     if (!open1) {
         createWall(scene, [x + 3, z + 9], [x + 6, z + 9]);
     }
@@ -611,6 +650,9 @@ function createN(scene, x, z, open1, open2, open3, open4) {
     createWall(scene, [x + 6, z + 9], [x + 9, z + 9]);
     createWall(scene, [x + 3, z + 5], [x + 6, z]);
     createWall(scene, [x + 3, z + 9], [x + 6, z + 4]);
+
+    //CREATE FLOOR
+    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'yellow');
 
     if (!open1) {
         createWall(scene, [x, z+ 9], [x +3, z + 9]);
@@ -650,6 +692,9 @@ function createO(scene, x, z, open1, open2, open3, open4) {
     createWall(scene, [x + 6, z + 3], [x + 6, z + 6]);
     createWall(scene, [x + 3, z + 3], [x + 3, z + 6]);
 
+    //CREATE FLOOR
+    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'yellow');
+
     if (!open1) {
         createWall(scene, [x + 3, z + 9], [x + 6, z + 9]);
     }
@@ -683,6 +728,8 @@ function createP(scene, x, z, open1, open2, open3, open4){
     //bottom of upper part
     createWall(scene, [x+6, z+4.5], [x+3, z+4.5]);
 
+    //CREATE FLOOR
+    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'yellow');
 
     if(!open1){
         createWall(scene, [x+3, z+9],[x+6,z+9]);
@@ -724,6 +771,9 @@ function createQ(scene, x, z, open1, open2, open3, open4) {
     createWall(scene, [x + 6, z + 4.5], [x + 6, z + 6]);
     createWall(scene, [x + 3, z + 3], [x + 3, z + 6]);
 
+    //CREATE FLOOR
+    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'yellow');
+
     if (!open1) {
         createWall(scene, [x + 3, z + 9], [x + 6, z + 9]);
     }
@@ -758,7 +808,10 @@ function createR(scene, x, z, open1, open2, open3, open4){
     //point
     createWall(scene, [x+3, z+4.5], [x+9, z]);
     createWall(scene, [x+3, z+1.5], [x+5, z]);
-    createWall(scene, [x+5, z], [x+9,z]);
+    createWall(scene, [x + 5, z], [x + 9, z]);
+
+    //CREATE FLOOR
+    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'yellow');
 
 
     if(!open1){
@@ -798,6 +851,9 @@ function createS(scene, x, z, open1, open2, open3, open4){
     createWall(scene, [x + 3, z + 6], [x + 6, z + 6]);
     createWall(scene, [x + 6, z + 6], [x + 9, z + 6]);
 
+    //CREATE FLOOR
+    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'yellow');
+
     if (!open1) {
         createWall(scene, [x + 3, z + 9], [x + 6, z + 9]);
     }
@@ -829,7 +885,10 @@ function createT(scene, x, z, open1, open2, open3, open4){
 	createWall(scene, [x+3, z], [x+3, z+6]);
 	//inner bottom wall
 	//inner right wall
-	createWall(scene, [x+6, z], [x+6, z+6]);
+	createWall(scene, [x + 6, z], [x + 6, z + 6]);
+
+	//CREATE FLOOR
+	createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'yellow');
     
      if(!open1) {
         createWall(scene, [x+3,z+9], [x+6,z+9]);
@@ -866,7 +925,10 @@ function createU(scene, x, z, open1, open2, open3, open4){
 	//inner bottom wall
 	createWall(scene, [x+3, z+3], [x+6, z+3]);
 	//inner right wall
-	createWall(scene, [x+6, z+3], [x+6, z+9]);
+	createWall(scene, [x + 6, z + 3], [x + 6, z + 9]);
+
+	//CREATE FLOOR
+	createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'yellow');
     
      if(!open1) {
         createWall(scene, [x+6,z+9], [x+9,z+9]);
@@ -896,7 +958,10 @@ function createV(scene, x, z, open1, open2, open3, open4){
     createWall(scene, [x+7, z+3], [x+6,z]);
     createWall(scene, [x+6, z+9], [x+4.5,z+4.5])
 
-    createWall(scene, [x+6, z+9], [x+9, z+9]);
+    createWall(scene, [x + 6, z + 9], [x + 9, z + 9]);
+
+    //CREATE FLOOR
+    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'yellow');
 
     if(!open1){
         createWall(scene, [x, z+9], [x+3, z+9]);
@@ -935,6 +1000,9 @@ function createW(scene, x, z, open1, open2, open3, open4){
     createWall(scene, [x + 3, z + 3], [x + 4.5, z + 4.5]);
     createWall(scene, [x + 6, z + 3], [x + 4.5, z + 4.5]);
 
+    //CREATE FLOOR
+    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'yellow');
+
     if (!open1) {
         createWall(scene, [x + 9, z+9], [x + 6, z+9]);
     }
@@ -971,7 +1039,10 @@ function createX(scene, x, z, open1, open2, open3, open4){
 
     //extra bits
     createWall(scene, [x+6, z+9], [x+9, z+9]);
-    createWall(scene, [x, z], [x+3, z]);
+    createWall(scene, [x, z], [x + 3, z]);
+
+    //CREATE FLOOR
+    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'yellow');
 
     if(!open1){
         createWall(scene, [x, z+9], [x+3, z+9]);
@@ -995,19 +1066,19 @@ function createY(scene, x, z, open1, open2, open3, open4){
     createWall(scene, [x+3,z], [x+3,z+4]);
     createWall(scene, [x+6,z], [x+6,z+4]);
 
-
     //left point
     createWall(scene, [x+3,z+4], [x+2,z+5.7]);
     createWall(scene, [x+4.5,z+6], [x+3,z+9]);
-
 
     //right point
     createWall(scene, [x+6, z+4], [x+7, z+5.7]);
     createWall(scene, [x+4.5,z+6], [x+6,z+9]);
 
-
     //top
-    createWall(scene, [x+6, z+9], [x+9, z+9]);
+    createWall(scene, [x + 6, z + 9], [x + 9, z + 9]);
+
+    //CREATE FLOOR
+    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'yellow');
 
     if(!open1){
         createWall(scene, [x+3, z+9], [x,z+9]);
@@ -1036,7 +1107,10 @@ function createZ(scene, x, z, open1, open2, open3, open4){
     createWall(scene, [x+9,z+6],[x+3,z+3]);
     createWall(scene, [x+3,z+3],[x+9,z+3]);
     createWall(scene, [x+3,z],[x+9,z]);
-  
+
+    //CREATE FLOOR
+    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'yellow');
+
     if(!open1){
         createWall(scene, [x+6, z+9], [x+9, z+9]);
     }
@@ -1067,8 +1141,8 @@ function createWall(scene, begin, end){
     var midx = (begin[0]+end[0])/2.0;
     var midz = (begin[1]+end[1])/2.0;
 
-    //var box = new BABYLON.Mesh.CreateBox("crate", scaling, scene);
-    //box.material = new BABYLON.StandardMaterial("Mat", scene);
+//    var box = new BABYLON.Mesh.CreateBox("crate", scaling, scene);
+//    box.material = new BABYLON.StandardMaterial("Mat", scene);
 	var box = new BABYLON.Mesh.CreateBox("crate", scaling, scene);
 	var bumpMaterial = new BABYLON.StandardMaterial("texture1", scene);
 	box.material = bumpMaterial;
@@ -1090,27 +1164,19 @@ function createWall(scene, begin, end){
     box.rotation.y = 0-(Math.atan(zDist/xDist));
 } 
 
-function createRoof(scene, p1, p2, p3, p4){
-    var height = 30;
-    var scaling = .1;
+function createFloor(scene, p1, p2, p3, p4, color) {
+    var midx = (p1[0] + p3[0]) / 2.0;
+    var midz = (p1[1] + p3[1]) / 2.0;
 
-    var midx = (p1[0]+p3[0])/2.0;
-    var midz = (p1[1]+p3[1])/2.0;
-
-    var box = new BABYLON.Mesh.CreateBox("crate", scaling, scene);
-    box.material = new BABYLON.StandardMaterial("Mat", scene);
-    box.material.emissiveColor = new BABYLON.Color3(.7,.7,.7); 
-    box.position = new BABYLON.Vector3(midx, (height)*scaling, midz);
-    box.checkCollisions = true;
-    
-
-    var xDist = p1[0]-p3[0];
-    var zDist = p1[1]-p4[1];
-    box.scaling.x = xDist*10;
-    box.scaling.z = zDist*10;
+    var xDist = p1[0] - p3[0];
+    var zDist = p1[1] - p3[1];
 
 
-    var xDist2 = p1[0]-p2[0];
-    var zDist2 = p1[1]-p2[1];
-    box.rotation.y = 0-(Math.atan(zDist2/xDist2));
-} 
+    // Code for Creating Ground
+    var floor = BABYLON.Mesh.CreateGround("ground1", xDist, zDist, 2, scene);
+    floor.position = new BABYLON.Vector3(midx, .1, midz);
+    floor.material = new BABYLON.StandardMaterial("Mat", scene);
+    if (color == 'yellow') {
+        floor.material.emissiveColor = new BABYLON.Color3(1, 0, 1);
+    }
+}  
