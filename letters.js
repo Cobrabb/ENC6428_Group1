@@ -1,34 +1,3 @@
-/*
-0.03529411764705882,0.14901960784313725,0.26666666666666666
-0.4745098039215686,0.5529411764705883,0.2823529411764706
-0.4588235294117647,0.20392156862745098,0.11764705882352941
-0.8666666666666667,0.615686274509804,0.12156862745098039
-0.9529411764705882,0.7843137254901961,0.16862745098039217
-0.8509803921568627,0.6392156862745098,0.49019607843137253
-0.21176470588235294,0.12156862745098039,0.1450980392156863
-0.6941176470588235,0.34509803921568627,0.01568627450980392
-0.807843137254902,0.7450980392156863,0.2
-0.9098039215686274,0.3764705882352941,0.3137254901960784
-0.44313725490196076,0.5372549019607843,0.7176470588235294
-0.9686274509803922,0.9333333333333333,0.5215686274509804
-0.6823529411764706,0.5450980392156862,0.6627450980392157
-0.6745098039215687,0.611764705882353,0.30980392156862746
-0.8117647058823529,0.8431372549019608,0.6431372549019608
-0.792156862745098,0.7333333333333333,0.27450980392156865
-0.6235294117647059,0.1843137254901961,0.13725490196078433
-0.7686274509803922,0.8313725490196079,0.8313725490196079
-0.3803921568627451,0.40784313725490196,0.20784313725490197
-0.6235294117647059,0.5607843137254902,0.5019607843137255
-0.3137254901960784,0.08235294117647059,0.0196078431372549
-0.30980392156862746,0.4235294117647059,0.40784313725490196
-0.7803921568627451,0.5686274509803921,0.4196078431372549
-0.8156862745098039,0.6352941176470588,0.25882352941176473
-0.9294117647058824,0.8588235294117647,0.7725490196078432
-0.7607843137254902,0.803921568627451,0.8274509803921568
-*/
-
-
-
 function renderLetterGrid(scene, stringGrid){
 
     var letterGrid = [];
@@ -195,7 +164,7 @@ function createA(scene, x, z, open1, open2, open3, open4){
     createWall(scene, [x + 5, z + 3], [x + 6, z]);
 
     //CREATE FLOOR
-    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'yellow');
+    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'A');
 
     if (!open1) {
         createWall(scene, [x+3, z+9], [x+6, z+9]);
@@ -220,7 +189,7 @@ function createB(scene, x, z, open1, open2, open3, open4){
     createWall(scene, [x+6,z+2.25], [x+3,z]);
 
     //CREATE FLOOR
-    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'yellow');
+    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'B');
 
     if (!open1) {
         createWall(scene, [x,z+9],[x+3,z+9]);
@@ -257,7 +226,7 @@ function createC(scene, x, z, open1, open2, open3, open4) {
     createWall(scene, [x + 3, z + 3], [x + 3, z + 6]);
 
     //CREATE FLOOR
-    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'yellow');
+    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'C');
 
     if (!open1) {
         createWall(scene, [x + 3, z + 9], [x + 6, z + 9]);
@@ -302,7 +271,7 @@ function createD(scene, x, z, open1, open2, open3, open4) {
     createWall(scene, [x + 3, z + 3], [x + 3, z + 6]);
 
     //CREATE FLOOR
-    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'yellow');
+    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'D');
 
     //TODO: Set up openings, and when wall is there, set to null
     if (!open1) {
@@ -342,7 +311,7 @@ function createE(scene, x, z, open1, open2, open3, open4){
     createWall(scene, [x + 3, z], [x + 6, z]);
 
     //CREATE FLOOR
-    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'yellow');
+    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'E');
 
 
     if(!open1){
@@ -380,7 +349,7 @@ function createF(scene, x, z, open1, open2, open3, open4){
     createWall(scene, [x + 3, z + 3], [x + 3, z]);
 
     //CREATE FLOOR
-    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'yellow');
+    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'F');
 
 
     if(!open1){
@@ -428,7 +397,7 @@ function createG(scene, x, z, open1, open2, open3, open4) {
     createWall(scene, [x + 6, z + 3], [x + 3, z + 3]);
 
     //CREATE FLOOR
-    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'yellow');
+    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'G');
 
     if (!open1) {
         createWall(scene, [x + 3, z + 9], [x + 6, z + 9]);
@@ -468,7 +437,7 @@ function createH(scene, x, z, open1, open2, open3, open4){
     createWall(scene, [x + 6, z + 9], [x + 9, z + 9]);
 
     //CREATE FLOOR
-    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'yellow');
+    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'H');
 
     if(!open1){
         createWall(scene, [x,z+9], [x+3,z+9]);
@@ -498,7 +467,7 @@ function createI(scene, x, z, open1, open2, open3, open4){
     createWall(scene, [x, z + 6], [x, z + 9]);
 
     //CREATE FLOOR
-    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'yellow');
+    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'I');
     
      if(!open1) {
         createWall(scene, [x,z+9], [x+3,z+9]);
@@ -538,7 +507,7 @@ function createJ(scene, x, z, open1, open2, open3, open4){
 	createWall(scene, [x + 6, z + 3], [x + 6, z + 9]);
 
 	//CREATE FLOOR
-	createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'yellow');
+	createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'J');
     
      if(!open1) {
         createWall(scene, [x+6,z+9], [x+9,z+9]);
@@ -577,7 +546,7 @@ function createK(scene, x, z, open1, open2, open3, open4){
     createWall(scene, [x + 9, z], [x + 9, z + 3]);
 
     //CREATE FLOOR
-    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'yellow');
+    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'K');
 
 
     if(!open1){
@@ -610,7 +579,7 @@ function createL(scene, x, z, open1, open2, open3, open4){
     createWall(scene, [x + 3, z + 3], [x + 6, z + 3]);
 
     //CREATE FLOOR
-    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'yellow');        
+    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'L');        
 
     if(!open1) {
         createWall(scene, [x,z+9], [x+3,z+9]);
@@ -651,7 +620,7 @@ function createM(scene, x, z, open1, open2, open3, open4) {
     createWall(scene, [x + 6, z + 6], [x + 4.5, z + 4.5]);
 
     //CREATE FLOOR
-    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'yellow');
+    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'M');
 
     if (!open1) {
         createWall(scene, [x + 3, z + 9], [x + 6, z + 9]);
@@ -683,7 +652,7 @@ function createN(scene, x, z, open1, open2, open3, open4) {
     createWall(scene, [x + 3, z + 9], [x + 6, z + 4]);
 
     //CREATE FLOOR
-    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'yellow');
+    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'N');
 
     if (!open1) {
         createWall(scene, [x, z+ 9], [x +3, z + 9]);
@@ -724,7 +693,7 @@ function createO(scene, x, z, open1, open2, open3, open4) {
     createWall(scene, [x + 3, z + 3], [x + 3, z + 6]);
 
     //CREATE FLOOR
-    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'yellow');
+    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'O');
 
     if (!open1) {
         createWall(scene, [x + 3, z + 9], [x + 6, z + 9]);
@@ -760,7 +729,7 @@ function createP(scene, x, z, open1, open2, open3, open4){
     createWall(scene, [x+6, z+4.5], [x+3, z+4.5]);
 
     //CREATE FLOOR
-    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'yellow');
+    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'P');
 
     if(!open1){
         createWall(scene, [x+3, z+9],[x+6,z+9]);
@@ -803,7 +772,7 @@ function createQ(scene, x, z, open1, open2, open3, open4) {
     createWall(scene, [x + 3, z + 3], [x + 3, z + 6]);
 
     //CREATE FLOOR
-    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'yellow');
+    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'Q');
 
     if (!open1) {
         createWall(scene, [x + 3, z + 9], [x + 6, z + 9]);
@@ -842,7 +811,7 @@ function createR(scene, x, z, open1, open2, open3, open4){
     createWall(scene, [x + 5, z], [x + 9, z]);
 
     //CREATE FLOOR
-    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'yellow');
+    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'R');
 
 
     if(!open1){
@@ -883,7 +852,7 @@ function createS(scene, x, z, open1, open2, open3, open4){
     createWall(scene, [x + 6, z + 6], [x + 9, z + 6]);
 
     //CREATE FLOOR
-    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'yellow');
+    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'S');
 
     if (!open1) {
         createWall(scene, [x + 3, z + 9], [x + 6, z + 9]);
@@ -919,7 +888,7 @@ function createT(scene, x, z, open1, open2, open3, open4){
 	createWall(scene, [x + 6, z], [x + 6, z + 6]);
 
 	//CREATE FLOOR
-	createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'yellow');
+	createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'T');
     
      if(!open1) {
         createWall(scene, [x+3,z+9], [x+6,z+9]);
@@ -959,7 +928,7 @@ function createU(scene, x, z, open1, open2, open3, open4){
 	createWall(scene, [x + 6, z + 3], [x + 6, z + 9]);
 
 	//CREATE FLOOR
-	createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'yellow');
+	createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'U');
     
      if(!open1) {
         createWall(scene, [x+6,z+9], [x+9,z+9]);
@@ -992,7 +961,7 @@ function createV(scene, x, z, open1, open2, open3, open4){
     createWall(scene, [x + 6, z + 9], [x + 9, z + 9]);
 
     //CREATE FLOOR
-    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'yellow');
+    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'V');
 
     if(!open1){
         createWall(scene, [x, z+9], [x+3, z+9]);
@@ -1032,7 +1001,7 @@ function createW(scene, x, z, open1, open2, open3, open4){
     createWall(scene, [x + 6, z + 3], [x + 4.5, z + 4.5]);
 
     //CREATE FLOOR
-    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'yellow');
+    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'W');
 
     if (!open1) {
         createWall(scene, [x + 9, z+9], [x + 6, z+9]);
@@ -1073,7 +1042,7 @@ function createX(scene, x, z, open1, open2, open3, open4){
     createWall(scene, [x, z], [x + 3, z]);
 
     //CREATE FLOOR
-    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'yellow');
+    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'X');
 
     if(!open1){
         createWall(scene, [x, z+9], [x+3, z+9]);
@@ -1109,7 +1078,7 @@ function createY(scene, x, z, open1, open2, open3, open4){
     createWall(scene, [x + 6, z + 9], [x + 9, z + 9]);
 
     //CREATE FLOOR
-    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'yellow');
+    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'Y');
 
     if(!open1){
         createWall(scene, [x+3, z+9], [x,z+9]);
@@ -1140,7 +1109,7 @@ function createZ(scene, x, z, open1, open2, open3, open4){
     createWall(scene, [x+3,z],[x+9,z]);
 
     //CREATE FLOOR
-    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'yellow');
+    createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'Z');
 
     if(!open1){
         createWall(scene, [x+6, z+9], [x+9, z+9]);
@@ -1195,7 +1164,7 @@ function createWall(scene, begin, end){
     box.rotation.y = 0-(Math.atan(zDist/xDist));
 } 
 
-function createFloor(scene, p1, p2, p3, p4, color) {
+function createFloor(scene, p1, p2, p3, p4, Alphabet) {
     var midx = (p1[0] + p3[0]) / 2.0;
     var midz = (p1[1] + p3[1]) / 2.0;
 
@@ -1207,7 +1176,83 @@ function createFloor(scene, p1, p2, p3, p4, color) {
     var floor = BABYLON.Mesh.CreateGround("ground1", xDist, zDist, 2, scene);
     floor.position = new BABYLON.Vector3(midx, .1, midz);
     floor.material = new BABYLON.StandardMaterial("Mat", scene);
-    if (color == 'yellow') {
-        floor.material.emissiveColor = new BABYLON.Color3(1, 1, 0);
+    if (Alphabet == 'A') {
+        floor.material.emissiveColor = new BABYLON.Color3(0.03529411764705882, 0.14901960784313725, 0.26666666666666666);
     }
+    else if (Alphabet == 'B') {
+        floor.material.emissiveColor = new BABYLON.Color3(0.4745098039215686, 0.5529411764705883, 0.2823529411764706);
+    }
+    else if (Alphabet == 'C') {
+        floor.material.emissiveColor = new BABYLON.Color3(0.4588235294117647, 0.20392156862745098, 0.11764705882352941);
+    }
+    else if (Alphabet == 'D') {
+        floor.material.emissiveColor = new BABYLON.Color3(0.8666666666666667, 0.615686274509804, 0.12156862745098039);
+    }
+    else if (Alphabet == 'E') {
+        floor.material.emissiveColor = new BABYLON.Color3(0.9529411764705882, 0.7843137254901961, 0.16862745098039217);
+    }
+    else if (Alphabet == 'F') {
+        floor.material.emissiveColor = new BABYLON.Color3(0.8509803921568627, 0.6392156862745098, 0.49019607843137253);
+    }
+    else if (Alphabet == 'G') {
+        floor.material.emissiveColor = new BABYLON.Color3(0.21176470588235294, 0.12156862745098039, 0.1450980392156863);
+    }
+    else if (Alphabet == 'H') {
+        floor.material.emissiveColor = new BABYLON.Color3(0.6941176470588235, 0.34509803921568627, 0.01568627450980392);
+    }
+    else if (Alphabet == 'I') {
+        floor.material.emissiveColor = new BABYLON.Color3(0.807843137254902, 0.7450980392156863, 0.2);
+    }
+    else if (Alphabet == 'J') {
+        floor.material.emissiveColor = new BABYLON.Color3(0.9098039215686274, 0.3764705882352941, 0.3137254901960784);
+    }
+    else if (Alphabet == 'K') {
+        floor.material.emissiveColor = new BABYLON.Color3(0.44313725490196076, 0.5372549019607843, 0.7176470588235294);
+    }
+    else if (Alphabet == 'L') {
+        floor.material.emissiveColor = new BABYLON.Color3(0.9686274509803922, 0.9333333333333333, 0.5215686274509804);
+    }
+    else if (Alphabet == 'M') {
+        floor.material.emissiveColor = new BABYLON.Color3(0.6823529411764706, 0.5450980392156862, 0.6627450980392157);
+    }
+    else if (Alphabet == 'N') {
+        floor.material.emissiveColor = new BABYLON.Color3(0.6745098039215687, 0.611764705882353, 0.30980392156862746);
+    }
+    else if (Alphabet == 'O') {
+        floor.material.emissiveColor = new BABYLON.Color3(0.8117647058823529, 0.8431372549019608, 0.6431372549019608);
+    }
+    else if (Alphabet == 'P') {
+        floor.material.emissiveColor = new BABYLON.Color3(0.792156862745098, 0.7333333333333333, 0.27450980392156865);
+    }
+    else if (Alphabet == 'Q') {
+        floor.material.emissiveColor = new BABYLON.Color3(0.6235294117647059, 0.1843137254901961, 0.13725490196078433);
+    }
+    else if (Alphabet == 'R') {
+        floor.material.emissiveColor = new BABYLON.Color3(0.7686274509803922, 0.8313725490196079, 0.8313725490196079);
+    }
+    else if (Alphabet == 'S') {
+        floor.material.emissiveColor = new BABYLON.Color3(0.3803921568627451, 0.40784313725490196, 0.20784313725490197);
+    }
+    else if (Alphabet == 'T') {
+        floor.material.emissiveColor = new BABYLON.Color3(0.6235294117647059, 0.5607843137254902, 0.5019607843137255);
+    }
+    else if (Alphabet == 'U') {
+        floor.material.emissiveColor = new BABYLON.Color3(0.3137254901960784, 0.08235294117647059, 0.0196078431372549);
+    }
+    else if (Alphabet == 'V') {
+        floor.material.emissiveColor = new BABYLON.Color3(0.30980392156862746, 0.4235294117647059, 0.40784313725490196);
+    }
+    else if (Alphabet == 'W') {
+        floor.material.emissiveColor = new BABYLON.Color3(0.7803921568627451, 0.5686274509803921, 0.4196078431372549);
+    }
+    else if (Alphabet == 'X') {
+        floor.material.emissiveColor = new BABYLON.Color3(0.8156862745098039, 0.6352941176470588, 0.25882352941176473);
+    }
+    else if (Alphabet == 'Y') {
+        floor.material.emissiveColor = new BABYLON.Color3(0.9294117647058824, 0.8588235294117647, 0.7725490196078432);
+    }
+    else if (Alphabet == 'Z') {
+        floor.material.emissiveColor = new BABYLON.Color3(0.7607843137254902, 0.803921568627451, 0.8274509803921568);
+    }
+
 }  
