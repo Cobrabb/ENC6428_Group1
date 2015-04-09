@@ -7,6 +7,7 @@
         <script src="Babylon.js/babylon.2.0.js"></script>
         <script src="letters.js"></script>
         <script src="crossword.js"></script>
+        <script src="blake001.js"></script>
     </head>
     <style>
         html, body {
@@ -165,10 +166,28 @@
             }
         }
 
-        var wordList = ["DELIGHT", "MOTHERS", "LAMB", "SIGHT", "BROTHERS"]; 
-        var clues = ["", "", "", "", ""];
+        var rand = Math.random()*(BLAKE001.length-1);
+        rand = Math.round(rand);
+        if(rand%2==1){
+            rand = rand-1;
+        }
 
-        var cw = new Crossword(wordList, clues);
+        var wordList = [];
+        var split1 = BLAKE001[rand].split(" ");
+        var split2 = BLAKE001[rand+1].split(" ");
+
+        for(var i=0; i<split1.length; i++){
+            wordList[i] = split1[i].toUpperCase();
+        }
+
+        var oldSize = wordList.length;
+        for(var i=0; i<split2.length; i++){
+            wordList[oldSize+i] = split2[i].toUpperCase();
+        }
+
+        alert(wordList);
+
+        var cw = new Crossword(wordList);
         var grid = cw.getSquareGrid(10);
         var letterGrid = renderLetterGrid(scene, grid);
         //alert(grid);

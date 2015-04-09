@@ -19,7 +19,7 @@ function WordElement(word, index){
     this.index = index; // use to map this node to its word or clue
 }
 
-function Crossword(words_in, clues_in){
+function Crossword(words_in){
     var GRID_ROWS = 50;
     var GRID_COLS = 50;
     // This is an index of the positions of the char in the crossword (so we know where we can potentially place words)
@@ -356,7 +356,6 @@ function Crossword(words_in, clues_in){
 
     // constructor
     if(words_in.length < 2) throw "A crossword must have at least 2 words";
-    if(words_in.length != clues_in.length) throw "The number of words must equal the number of clues";	
 
     // build the grid;
     var grid = new Array(GRID_ROWS);
