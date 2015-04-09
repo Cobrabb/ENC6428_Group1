@@ -1133,9 +1133,11 @@ function createZ(scene, x, z, open1, open2, open3, open4){
 }
 
 function vidSetup(scene){
-    VIDEO_ON = false; 
-    if(VIDEO_ON){
-        VIDEO = new BABYLON.VideoTexture("video", ["Dots1B.mp4"], 256, scene, false);
+    TEXTURES_ON = true; 
+    if(TEXTURES_ON){
+        BUMP_TEXTURE = new BABYLON.Texture("songsie29normal.jpg", scene);
+        TEXTURE = new BABYLON.Texture("songsie29.jpg", scene);
+        GROUND_BUMP_TEXTURE = new BABYLON.Texture("ground_bump2.jpg", scene);
     }
 }
 
@@ -1151,13 +1153,15 @@ function createWall(scene, begin, end){
 	var box = new BABYLON.Mesh.CreateBox("crate", scaling, scene);
 	var bumpMaterial = new BABYLON.StandardMaterial("texture1", scene);
 	box.material = bumpMaterial;
-	box.material.bumpTexture = new BABYLON.Texture("NormalMap.jpg", scene);
 	//box.material.bumpTexture.pictureTexture = new BABYLON.Texture("songstexture1.jpg", scene);
-    if(VIDEO_ON){
-        box.material.diffuseTexture = VIDEO;
+    if(TEXTURES_ON){
+	    box.material.bumpTexture = BUMP_TEXTURE;
+        box.material.emissiveColor = new BABYLON.Color3(.3, .15, 0);
+        box.material.diffuseTexture = TEXTURE;
         box.material.diffuseTexture.backFaceCulling = false;
+    }else{
+       box.material.emissiveColor = new BABYLON.Color3(.7,.7,.7); 
     }
-    box.material.emissiveColor = new BABYLON.Color3(.7,.7,.7); 
     box.position = new BABYLON.Vector3(midx, (height/2)*scaling, midz);
     box.checkCollisions = true;
     box.scaling.y = height;
@@ -1181,83 +1185,90 @@ function createFloor(scene, p1, p2, p3, p4, Alphabet) {
     var floor = BABYLON.Mesh.CreateGround("ground1", xDist, zDist, 2, scene);
     floor.position = new BABYLON.Vector3(midx, .1, midz);
     floor.material = new BABYLON.StandardMaterial("Mat", scene);
+    floor.material.specularColor = new BABYLON.Color3(.2, .2, .298);
+    if(TEXTURES_ON){
+        floor.material.bumpTexture = GROUND_BUMP_TEXTURE;
+    }
+    var color = null;
     if (Alphabet == 'A') {
-        floor.material.emissiveColor = new BABYLON.Color3(0.03529411764705882, 0.14901960784313725, 0.26666666666666666);
+        color = new BABYLON.Color3(0.03529411764705882, 0.14901960784313725, 0.26666666666666666);
     }
     else if (Alphabet == 'B') {
-        floor.material.emissiveColor = new BABYLON.Color3(0.4745098039215686, 0.5529411764705883, 0.2823529411764706);
+        color = new BABYLON.Color3(0.4745098039215686, 0.5529411764705883, 0.2823529411764706);
     }
     else if (Alphabet == 'C') {
-        floor.material.emissiveColor = new BABYLON.Color3(0.4588235294117647, 0.20392156862745098, 0.11764705882352941);
+        color = new BABYLON.Color3(0.4588235294117647, 0.20392156862745098, 0.11764705882352941);
     }
     else if (Alphabet == 'D') {
-        floor.material.emissiveColor = new BABYLON.Color3(0.8666666666666667, 0.615686274509804, 0.12156862745098039);
+        color = new BABYLON.Color3(0.8666666666666667, 0.615686274509804, 0.12156862745098039);
     }
     else if (Alphabet == 'E') {
-        floor.material.emissiveColor = new BABYLON.Color3(0.9529411764705882, 0.7843137254901961, 0.16862745098039217);
+        color = new BABYLON.Color3(0.9529411764705882, 0.7843137254901961, 0.16862745098039217);
     }
     else if (Alphabet == 'F') {
-        floor.material.emissiveColor = new BABYLON.Color3(0.8509803921568627, 0.6392156862745098, 0.49019607843137253);
+        color = new BABYLON.Color3(0.8509803921568627, 0.6392156862745098, 0.49019607843137253);
     }
     else if (Alphabet == 'G') {
-        floor.material.emissiveColor = new BABYLON.Color3(0.21176470588235294, 0.12156862745098039, 0.1450980392156863);
+        color = new BABYLON.Color3(0.21176470588235294, 0.12156862745098039, 0.1450980392156863);
     }
     else if (Alphabet == 'H') {
-        floor.material.emissiveColor = new BABYLON.Color3(0.6941176470588235, 0.34509803921568627, 0.01568627450980392);
+        color = new BABYLON.Color3(0.6941176470588235, 0.34509803921568627, 0.01568627450980392);
     }
     else if (Alphabet == 'I') {
-        floor.material.emissiveColor = new BABYLON.Color3(0.807843137254902, 0.7450980392156863, 0.2);
+        color = new BABYLON.Color3(0.807843137254902, 0.7450980392156863, 0.2);
     }
     else if (Alphabet == 'J') {
-        floor.material.emissiveColor = new BABYLON.Color3(0.9098039215686274, 0.3764705882352941, 0.3137254901960784);
+        color = new BABYLON.Color3(0.9098039215686274, 0.3764705882352941, 0.3137254901960784);
     }
     else if (Alphabet == 'K') {
-        floor.material.emissiveColor = new BABYLON.Color3(0.44313725490196076, 0.5372549019607843, 0.7176470588235294);
+        color = new BABYLON.Color3(0.44313725490196076, 0.5372549019607843, 0.7176470588235294);
     }
     else if (Alphabet == 'L') {
-        floor.material.emissiveColor = new BABYLON.Color3(0.9686274509803922, 0.9333333333333333, 0.5215686274509804);
+        color = new BABYLON.Color3(0.9686274509803922, 0.9333333333333333, 0.5215686274509804);
     }
     else if (Alphabet == 'M') {
-        floor.material.emissiveColor = new BABYLON.Color3(0.6823529411764706, 0.5450980392156862, 0.6627450980392157);
+        color = new BABYLON.Color3(0.6823529411764706, 0.5450980392156862, 0.6627450980392157);
     }
     else if (Alphabet == 'N') {
-        floor.material.emissiveColor = new BABYLON.Color3(0.6745098039215687, 0.611764705882353, 0.30980392156862746);
+        color = new BABYLON.Color3(0.6745098039215687, 0.611764705882353, 0.30980392156862746);
     }
     else if (Alphabet == 'O') {
-        floor.material.emissiveColor = new BABYLON.Color3(0.8117647058823529, 0.8431372549019608, 0.6431372549019608);
+        color = new BABYLON.Color3(0.8117647058823529, 0.8431372549019608, 0.6431372549019608);
     }
     else if (Alphabet == 'P') {
-        floor.material.emissiveColor = new BABYLON.Color3(0.792156862745098, 0.7333333333333333, 0.27450980392156865);
+        color = new BABYLON.Color3(0.792156862745098, 0.7333333333333333, 0.27450980392156865);
     }
     else if (Alphabet == 'Q') {
-        floor.material.emissiveColor = new BABYLON.Color3(0.6235294117647059, 0.1843137254901961, 0.13725490196078433);
+        color = new BABYLON.Color3(0.6235294117647059, 0.1843137254901961, 0.13725490196078433);
     }
     else if (Alphabet == 'R') {
-        floor.material.emissiveColor = new BABYLON.Color3(0.7686274509803922, 0.8313725490196079, 0.8313725490196079);
+        color = new BABYLON.Color3(0.7686274509803922, 0.8313725490196079, 0.8313725490196079);
     }
     else if (Alphabet == 'S') {
-        floor.material.emissiveColor = new BABYLON.Color3(0.3803921568627451, 0.40784313725490196, 0.20784313725490197);
+        color = new BABYLON.Color3(0.3803921568627451, 0.40784313725490196, 0.20784313725490197);
     }
     else if (Alphabet == 'T') {
-        floor.material.emissiveColor = new BABYLON.Color3(0.6235294117647059, 0.5607843137254902, 0.5019607843137255);
+        color = new BABYLON.Color3(0.6235294117647059, 0.5607843137254902, 0.5019607843137255);
     }
     else if (Alphabet == 'U') {
-        floor.material.emissiveColor = new BABYLON.Color3(0.3137254901960784, 0.08235294117647059, 0.0196078431372549);
+        color = new BABYLON.Color3(0.3137254901960784, 0.08235294117647059, 0.0196078431372549);
     }
     else if (Alphabet == 'V') {
-        floor.material.emissiveColor = new BABYLON.Color3(0.30980392156862746, 0.4235294117647059, 0.40784313725490196);
+        color = new BABYLON.Color3(0.30980392156862746, 0.4235294117647059, 0.40784313725490196);
     }
     else if (Alphabet == 'W') {
-        floor.material.emissiveColor = new BABYLON.Color3(0.7803921568627451, 0.5686274509803921, 0.4196078431372549);
+        color = new BABYLON.Color3(0.7803921568627451, 0.5686274509803921, 0.4196078431372549);
     }
     else if (Alphabet == 'X') {
-        floor.material.emissiveColor = new BABYLON.Color3(0.8156862745098039, 0.6352941176470588, 0.25882352941176473);
+        color = new BABYLON.Color3(0.8156862745098039, 0.6352941176470588, 0.25882352941176473);
     }
     else if (Alphabet == 'Y') {
-        floor.material.emissiveColor = new BABYLON.Color3(0.9294117647058824, 0.8588235294117647, 0.7725490196078432);
+        color = new BABYLON.Color3(0.9294117647058824, 0.8588235294117647, 0.7725490196078432);
     }
     else if (Alphabet == 'Z') {
-        floor.material.emissiveColor = new BABYLON.Color3(0.7607843137254902, 0.803921568627451, 0.8274509803921568);
+        color = new BABYLON.Color3(0.7607843137254902, 0.803921568627451, 0.8274509803921568);
     }
+
+    floor.material.diffuseColor = color;
 
 }  

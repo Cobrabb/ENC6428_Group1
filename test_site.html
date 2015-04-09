@@ -56,19 +56,34 @@
     var createScene = function () {
         var scene = new BABYLON.Scene(engine);
 
-        // Lights
-        //var light0 = new BABYLON.DirectionalLight("Omni", new BABYLON.Vector3(20, 20, 2), scene);
-        var light1 = new BABYLON.PointLight("Omni", new BABYLON.Vector3(0, 1, 1), scene);
-        light1.intensity = .2;
-        //light1.diffuse = new BABYLON.Color3(.3,.3,.3);
-
         // Need a free camera for collisions
+        var skybox = BABYLON.Mesh.CreateBox("skyBox", 1000.0, scene);
+        var skyboxMaterial = new BABYLON.StandardMaterial("skyBox", scene);
+        skyboxMaterial.backFaceCulling = false;
+        skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture("skybox/skybox", scene);
+        skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
+        skyboxMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
+        skyboxMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
+        skybox.material = skyboxMaterial;
 
         var cameraPos = 30 ;
 
         var camera = new BABYLON.FreeCamera("FreeCamera", new BABYLON.Vector3(cameraPos, 1, cameraPos), scene);
 
-        light1.parent = camera;
+        // Lights
+        //var light0 = new BABYLON.DirectionalLight("Omni", new BABYLON.Vector3(20, 20, 2), scene);
+        var lights = [];
+
+        var dist = 3;
+        lights[0] = new BABYLON.PointLight("Omni", new BABYLON.Vector3(-1*dist, 1, 1*dist), scene);
+        lights[1] = new BABYLON.PointLight("Omni", new BABYLON.Vector3(1*dist, 1, 1*dist), scene);
+        lights[2] = new BABYLON.PointLight("Omni", new BABYLON.Vector3(-1*dist, 1, -1*dist), scene);
+        lights[3] = new BABYLON.PointLight("Omni", new BABYLON.Vector3(1*dist, 1, -1*dist), scene);
+
+        for(var i=0; i<4; i++){
+            lights[i].intensity = .2; 
+            lights[i].parent = camera;
+        }
 
         //Use this camera position for checking letters --> Easy navigation
         //var camera = new BABYLON.FreeCamera("FreeCamera", new BABYLON.Vector3(0, 40, 0), scene);
@@ -114,19 +129,21 @@
         document.addEventListener("mozpointerlockchange", pointerlockchange, false);
         document.addEventListener("webkitpointerlockchange", pointerlockchange, false);
 
+        vidSetup(scene);
         //Ground
         var ground = BABYLON.Mesh.CreatePlane("ground", 200, scene);
         ground.material = new BABYLON.StandardMaterial("groundMat", scene);
-        //ground.material.diffuseColor = new BABYLON.Color3(1, 1, 1);
-        ground.material.emissiveTexture = new BABYLON.Texture("ground.jpg", scene);
-        ground.material.emissiveTexture.uScale = 60;
-        ground.material.emissiveTexture.vScale = 60;
-        //ground.material.emissiveColor = new BABYLON.Color3(.8, .8, .8);
+        if(TEXTURES_ON){
+            ground.material.bumpTexture = new BABYLON.Texture("ground_bump2.jpg", scene);
+            ground.material.bumpTexture.uScale = 60;
+            ground.material.bumpTexture.vScale = 60;
+        }
+        ground.material.diffuseColor = new BABYLON.Color3(.4, .2, 0);
         ground.material.backFaceCulling = false;
+        ground.material.specularColor = new BABYLON.Color3(.2, .2, .298);
         ground.position = new BABYLON.Vector3(100, 0, 100);
         ground.rotation = new BABYLON.Vector3(Math.PI / 2, 0, 0);
 
-        vidSetup(scene);
         //Simple crate
         renderMap(scene);
 
@@ -145,6 +162,8 @@
 
         //finally, say which mesh will be collisionable
         ground.checkCollisions = true;
+        
+        //var postProcess2 = new BABYLON.BlurPostProcess("Horizontal blur", new BABYLON.Vector2(1.0, 0), 20, 1.5, scene.activeCamera, BABYLON.Texture.DEFAULT_SAMPLINGMODE);
 
         return scene;
     }
