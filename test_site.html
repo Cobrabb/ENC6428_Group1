@@ -185,8 +185,6 @@
             wordList[oldSize+i] = split2[i].toUpperCase();
         }
 
-        alert(wordList);
-
         var cw = new Crossword(wordList);
         var grid = cw.getSquareGrid(10);
         var letterGrid = renderLetterGrid(scene, grid);
