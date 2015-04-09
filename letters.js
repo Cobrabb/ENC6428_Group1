@@ -464,27 +464,27 @@ function createI(scene, x, z, open1, open2, open3, open4){
 
     //Outer bottom wall      
     //Outer right wall
-    createWall(scene, [x+3,z], [x+3,z+3]);
-    createWall(scene, [x+3,z + 6], [x+3,z+9]);
+    createWall(scene, [x+6,z], [x+6,z+3]);
+    createWall(scene, [x+6,z + 6], [x+6,z+9]);
     //Outer top wall      
     //Outer left wall
-    createWall(scene, [x,z], [x,z+3]);
-    createWall(scene, [x, z + 6], [x, z + 9]);
+    createWall(scene, [x+3,z], [x+3,z+3]);
+    createWall(scene, [x+3, z + 6], [x+3, z + 9]);
 
     //CREATE FLOOR
     createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'I');
     
      if(!open1) {
-        createWall(scene, [x,z+9], [x+3,z+9]);
+        createWall(scene, [x+3,z+9], [x+6,z+9]);
     }
     if(!open2){
-        createWall(scene, [x+3,z+3], [x+3,z+6]);
+        createWall(scene, [x+6,z+3], [x+6,z+6]);
     }
     if(!open3){
-        createWall(scene, [x,z], [x+3,z]);        
+        createWall(scene, [x+3,z], [x+6,z]);        
     }
     if(!open4){
-        createWall(scene, [x,z+3], [x,z+6]);
+        createWall(scene, [x+3,z+3], [x+3,z+6]);
     }       
     
 
