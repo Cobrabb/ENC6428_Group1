@@ -20,10 +20,15 @@ function smartCreateLetter(scene, grid, xpos, ypos){
     //the size of one 'square' in the grid
     var gU = 12.4;
 
-    var north = (ypos+1<grid[xpos].length && grid[xpos][ypos+1]!=null);
+    var flippedy = grid[xpos].length-ypos;
+    var ourChar = grid[xpos][ypos].char;
+
+    var south = (ypos+1<grid[xpos].length && grid[xpos][ypos+1]!=null);
     var east = (xpos+1<grid.length && grid[xpos+1][ypos]!=null);
-    var south = (ypos-1>=0 && grid[xpos][ypos-1]!=null);
+    var north = (ypos-1>=0 && grid[xpos][ypos-1]!=null);
     var west = (xpos-1>=0 && grid[xpos-1][ypos]!=null);
+
+    ypos = flippedy;
 
     //The if not case creates a 9 length wall on that side.
     //The elses create 3 length  wall attachements to connect the next letters walls
@@ -46,7 +51,7 @@ function smartCreateLetter(scene, grid, xpos, ypos){
         createWall(scene, [xpos*gU, ypos*gU], [xpos*gU, ypos*gU+9.4]);
     }
 
-    return createLetter(scene, grid[xpos][ypos].char, xpos*gU+.2, ypos*gU+.2, north, east, south, west);
+    return createLetter(scene, ourChar, xpos*gU+.2, ypos*gU+.2, north, east, south, west);
 }
 
 function createLetter(scene,letter, x, z, open1, open2, open3, open4){

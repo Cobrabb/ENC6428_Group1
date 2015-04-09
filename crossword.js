@@ -33,17 +33,23 @@ function Crossword(words_in, clues_in){
     // returns the crossword grid that has the ratio closest to 1 or null if it can't build one
     this.getSquareGrid = function(max_tries){
         var best_grid = null;
-        var best_ratio = 0;
+        var old_ratio = 0;
+        var best_words = 0;
         for(var i = 0; i < max_tries; i++){
-            var a_grid = this.getGrid(1);
+            var a_grid_obj = this.getGrid(1);
+            var a_grid = a_grid_obj.grid; 
             if(a_grid == null) continue;
             var ratio = Math.min(a_grid.length, a_grid[0].length) * 1.0 / Math.max(a_grid.length, a_grid[0].length);
-            if(ratio > best_ratio){
+            if(a_grid_obj.word_count > best_words){
                 best_grid = a_grid;
-                best_ratio = ratio;
+                best_words = a_grid_obj.word_count;
+                old_ratio = ratio;
+            }else if(a_grid_obj.word_count == best_words && ratio > old_ratio){
+                best_grid = a_grid;
+                best_words = a_grid_obj.word_count;
+                old_ratio = ratio;
             }
 
-            if(best_ratio == 1) break;
         }
         return best_grid;
     }
@@ -63,8 +69,11 @@ function Crossword(words_in, clues_in){
                 r -= Math.floor(word_element.word.length/2);
             }
 
+            var wordCount = 0;
+
             if(canPlaceWordAt(word_element.word, r, c, start_dir) !== false){
                 placeWordAt(word_element.word, word_element.index, r, c, start_dir);
+                wordCount++;
             } else {
                 bad_words = [word_element];
                 return null;
@@ -89,6 +98,7 @@ function Crossword(words_in, clues_in){
                     } else {
                         var r = best_position["row"], c = best_position["col"], dir = best_position['direction'];
                         placeWordAt(word_element.word, word_element.index, r, c, dir);
+                        wordCount++;
                         word_has_been_added_to_grid = true;						
                     }
                 }
@@ -96,11 +106,12 @@ function Crossword(words_in, clues_in){
                 if(!word_has_been_added_to_grid) break;
             }
             // no need to try again
-            if(word_has_been_added_to_grid) return minimizeGrid();  
+            if(word_has_been_added_to_grid) return minimizeGrid(wordCount);  
         }
 
-        bad_words = groups[groups.length - 1];
-        return null;
+        //bad_words = groups[groups.length - 1];
+        //return null;
+        return minimizeGrid(wordCount);
     }
 
     // returns the list of WordElements that can't fit on the crossword
@@ -136,7 +147,7 @@ function Crossword(words_in, clues_in){
     }	
 
     // move the grid onto the smallest grid that will fit it
-    var minimizeGrid = function(){
+    var minimizeGrid = function(wordCount){
         // find bounds
         var r_min = GRID_ROWS-1, r_max = 0, c_min = GRID_COLS-1, c_max = 0;
         for(var r = 0; r < GRID_ROWS; r++){
@@ -167,7 +178,10 @@ function Crossword(words_in, clues_in){
             }
         }
 
-        return new_grid;
+        return new function(){
+            this.grid = new_grid; 
+            this.word_count = wordCount;
+        };
     }
 
     // helper for placeWordAt();
