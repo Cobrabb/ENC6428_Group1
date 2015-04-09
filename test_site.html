@@ -118,7 +118,10 @@
         var ground = BABYLON.Mesh.CreatePlane("ground", 200, scene);
         ground.material = new BABYLON.StandardMaterial("groundMat", scene);
         //ground.material.diffuseColor = new BABYLON.Color3(1, 1, 1);
-        ground.material.emissiveColor = new BABYLON.Color3(.8, .8, .8);
+        ground.material.emissiveTexture = new BABYLON.Texture("ground.jpg", scene);
+        ground.material.emissiveTexture.uScale = 60;
+        ground.material.emissiveTexture.vScale = 60;
+        //ground.material.emissiveColor = new BABYLON.Color3(.8, .8, .8);
         ground.material.backFaceCulling = false;
         ground.position = new BABYLON.Vector3(100, 0, 100);
         ground.rotation = new BABYLON.Vector3(Math.PI / 2, 0, 0);
