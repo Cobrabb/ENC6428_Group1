@@ -55,6 +55,8 @@
     
     var createScene = function () {
         var scene = new BABYLON.Scene(engine);
+        //scene.fogMode = BABYLON.Scene.FOGMODE_EXP;
+        //scene.fogColor = new BABYLON.Color3(.4, .4, .35);
 
         // Need a free camera for collisions
         var skybox = BABYLON.Mesh.CreateBox("skyBox", 1000.0, scene);
