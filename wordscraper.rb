@@ -1,5 +1,6 @@
 require 'net/http'
 require 'json'
+require 'csv'
 
 def getSynonyms word
     puts "Getting synonym for #{word}"
@@ -45,6 +46,7 @@ end
 
 # Get the word list
 blakeFile = File.open("PlainWilliamBlake.txt")
+blakeFile = CSV.open("BlakeText3.txt")
 wordList = blakeFile.read
 
 wordList = wordList.split(/,|\s/)
@@ -81,7 +83,7 @@ wordList.uniq!
 # Get all of the synonyms
 wordStruct = Hash.new
 wordList.each do |word|
-    wordStruct[word] = getSynonyms word
+    #wordStruct[word] = getSynonyms word
    
 end
 

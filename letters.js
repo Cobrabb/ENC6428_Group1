@@ -1,24 +1,65 @@
-function renderLetterGrid(scene, stringGrid){
+function renderLetterGrid(scene, stringGrid, xPos, zPos){
 
+    var max_x_x = 0;
+    var max_x_z = 0;
+    var min_x_x = stringGrid.length;
+    var min_x_z = stringGrid.length;
+    var max_z_x = 0;
+    var max_z_z = 0;
+    var min_z_x = stringGrid[0].length;
+    var min_z_z = stringGrid[0].length;
     var letterGrid = [];
     for(var i=0; i<stringGrid.length; i++){
         letterGrid[i] = [];
         for(var j=0; j<stringGrid[i].length; j++){
             if(stringGrid[i][j]!=null){
-                letterGrid[i][j] = smartCreateLetter(scene, stringGrid, i, j);
+                if(stringGrid[i][j].across!=null){
+                    if(i>max_x_x){
+                        max_x_x = i;
+                        max_x_z = j;
+                    }
+                    if(i<min_x_x){
+                        min_x_x = i;
+                        min_x_z = j;
+                    }
+                }
+                if(stringGrid[i][j].down!=null){
+                    if(j>max_z_z){
+                        max_z_x = i;
+                        max_z_z = j;
+                    }
+                    if(j<min_z_z){
+                        min_z_x = i;
+                        min_z_z = j;
+                    }
+                }
+            }
+        }
+    }
+    for(var i=0; i<stringGrid.length; i++){
+        for(var j=0; j<stringGrid[i].length; j++){
+            if(stringGrid[i][j]!=null){
+                letterGrid[i][j] = smartCreateLetter(scene, stringGrid, i, j, xPos, zPos, (i==max_x_x && j==max_x_z), (i==min_x_x && j==min_x_z), (i==max_z_x && j==max_z_z), (i==min_z_x && j==min_z_z));
             }else{
                 letterGrid[i][j] = null;
             }
         }
     }
 
-    return letterGrid;
+    return new function(){
+        this.letterGrid = letterGrid;
+        this.westPoint = [max_x_x, max_x_z];
+        this.eastPoint = [min_x_x, min_x_z];
+        this.northPoint = [max_z_x, max_z_z];
+        this.southPoint = [min_z_x, min_z_z];
+    }
 
 }
 
-function smartCreateLetter(scene, grid, xpos, ypos){
+function smartCreateLetter(scene, grid, xpos, ypos, xoffset, yoffset, e_ov, w_ov, s_ov, n_ov){
     //the size of one 'square' in the grid
     var gU = 12.4;
+    var objletter = grid[xpos][ypos];
 
     var flippedy = grid[xpos].length-ypos;
     var ourChar = grid[xpos][ypos].char;
@@ -28,7 +69,16 @@ function smartCreateLetter(scene, grid, xpos, ypos){
     var north = (ypos-1>=0 && grid[xpos][ypos-1]!=null);
     var west = (xpos-1>=0 && grid[xpos-1][ypos]!=null);
 
+    if(e_ov) east = true;
+    if(w_ov) west = true;
+    if(s_ov) south = true;
+    if(n_ov) north = true;
+
+    //The rest of the stuff that uses xpos and ypos are for positioning, so we can go ahead and change them.
     ypos = flippedy;
+    ypos += yoffset/12.4;
+    xpos += xoffset/12.4;
+
 
     //The if not case creates a 9 length wall on that side.
     //The elses create 3 length  wall attachements to connect the next letters walls
@@ -51,7 +101,9 @@ function smartCreateLetter(scene, grid, xpos, ypos){
         createWall(scene, [xpos*gU, ypos*gU], [xpos*gU, ypos*gU+9.4]);
     }
 
-    return createLetter(scene, ourChar, xpos*gU+.2, ypos*gU+.2, north, east, south, west);
+    var fn = createLetter(scene, ourChar, xpos*gU+.2, ypos*gU+.2, north, east, south, west);
+    fn.objletter = objletter;
+    return fn;
 }
 
 function createLetter(scene,letter, x, z, open1, open2, open3, open4){

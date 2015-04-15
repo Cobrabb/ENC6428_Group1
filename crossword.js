@@ -19,7 +19,7 @@ function WordElement(word, index){
     this.index = index; // use to map this node to its word or clue
 }
 
-function Crossword(words_in){
+function Crossword(words_in, init_word_x, init_word_z){
     var GRID_ROWS = 20;
     var GRID_COLS = 20;
     // This is an index of the positions of the char in the crossword (so we know where we can potentially place words)
@@ -58,15 +58,17 @@ function Crossword(words_in){
     this.getGrid = function(max_tries){
         for(var tries = 0; tries < max_tries; tries++){
             clear(); // always start with a fresh grid and char_index
-            // place the first word in the middle of the grid
+            // place the first word at the specified position
             var start_dir = randomDirection();
-            var r = Math.floor(grid.length / 2);
-            var c = Math.floor(grid[0].length / 2);
+            var r = init_word_x;
+            var c = init_word_z;
             var word_element = word_elements[0];
             if(start_dir == "across"){
-                c -= Math.floor(word_element.word.length/2);
+                c = Math.max(c, word_element.word.length);
+                //c -= Math.floor(word_element.word.length/2);
             } else {
-                r -= Math.floor(word_element.word.length/2);
+                r = Math.max(r, word_element.word.length);
+                //r -= Math.floor(word_element.word.length/2);
             }
 
             var wordCount = 0;

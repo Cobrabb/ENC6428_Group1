@@ -68,9 +68,9 @@
         skyboxMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
         skybox.material = skyboxMaterial;
 
-        var cameraPos = 30 ;
+        var cameraPos = 0 ;
 
-        var camera = new BABYLON.FreeCamera("FreeCamera", new BABYLON.Vector3(cameraPos, 1, cameraPos), scene);
+        camera = new BABYLON.FreeCamera("FreeCamera", new BABYLON.Vector3(cameraPos, 1, cameraPos), scene);
 
         // Lights
         //var light0 = new BABYLON.DirectionalLight("Omni", new BABYLON.Vector3(20, 20, 2), scene);
@@ -133,7 +133,7 @@
 
         vidSetup(scene);
         //Ground
-        var ground = BABYLON.Mesh.CreatePlane("ground", 200, scene);
+        var ground = BABYLON.Mesh.CreatePlane("ground", 10000, scene);
         ground.material = new BABYLON.StandardMaterial("groundMat", scene);
         if(TEXTURES_ON){
             ground.material.bumpTexture = new BABYLON.Texture("ground_bump2.jpg", scene);
@@ -143,11 +143,11 @@
         ground.material.diffuseColor = new BABYLON.Color3(.4, .2, 0);
         ground.material.backFaceCulling = false;
         ground.material.specularColor = new BABYLON.Color3(.2, .2, .298);
-        ground.position = new BABYLON.Vector3(100, 0, 100);
+        ground.position = new BABYLON.Vector3(0, 0, 0);
         ground.rotation = new BABYLON.Vector3(Math.PI / 2, 0, 0);
 
         //Simple crate
-        renderMap(scene);
+        renderMap(scene, camera);
 
         //Set gravity for the scene (G force like, on Y-axis)
         scene.gravity = new BABYLON.Vector3(0, -0.9, 0);
@@ -182,14 +182,8 @@
 
     function renderMap(scene){
         
-        var stringGrid = [];
-
-        for(var i=0; i<11; i++){
-            stringGrid[i] = [];
-            for(var j=0; j<11; j++){
-                stringGrid[i][j] = "0";
-            }
-        }
+        var playerX = camera.position.x;
+        var playerZ = camera.position.z;
 
         var rand = Math.random()*(BLAKE001.length-1);
         rand = Math.round(rand);
@@ -210,33 +204,59 @@
             wordList[oldSize+i] = split2[i].toUpperCase();
         }
 
-        var cw = new Crossword(wordList);
+        var grid = renderCrossword(wordList, 10, 10);
+        var l = renderLetterGrid(scene, grid, 0, 0);
+
+        //Put the player somewhere sane
+        for(var i=Math.floor(l.letterGrid.length/2); i<l.letterGrid.length; i++){
+            for(var j=Math.floor(l.letterGrid.length/2); j<l.letterGrid.length; j++){
+                if(l.letterGrid[i][j]!=null){
+                    camera.position.x = l.letterGrid[i][j].xBegin+1;
+                    camera.position.z = l.letterGrid[i][j].zBegin+1;
+                    break;
+                }
+            }
+        }
+
+        alert(l.letterGrid[l.eastPoint[0]][l.eastPoint[1]].objletter.char);
+
+        //window.setTimeout("delayedRender()", 5000);
+
+    }
+
+    function delayedRenderer(){
+
+    }
+
+    function delayedRender(){
+        var rand = Math.random()*(BLAKE001.length-1);
+        rand = Math.round(rand);
+        if(rand%2==1){
+            rand = rand-1;
+        }
+
+        var wordList = [];
+        var split1 = BLAKE001[rand].split(" ");
+        var split2 = BLAKE001[rand+1].split(" ");
+
+        for(var i=0; i<split1.length; i++){
+            wordList[i] = split1[i].toUpperCase();
+        }
+
+        var oldSize = wordList.length;
+        for(var i=0; i<split2.length; i++){
+            wordList[oldSize+i] = split2[i].toUpperCase();
+        }
+
+        var grid = renderCrossword(wordList, 0, 0);
+        var letterGrid = renderLetterGrid(scene, grid, 50, 50);
+    }
+
+    //Renders a crossword. xPos and zPos represent the position in the crossword that wordList[0] will have.
+    function renderCrossword(wordList, xPos, zPos){
+        var cw = new Crossword(wordList, xPos, zPos);
         var grid = cw.getSquareGrid(10);
-        var letterGrid = renderLetterGrid(scene, grid);
-        //alert(grid);
-
-        /*addWordX(stringGrid, [1, 5], "DELIGHT");
-		addWordX(stringGrid, [3, 3], "MOTHERS");
-		//addWordX(stringGrid, [5, 7], "SPRING");
-        addWordZ(stringGrid, [3, 5], "LAMB");
-		addWordZ(stringGrid, [5, 7], "SIGHT");
-		addWordZ(stringGrid, [7, 8], "BROTHERS");*/
-
-        //var letterGrid = renderLetterGrid(scene, stringGrid);
-
-    }
-
-    //these functions simulate the crossword for now
-    function addWordX(grid, coord, word){
-        for(var i=0; i<word.length; i++){
-            grid[i+coord[0]][coord[1]] = word[i];
-        }
-    }
-
-    function addWordZ(grid, coord, word){
-        for(var i=word.length-1; i>=0; i--){
-            grid[coord[0]][coord[1]-i] = word[i];
-        }
+        return grid;
     }
 
 
