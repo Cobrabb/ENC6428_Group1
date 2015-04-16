@@ -40,7 +40,8 @@
                 <canvas id ="renderCanvas"></canvas>
             </td>
             <td style="background-color:Black; margin-top:auto; width:15%">
-                    <textarea id="txtPoem" style="background-color:Black; position:absolute; top:0px; height: 40%; overflow-y:scroll; color:White" disabled="disabled">Poem Goes Here Poem Goes Here Poem Goes Here Poem Goes Here Poem Goes Here Poem Goes Here Poem Goes Here Poem Goes Here Poem Goes Here Poem Goes Here Poem Goes Here Poem Goes Here Poem Goes Here Poem Goes Here Poem Goes Here Poem Goes Here Poem Goes Here Poem Goes Here Poem Goes Here Poem Goes Here Poem Goes Here Poem Goes Here Poem Goes Here Poem Goes Here Poem Goes Here Poem Goes Here Poem Goes Here Poem Goes Here Poem Goes Here Poem Goes Here Poem Goes Here Poem Goes Here Poem Goes Here Poem Goes Here Poem Goes Here </textarea>
+                    <textarea id="txtPoem" style="background-color:Black; position:absolute; top:0px; height: 40%; overflow-y:scroll; color:White" disabled="disabled">
+                    </textarea>
             </td>
         </tr>
             
@@ -55,22 +56,23 @@
     
     var createScene = function () {
         var scene = new BABYLON.Scene(engine);
-        //scene.fogMode = BABYLON.Scene.FOGMODE_EXP;
-        //scene.fogColor = new BABYLON.Color3(.4, .4, .35);
+        scene.fogMode = BABYLON.Scene.FOGMODE_EXP;
+        scene.fogColor = new BABYLON.Color3(.4, .4, .35);
 
         // Need a free camera for collisions
-        var skybox = BABYLON.Mesh.CreateBox("skyBox", 10000.0, scene);
+        var skybox = BABYLON.Mesh.CreateBox("skyBox", 300.0, scene);
         var skyboxMaterial = new BABYLON.StandardMaterial("skyBox", scene);
         skyboxMaterial.backFaceCulling = false;
         skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture("skybox/skybox", scene);
         skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
         skyboxMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
         skyboxMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
+        skybox.position = new BABYLON.Vector3(150, 0, 150);
         skybox.material = skyboxMaterial;
 
         var cameraPos = 0 ;
 
-        camera = new BABYLON.FreeCamera("FreeCamera", new BABYLON.Vector3(cameraPos, 1, cameraPos), scene);
+        camera = new BABYLON.FreeCamera("FreeCamera", new BABYLON.Vector3(cameraPos, 1.5, cameraPos), scene);
 
         // Lights
         //var light0 = new BABYLON.DirectionalLight("Omni", new BABYLON.Vector3(20, 20, 2), scene);
@@ -133,17 +135,17 @@
 
         vidSetup(scene);
         //Ground
-        var ground = BABYLON.Mesh.CreatePlane("ground", 10000, scene);
+        var ground = BABYLON.Mesh.CreatePlane("ground", 300, scene);
         ground.material = new BABYLON.StandardMaterial("groundMat", scene);
         if(TEXTURES_ON){
             ground.material.bumpTexture = new BABYLON.Texture("ground_bump2.jpg", scene);
-            ground.material.bumpTexture.uScale = 1000;
-            ground.material.bumpTexture.vScale = 1000;
+            ground.material.bumpTexture.uScale = 10;
+            ground.material.bumpTexture.vScale = 10;
         }
         ground.material.diffuseColor = new BABYLON.Color3(.4, .2, 0);
         ground.material.backFaceCulling = false;
         ground.material.specularColor = new BABYLON.Color3(.2, .2, .298);
-        ground.position = new BABYLON.Vector3(0, 0, 0);
+        ground.position = new BABYLON.Vector3(150, 0, 150);
         ground.rotation = new BABYLON.Vector3(Math.PI / 2, 0, 0);
 
         //Simple crate
@@ -157,15 +159,16 @@
 
         //Then apply collisions and gravity to the active camera
         camera.checkCollisions = true;
-        camera.applyGravity = false;
+        camera.applyGravity = true;
 
         //Set the ellipsoid around the camera (e.g. your player's size)
         camera.ellipsoid = new BABYLON.Vector3(1, 1, 1);
 
         //finally, say which mesh will be collisionable
         ground.checkCollisions = true;
+
+        POEM = [];
         
-        //var postProcess2 = new BABYLON.BlurPostProcess("Horizontal blur", new BABYLON.Vector2(1.0, 0), 20, 1.5, scene.activeCamera, BABYLON.Texture.DEFAULT_SAMPLINGMODE);
 
         return scene;
     }
@@ -174,11 +177,40 @@
 
     engine.runRenderLoop(function() {
         scene.render();
+        for(var i=0; i<l.letterGrid.length;i++){
+            for(var j=0; j<l.letterGrid.length; j++){
+                var letter = l.letterGrid[i][j];
+                if(letter!=null){
+                    if(letter.xBegin <= camera.position.x && letter.xEnd >= camera.position.x && letter.zBegin <= camera.position.z && letter.zEnd >= camera.position.z){
+                        if(letter == l.eastExit){
+                            console.log("IN the east exit");
+                        }else if(letter == l.westExit){
+                            console.log("IN the west exit");
+                        }else if(letter == l.northExit){
+                            console.log("IN the north exit");
+                        }else if(letter == l.southExit){
+                            console.log("IN the south exit");
+                        }
+                        addToPoem(letter.objletter.word);
+                    }
+                }
+            }
+        }
     });
 
     window.addEventListener("resize", function(){
         engine.resize();
     });
+
+    function addToPoem(word){
+        for(var i=0; i<POEM.length; i++){
+            if(POEM[i] == word){
+                return;
+            }    
+        }
+        POEM[POEM.length] = word;
+        document.getElementById("txtPoem").innerHTML += word + " ";
+    }
 
     function renderMap(scene){
         
@@ -188,47 +220,25 @@
         var wordList = getHuge();
 
         var grid = renderCrossword(wordList, "M", 10, 10);
-        var l = renderLetterGrid(scene, grid, 0, 0, true, true);
+        l = renderLetterGrid(scene, grid, true, true);
 
+        var done = false;
         //Put the player somewhere sane
-        for(var i=0; i<l.letterGrid.length; i++){
-            for(var j=0; j<l.letterGrid.length; j++){
+        for(var i=Math.floor(l.letterGrid.length/2); i<l.letterGrid.length; i++){
+            for(var j=Math.floor(l.letterGrid.length/2); j<l.letterGrid.length; j++){
                 if(l.letterGrid[i][j]!=null){
                     camera.position.x = l.letterGrid[i][j].xBegin+1.5;
                     camera.position.z = l.letterGrid[i][j].zBegin+1.5;
+                    camera.position.y = 2;
+                    //alert(l.letterGrid[i][j].xBegin +  " " + l.letterGrid[i][j].zBegin) ;
+                    done = true;
                     break;
                 }
             }
+            if(done) break;
         }
-
-        //delayedRenderer(scene, "E", l);
-        //alert(l.letterGrid[l.eastPoint[0]][l.eastPoint[1]].objletter.char + " " + l.letterGrid[l.eastPoint[0]][l.eastPoint[1]].objletter.direction);
-        //window.setTimeout("delayedRender()", 5000);
 
     }
-
-/*    function getTwoBlake(){
-        var rand = Math.random()*(BLAKE001.length-1);
-        rand = Math.round(rand);
-        if(rand%2==1){
-            rand = rand-1;
-        }
-
-        var wordList = [];
-        var split1 = BLAKE001[rand].split(" ");
-        var split2 = BLAKE001[rand+1].split(" ");
-
-        for(var i=0; i<split1.length; i++){
-            wordList[i] = split1[i].toUpperCase();
-        }
-
-        var oldSize = wordList.length;
-        for(var i=0; i<split2.length; i++){
-            wordList[oldSize+i] = split2[i].toUpperCase();
-        }
-
-        return wordList;
-    } */
 
     function getBlake(){
         var rand = Math.random()*(BLAKE001.length-1);
@@ -238,7 +248,7 @@
     }
 
     function getHuge(){
-        var max = 20;
+        var max = 5;
         var cursize = 0;
         var ret = [];
         for(var i=0; i<max; i++){
@@ -250,56 +260,6 @@
         }
         return ret;
     }
-
-/*    function delayedRenderer(scene, dir, prev){
-        if(dir == "E"){
-            var word = getWord(prev.letterGrid, prev.eastPoint[0], prev.eastPoint[1]);
-            var newWordList = getTwoBlake();
-
-            var newNewWordList = [];
-            newNewWordList[0] = word.split("").reverse().join("");
-            for(var i=0; i<newWordList.length; i++){
-                newNewWordList[i+1] = newWordList[i];
-            }
-
-            var grid = renderCrossword(newNewWordList, "E", prev.eastPoint[0], prev.eastPoint[1]);  
-            var l = renderLetterGrid(scene, grid, -100, -100, true, true); 
-
-        }
-
-    }
-
-    function getWord(grid, startx, startz){
-        var word = "";
-        var dir = grid[startx][startz].objletter.direction;
-        if(dir == "down"){
-            curind = 0;
-            do{
-                if(grid[startx-curind] == null){
-                    curr = null;
-                }else{
-                    curr = grid[startx-curind][startz];
-                }
-                if(curr!=null)
-                    word += curr.objletter.char;
-                curind--;
-            }while(curr!=null);
-        }else{
-            curind = 0;
-            do{
-                if(grid[startx][startz-curind] == null){
-                    curr = null;
-                }else{
-                    curr = grid[startx][startz-curind];
-                }
-                if(curr!=null)
-                    word += curr.objletter.char;
-                curind--;
-            }while(curr!=null);
-        }
-        return word;
-    }
-    */
 
     //Renders a crossword. xPos and zPos represent the position in the crossword that wordList[0] will have.
     function renderCrossword(wordList, dir, xPos, zPos){

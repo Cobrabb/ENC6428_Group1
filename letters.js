@@ -1,4 +1,4 @@
-function renderLetterGrid(scene, stringGrid, xPos, zPos, north_south, east_west){
+function renderLetterGrid(scene, stringGrid){
 
     var max_x_x = 0;
     var max_x_z = 0;
@@ -35,7 +35,7 @@ function renderLetterGrid(scene, stringGrid, xPos, zPos, north_south, east_west)
     for(var i=0; i<stringGrid.length; i++){
         for(var j=0; j<stringGrid[i].length; j++){
             if(stringGrid[i][j]!=null){
-                letterGrid[i][j] = smartCreateLetter(scene, stringGrid, i, j, xPos, zPos, (east_west && i==max_x_x && j==max_x_z), (east_west && i==min_x_x && j==min_x_z), (north_south && i==max_z_x && j==max_z_z), (north_south && i==min_z_x && j==min_z_z));
+                letterGrid[i][j] = smartCreateLetter(scene, stringGrid, i, j, (i==max_x_x && j==max_x_z), (i==min_x_x && j==min_x_z), (i==max_z_x && j==max_z_z), (i==min_z_x && j==min_z_z));
             }else{
                 letterGrid[i][j] = null;
             }
@@ -44,17 +44,15 @@ function renderLetterGrid(scene, stringGrid, xPos, zPos, north_south, east_west)
 
     return new function(){
         this.letterGrid = letterGrid;
-        this.northSouth = north_south;
-        this.eastWest = east_west;
-        this.westPoint = [max_x_x, max_x_z];
-        this.eastPoint = [min_x_x, min_x_z];
-        this.northPoint = [max_z_x, max_z_z];
-        this.southPoint = [min_z_x, min_z_z];
+        this.eastExit = letterGrid[min_x_x][min_x_z];
+        this.westExit = letterGrid[max_x_x][max_x_z];
+        this.southExit = letterGrid[max_z_x][max_z_z];
+        this.northExit = letterGrid[min_z_x][min_z_z];
     }
 
 }
 
-function smartCreateLetter(scene, grid, xpos, ypos, xoffset, yoffset, e_ov, w_ov, s_ov, n_ov){
+function smartCreateLetter(scene, grid, xpos, ypos, e_ov, w_ov, s_ov, n_ov){
     //the size of one 'square' in the grid
     var gU = 12.4;
     var objletter = grid[xpos][ypos];
@@ -74,8 +72,6 @@ function smartCreateLetter(scene, grid, xpos, ypos, xoffset, yoffset, e_ov, w_ov
 
     //The rest of the stuff that uses xpos and ypos are for positioning, so we can go ahead and change them.
     ypos = flippedy;
-    ypos -= 200;
-    xpos -= 200;
     //ypos += yoffset/12.4;
     //xpos += xoffset/12.4;
 
