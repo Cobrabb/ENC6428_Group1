@@ -30,34 +30,145 @@
             height:100%;
             touch-action: none;
         }
+        #parent{
+            position:fixed;
+            width:20%;
+            height:60%;
+            bottom:0px;
+            right:0px;
+            background-color: black;
+            color:white;
+        }
+        #txtPoem{
+            padding:10%;
+        }
     </style>
 
 
     <body>
-    <table id="table" >
+    <canvas id ="renderCanvas"></canvas>
+    <div id="parent">
+    <div id="txtPoem"></div>
+    </div>
+
+ <!--   <table id="table" >
         <tr>
             <td style="width:85%" >
-                <canvas id ="renderCanvas"></canvas>
             </td>
             <td style="background-color:Black; margin-top:auto; width:15%">
                     <textarea id="txtPoem" style="background-color:Black; position:absolute; top:0px; height: 40%; overflow-y:scroll; color:White" disabled="disabled">
                     </textarea>
+                    <div id = "camera2">
+
+                    </div>
             </td>
         </tr>
             
         
-    </table>
+    </table> -->
 
 <script>
 
 
     var canvas = document.getElementById("renderCanvas");
     var engine = new BABYLON.Engine(canvas, true);
+
+    BABYLON.Mesh.CreatePyramid4 = function (name, baseSize, height, scene, updatable) {  
+        var pyramid = new BABYLON.Mesh(name, scene);
+        
+        // Adding faces
+        var positions = [
+        // Front face
+        0,  height/2,  0,
+        baseSize/2, -height/2, baseSize/2,
+        -baseSize/2, -height/2, baseSize/2,
+
+        // Right face
+        0, height/2, 0,
+        baseSize/2, -height/2, -baseSize/2,
+        baseSize/2, -height/2, baseSize/2,
+
+        // Back face
+        0, height/2,  0,
+        -baseSize/2, -height/2, -baseSize/2,
+        baseSize/2, -height/2, -baseSize/2,
+
+        // Left face
+        0, height/2,  0,
+        -baseSize/2, -height/2, baseSize/2,
+        -baseSize/2, -height/2, -baseSize/2,
+
+        // Bottom face
+        -baseSize/2, -height/2, baseSize/2,
+        baseSize/2, -height/2, baseSize/2,
+        baseSize/2, -height/2, -baseSize/2,
+        -baseSize/2, -height/2, -baseSize/2
+
+
+         ];
+
+         var normals = [
+    height, baseSize/2, 0,
+    height, baseSize/2, 0,
+    height, baseSize/2, 0,
+
+    0, baseSize/2, height,
+    0, baseSize/2, height,
+    0, baseSize/2, height,
+
+    -height, baseSize/2, 0,
+    -height, baseSize/2, 0,
+    -height, baseSize/2, 0,
+
+    0, baseSize/2, -height,
+    0, baseSize/2, -height,
+    0, baseSize/2, -height,
+
+    0, -1, 0,
+    0, -1, 0,
+    0, -1, 0,
+    0, -1, 0
+  ];
+
+    var indices = [];
+  var uvs = [];
+  var i = 0;
+
+    while (i < 12) {
+    indices.push(i+0);
+    uvs.push(1.0, 1.0);
+    indices.push(i+1);
+    uvs.push(0.0, 1.0);
+    indices.push(i+2);
+    uvs.push(0.0, 0.0);
+    i = i+3;
+  }
+
+    indices.push(12);
+  indices.push(13);
+  indices.push(14);
+
+  indices.push(12);
+  indices.push(14);
+  indices.push(15);
+
+  uvs.push(1.0, 1.0);
+  uvs.push(0.0, 1.0);
+  uvs.push(0.0, 0.0);
+  uvs.push(1.0, 0.0);   
+
+  pyramid.setVerticesData(positions, BABYLON.VertexBuffer.PositionKind, updatable);
+  pyramid.setVerticesData(normals, BABYLON.VertexBuffer.NormalKind, updatable);
+  pyramid.setVerticesData(uvs, BABYLON.VertexBuffer.UVKind, updatable);
+  pyramid.setIndices(indices);
+
+  return pyramid;
+}
     
     var createScene = function () {
         var scene = new BABYLON.Scene(engine);
-        scene.fogMode = BABYLON.Scene.FOGMODE_EXP;
-        scene.fogColor = new BABYLON.Color3(.4, .4, .35);
+        //scene.fogMode = BABYLON.Scene.FOGMODE_EXP;
+        //scene.fogColor = new BABYLON.Color3(.4, .4, .35);
 
         // Need a free camera for collisions
         var skybox = BABYLON.Mesh.CreateBox("skyBox", 300.0, scene);
@@ -72,8 +183,26 @@
 
         var cameraPos = 0 ;
 
-        camera = new BABYLON.FreeCamera("FreeCamera", new BABYLON.Vector3(cameraPos, 1.5, cameraPos), scene);
+        var box = new BABYLON.Mesh.CreatePyramid4("box", 3, 4, scene, false);
+        box.material = new BABYLON.StandardMaterial("texture1", scene);
+        box.material.emissiveColor = new BABYLON.Color3(1, 0, 0);
+        box.rotation.x = Math.PI/4;
+        box.checkCollisions = false;
 
+        camera = new BABYLON.FreeCamera("FreeCamera", new BABYLON.Vector3(cameraPos, 2, cameraPos), scene);
+        camera.viewport = new BABYLON.Viewport(0, 0, .8, 1);
+        miniMap = new BABYLON.FreeCamera("FreeCamera2", new BABYLON.Vector3(cameraPos, 20, cameraPos), scene);
+        miniMap.viewport = new BABYLON.Viewport(.8, .6, .3, .4);
+        miniMap.fov = 2;
+        miniMap.cameraRotation.x = (Math.PI/4);
+
+        box.parent = camera;
+
+        //miniMap.setTarget(camera.position);
+        //miniMap.parent = camera;
+
+        scene.activeCameras.push(camera);
+        scene.activeCameras.push(miniMap);
         // Lights
         //var light0 = new BABYLON.DirectionalLight("Omni", new BABYLON.Vector3(20, 20, 2), scene);
         var lights = [];
@@ -196,6 +325,8 @@
                 }
             }
         }
+        miniMap.position.x = camera.position.x;
+        miniMap.position.z = camera.position.z;
     });
 
     window.addEventListener("resize", function(){
@@ -229,7 +360,9 @@
                 if(l.letterGrid[i][j]!=null){
                     camera.position.x = l.letterGrid[i][j].xBegin+1.5;
                     camera.position.z = l.letterGrid[i][j].zBegin+1.5;
-                    camera.position.y = 2;
+                    miniMap.position.x = l.letterGrid[i][j].xBegin+1.5;
+                    miniMap.position.z = l.letterGrid[i][j].zBegin+1.5;
+                    camera.position.y = 15;
                     //alert(l.letterGrid[i][j].xBegin +  " " + l.letterGrid[i][j].zBegin) ;
                     done = true;
                     break;
