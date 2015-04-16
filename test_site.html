@@ -59,7 +59,7 @@
         //scene.fogColor = new BABYLON.Color3(.4, .4, .35);
 
         // Need a free camera for collisions
-        var skybox = BABYLON.Mesh.CreateBox("skyBox", 1000.0, scene);
+        var skybox = BABYLON.Mesh.CreateBox("skyBox", 10000.0, scene);
         var skyboxMaterial = new BABYLON.StandardMaterial("skyBox", scene);
         skyboxMaterial.backFaceCulling = false;
         skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture("skybox/skybox", scene);
@@ -185,7 +185,7 @@
         var playerX = camera.position.x;
         var playerZ = camera.position.z;
 
-        var wordList = getTwoBlake();
+        var wordList = getHuge();
 
         var grid = renderCrossword(wordList, "M", 10, 10);
         var l = renderLetterGrid(scene, grid, 0, 0, true, true);
@@ -207,7 +207,7 @@
 
     }
 
-    function getTwoBlake(){
+/*    function getTwoBlake(){
         var rand = Math.random()*(BLAKE001.length-1);
         rand = Math.round(rand);
         if(rand%2==1){
@@ -228,9 +228,30 @@
         }
 
         return wordList;
+    } */
+
+    function getBlake(){
+        var rand = Math.random()*(BLAKE001.length-1);
+        rand = Math.round(rand);
+
+        return BLAKE001[rand].split(" ");
     }
 
-    function delayedRenderer(scene, dir, prev){
+    function getHuge(){
+        var max = 20;
+        var cursize = 0;
+        var ret = [];
+        for(var i=0; i<max; i++){
+            var newWord = getBlake();
+            for(var j=cursize; j<cursize+newWord.length; j++){
+                ret[j] = newWord[j-cursize].toUpperCase();
+            }
+            cursize += newWord.length;
+        }
+        return ret;
+    }
+
+/*    function delayedRenderer(scene, dir, prev){
         if(dir == "E"){
             var word = getWord(prev.letterGrid, prev.eastPoint[0], prev.eastPoint[1]);
             var newWordList = getTwoBlake();
@@ -242,7 +263,7 @@
             }
 
             var grid = renderCrossword(newNewWordList, "E", prev.eastPoint[0], prev.eastPoint[1]);  
-            var l = renderLetterGrid(scene, grid, 100, 100, true, true); 
+            var l = renderLetterGrid(scene, grid, -100, -100, true, true); 
 
         }
 
@@ -278,30 +299,7 @@
         }
         return word;
     }
-/*
-    function delayedRender(){
-        var rand = Math.random()*(BLAKE001.length-1);
-        rand = Math.round(rand);
-        if(rand%2==1){
-            rand = rand-1;
-        }
-
-        var wordList = [];
-        var split1 = BLAKE001[rand].split(" ");
-        var split2 = BLAKE001[rand+1].split(" ");
-
-        for(var i=0; i<split1.length; i++){
-            wordList[i] = split1[i].toUpperCase();
-        }
-
-        var oldSize = wordList.length;
-        for(var i=0; i<split2.length; i++){
-            wordList[oldSize+i] = split2[i].toUpperCase();
-        }
-
-        var grid = renderCrossword(wordList, 0, 0);
-        var letterGrid = renderLetterGrid(scene, grid, 50, 50);
-    }*/
+    */
 
     //Renders a crossword. xPos and zPos represent the position in the crossword that wordList[0] will have.
     function renderCrossword(wordList, dir, xPos, zPos){

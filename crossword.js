@@ -21,8 +21,8 @@ function WordElement(word, index){
 }
 
 function Crossword(words_in, kind, xpos, zpos){
-    var GRID_ROWS = 20;
-    var GRID_COLS = 20;
+    var GRID_ROWS = 500;
+    var GRID_COLS = 500;
     // This is an index of the positions of the char in the crossword (so we know where we can potentially place words)
     // example {"a" : [{'row' : 10, 'col' : 5}, {'row' : 62, 'col' :17}], {'row' : 54, 'col' : 12}], "b" : [{'row' : 3, 'col' : 13}]} 
     // where the two item arrays are the row and column of where the letter occurs
@@ -80,7 +80,7 @@ function Crossword(words_in, kind, xpos, zpos){
             }else if(kind == "E"){
                 var word_element = word_elements[0];
                 var start_dir = "across";
-                var r = 19;
+                var r = 20-word_element.word.length;
                 var c = zpos;
 
 
@@ -160,37 +160,9 @@ function Crossword(words_in, kind, xpos, zpos){
     // move the grid onto the smallest grid that will fit it
     var minimizeGrid = function(wordCount){
         // find bounds
-        var r_min = GRID_ROWS-1, r_max = 0, c_min = GRID_COLS-1, c_max = 0;
-        for(var r = 0; r < GRID_ROWS; r++){
-            for(var c = 0; c < GRID_COLS; c++){
-                var cell = grid[r][c];
-                if(cell != null){
-                    if(r < r_min) r_min = r;
-                    if(r > r_max) r_max = r;
-                    if(c < c_min) c_min = c;
-                    if(c > c_max) c_max = c;
-                }
-            }
-        }
-        // initialize new grid
-        var rows = r_max - r_min + 1; 
-        var cols = c_max - c_min + 1; 
-        var new_grid = new Array(rows);
-        for(var r = 0; r < rows; r++){
-            for(var c = 0; c < cols; c++){
-                new_grid[r] = new Array(cols);
-            }
-        }
-
-        // copy the grid onto the smaller grid
-        for(var r = r_min, r2 = 0; r2 < rows; r++, r2++){
-            for(var c = c_min, c2 = 0; c2 < cols; c++, c2++){
-                new_grid[r2][c2] = grid[r][c];
-            }
-        }
 
         return new function(){
-            this.grid = new_grid; 
+            this.grid = grid; 
             this.word_count = wordCount;
         };
     }

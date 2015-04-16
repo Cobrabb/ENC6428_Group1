@@ -74,8 +74,10 @@ function smartCreateLetter(scene, grid, xpos, ypos, xoffset, yoffset, e_ov, w_ov
 
     //The rest of the stuff that uses xpos and ypos are for positioning, so we can go ahead and change them.
     ypos = flippedy;
-    ypos += yoffset/12.4;
-    xpos += xoffset/12.4;
+    ypos -= 200;
+    xpos -= 200;
+    //ypos += yoffset/12.4;
+    //xpos += xoffset/12.4;
 
 
     //The if not case creates a 9 length wall on that side.
