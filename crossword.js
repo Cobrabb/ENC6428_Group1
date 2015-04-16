@@ -1,7 +1,8 @@
 // Each cell on the crossword grid is null or one of these
-function CrosswordCell(letter){
+function CrosswordCell(letter, direction){
     this.char = letter; // the actual letter for the cell on the crossword
     // If a word hits this cell going in the "across" direction, this will be a CrosswordCellNode
+    this.direction = direction;
     this.across = null; 
     // If a word hits this cell going in the "down" direction, this will be a CrosswordCellNode
     this.down = null;
@@ -19,7 +20,7 @@ function WordElement(word, index){
     this.index = index; // use to map this node to its word or clue
 }
 
-function Crossword(words_in, init_word_x, init_word_z){
+function Crossword(words_in, kind, xpos, zpos){
     var GRID_ROWS = 20;
     var GRID_COLS = 20;
     // This is an index of the positions of the char in the crossword (so we know where we can potentially place words)
@@ -59,27 +60,35 @@ function Crossword(words_in, init_word_x, init_word_z){
         for(var tries = 0; tries < max_tries; tries++){
             clear(); // always start with a fresh grid and char_index
             // place the first word at the specified position
-            var start_dir = randomDirection();
-            var r = init_word_x;
-            var c = init_word_z;
-            var word_element = word_elements[0];
-            if(start_dir == "across"){
-                c = Math.max(c, word_element.word.length);
-                //c -= Math.floor(word_element.word.length/2);
-            } else {
-                r = Math.max(r, word_element.word.length);
-                //r -= Math.floor(word_element.word.length/2);
-            }
-
             var wordCount = 0;
+            if(kind == "M"){
+                var start_dir = randomDirection();
+                var r = 10;
+                var c = 10;
+                var word_element = word_elements[0];
 
-            if(canPlaceWordAt(word_element.word, r, c, start_dir) !== false){
+                var wordCount = 0;
+
+                if(canPlaceWordAt(word_element.word, r, c, start_dir) !== false){
+                    placeWordAt(word_element.word, word_element.index, r, c, start_dir);
+                    wordCount++;
+                } else {
+                    bad_words = [word_element];
+                    return null;
+                }
+
+            }else if(kind == "E"){
+                var word_element = word_elements[0];
+                var start_dir = "across";
+                var r = 19;
+                var c = zpos;
+
+
                 placeWordAt(word_element.word, word_element.index, r, c, start_dir);
                 wordCount++;
-            } else {
-                bad_words = [word_element];
-                return null;
+
             }
+            
 
             // start with a group containing all the words (except the first)
             // as we go, we try to place each word in the group onto the grid
@@ -190,7 +199,7 @@ function Crossword(words_in, init_word_x, init_word_z){
     var addCellToGrid = function(word, index_of_word_in_input_list, index_of_char, r, c, direction){
         var char = word.charAt(index_of_char);
         if(grid[r][c] == null){
-            grid[r][c] = new CrosswordCell(char);
+            grid[r][c] = new CrosswordCell(char, direction);
 
             // init the char_index for that character if needed
             if(!char_index[char]) char_index[char] = [];

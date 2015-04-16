@@ -1,4 +1,4 @@
-function renderLetterGrid(scene, stringGrid, xPos, zPos){
+function renderLetterGrid(scene, stringGrid, xPos, zPos, north_south, east_west){
 
     var max_x_x = 0;
     var max_x_z = 0;
@@ -13,25 +13,21 @@ function renderLetterGrid(scene, stringGrid, xPos, zPos){
         letterGrid[i] = [];
         for(var j=0; j<stringGrid[i].length; j++){
             if(stringGrid[i][j]!=null){
-                if(stringGrid[i][j].across!=null){
-                    if(i>max_x_x){
-                        max_x_x = i;
-                        max_x_z = j;
-                    }
-                    if(i<min_x_x){
-                        min_x_x = i;
-                        min_x_z = j;
-                    }
+                if(i>max_x_x){
+                    max_x_x = i;
+                    max_x_z = j;
                 }
-                if(stringGrid[i][j].down!=null){
-                    if(j>max_z_z){
-                        max_z_x = i;
-                        max_z_z = j;
-                    }
-                    if(j<min_z_z){
-                        min_z_x = i;
-                        min_z_z = j;
-                    }
+                if(i<min_x_x){
+                    min_x_x = i;
+                    min_x_z = j;
+                }
+                if(j>max_z_z){
+                    max_z_x = i;
+                    max_z_z = j;
+                }
+                if(j<min_z_z){
+                    min_z_x = i;
+                    min_z_z = j;
                 }
             }
         }
@@ -39,7 +35,7 @@ function renderLetterGrid(scene, stringGrid, xPos, zPos){
     for(var i=0; i<stringGrid.length; i++){
         for(var j=0; j<stringGrid[i].length; j++){
             if(stringGrid[i][j]!=null){
-                letterGrid[i][j] = smartCreateLetter(scene, stringGrid, i, j, xPos, zPos, (i==max_x_x && j==max_x_z), (i==min_x_x && j==min_x_z), (i==max_z_x && j==max_z_z), (i==min_z_x && j==min_z_z));
+                letterGrid[i][j] = smartCreateLetter(scene, stringGrid, i, j, xPos, zPos, (east_west && i==max_x_x && j==max_x_z), (east_west && i==min_x_x && j==min_x_z), (north_south && i==max_z_x && j==max_z_z), (north_south && i==min_z_x && j==min_z_z));
             }else{
                 letterGrid[i][j] = null;
             }
@@ -48,6 +44,8 @@ function renderLetterGrid(scene, stringGrid, xPos, zPos){
 
     return new function(){
         this.letterGrid = letterGrid;
+        this.northSouth = north_south;
+        this.eastWest = east_west;
         this.westPoint = [max_x_x, max_x_z];
         this.eastPoint = [min_x_x, min_x_z];
         this.northPoint = [max_z_x, max_z_z];

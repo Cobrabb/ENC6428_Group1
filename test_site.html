@@ -137,8 +137,8 @@
         ground.material = new BABYLON.StandardMaterial("groundMat", scene);
         if(TEXTURES_ON){
             ground.material.bumpTexture = new BABYLON.Texture("ground_bump2.jpg", scene);
-            ground.material.bumpTexture.uScale = 60;
-            ground.material.bumpTexture.vScale = 60;
+            ground.material.bumpTexture.uScale = 1000;
+            ground.material.bumpTexture.vScale = 1000;
         }
         ground.material.diffuseColor = new BABYLON.Color3(.4, .2, 0);
         ground.material.backFaceCulling = false;
@@ -185,6 +185,29 @@
         var playerX = camera.position.x;
         var playerZ = camera.position.z;
 
+        var wordList = getTwoBlake();
+
+        var grid = renderCrossword(wordList, "M", 10, 10);
+        var l = renderLetterGrid(scene, grid, 0, 0, true, true);
+
+        //Put the player somewhere sane
+        for(var i=0; i<l.letterGrid.length; i++){
+            for(var j=0; j<l.letterGrid.length; j++){
+                if(l.letterGrid[i][j]!=null){
+                    camera.position.x = l.letterGrid[i][j].xBegin+1.5;
+                    camera.position.z = l.letterGrid[i][j].zBegin+1.5;
+                    break;
+                }
+            }
+        }
+
+        //delayedRenderer(scene, "E", l);
+        //alert(l.letterGrid[l.eastPoint[0]][l.eastPoint[1]].objletter.char + " " + l.letterGrid[l.eastPoint[0]][l.eastPoint[1]].objletter.direction);
+        //window.setTimeout("delayedRender()", 5000);
+
+    }
+
+    function getTwoBlake(){
         var rand = Math.random()*(BLAKE001.length-1);
         rand = Math.round(rand);
         if(rand%2==1){
@@ -204,30 +227,58 @@
             wordList[oldSize+i] = split2[i].toUpperCase();
         }
 
-        var grid = renderCrossword(wordList, 10, 10);
-        var l = renderLetterGrid(scene, grid, 0, 0);
+        return wordList;
+    }
 
-        //Put the player somewhere sane
-        for(var i=Math.floor(l.letterGrid.length/2); i<l.letterGrid.length; i++){
-            for(var j=Math.floor(l.letterGrid.length/2); j<l.letterGrid.length; j++){
-                if(l.letterGrid[i][j]!=null){
-                    camera.position.x = l.letterGrid[i][j].xBegin+1;
-                    camera.position.z = l.letterGrid[i][j].zBegin+1;
-                    break;
-                }
+    function delayedRenderer(scene, dir, prev){
+        if(dir == "E"){
+            var word = getWord(prev.letterGrid, prev.eastPoint[0], prev.eastPoint[1]);
+            var newWordList = getTwoBlake();
+
+            var newNewWordList = [];
+            newNewWordList[0] = word.split("").reverse().join("");
+            for(var i=0; i<newWordList.length; i++){
+                newNewWordList[i+1] = newWordList[i];
             }
+
+            var grid = renderCrossword(newNewWordList, "E", prev.eastPoint[0], prev.eastPoint[1]);  
+            var l = renderLetterGrid(scene, grid, 100, 100, true, true); 
+
         }
 
-        alert(l.letterGrid[l.eastPoint[0]][l.eastPoint[1]].objletter.char);
-
-        //window.setTimeout("delayedRender()", 5000);
-
     }
 
-    function delayedRenderer(){
-
+    function getWord(grid, startx, startz){
+        var word = "";
+        var dir = grid[startx][startz].objletter.direction;
+        if(dir == "down"){
+            curind = 0;
+            do{
+                if(grid[startx-curind] == null){
+                    curr = null;
+                }else{
+                    curr = grid[startx-curind][startz];
+                }
+                if(curr!=null)
+                    word += curr.objletter.char;
+                curind--;
+            }while(curr!=null);
+        }else{
+            curind = 0;
+            do{
+                if(grid[startx][startz-curind] == null){
+                    curr = null;
+                }else{
+                    curr = grid[startx][startz-curind];
+                }
+                if(curr!=null)
+                    word += curr.objletter.char;
+                curind--;
+            }while(curr!=null);
+        }
+        return word;
     }
-
+/*
     function delayedRender(){
         var rand = Math.random()*(BLAKE001.length-1);
         rand = Math.round(rand);
@@ -250,12 +301,13 @@
 
         var grid = renderCrossword(wordList, 0, 0);
         var letterGrid = renderLetterGrid(scene, grid, 50, 50);
-    }
+    }*/
 
     //Renders a crossword. xPos and zPos represent the position in the crossword that wordList[0] will have.
-    function renderCrossword(wordList, xPos, zPos){
-        var cw = new Crossword(wordList, xPos, zPos);
-        var grid = cw.getSquareGrid(10);
+    function renderCrossword(wordList, dir, xPos, zPos){
+        var cw = new Crossword(wordList, dir, xPos, zPos);
+
+        var grid = cw.getSquareGrid(2);
         return grid;
     }
 
