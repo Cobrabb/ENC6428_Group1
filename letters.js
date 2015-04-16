@@ -48,6 +48,10 @@ function renderLetterGrid(scene, stringGrid){
         this.westExit = letterGrid[max_x_x][max_x_z];
         this.southExit = letterGrid[max_z_x][max_z_z];
         this.northExit = letterGrid[min_z_x][min_z_z];
+        this.xBegin = this.eastExit.xBegin;
+        this.xEnd = this.westExit.xEnd + 3.4;
+        this.zBegin = this.southExit.zBegin;
+        this.zEnd = this.northExit.zEnd + 3.4;
     }
 
 }

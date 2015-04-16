@@ -166,20 +166,13 @@
 }
     
     var createScene = function () {
+        DEBUG = true;
+
         var scene = new BABYLON.Scene(engine);
         //scene.fogMode = BABYLON.Scene.FOGMODE_EXP;
         //scene.fogColor = new BABYLON.Color3(.4, .4, .35);
 
         // Need a free camera for collisions
-        var skybox = BABYLON.Mesh.CreateBox("skyBox", 300.0, scene);
-        var skyboxMaterial = new BABYLON.StandardMaterial("skyBox", scene);
-        skyboxMaterial.backFaceCulling = false;
-        skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture("skybox/skybox", scene);
-        skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
-        skyboxMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
-        skyboxMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
-        skybox.position = new BABYLON.Vector3(150, 0, 150);
-        skybox.material = skyboxMaterial;
 
         var cameraPos = 0 ;
 
@@ -222,8 +215,13 @@
         //var camera = new BABYLON.FreeCamera("FreeCamera", new BABYLON.Vector3(0, 40, 0), scene);
 
         camera.attachControl(canvas, true);
-        camera.speed = 1;
-        camera.inertia = .9;
+        if(DEBUG){
+            camera.speed = 1;
+            camera.inertia = .9;
+        }else{
+            camera.speed = .7;
+            camera.inertia = .8;
+        }
         camera.angularSensibility = 1000; 
 
         camera.keysUp = [38, 87];
@@ -264,21 +262,7 @@
 
         vidSetup(scene);
         //Ground
-        var ground = BABYLON.Mesh.CreatePlane("ground", 300, scene);
-        ground.material = new BABYLON.StandardMaterial("groundMat", scene);
-        if(TEXTURES_ON){
-            ground.material.bumpTexture = new BABYLON.Texture("ground_bump2.jpg", scene);
-            ground.material.bumpTexture.uScale = 10;
-            ground.material.bumpTexture.vScale = 10;
-        }
-        ground.material.diffuseColor = new BABYLON.Color3(.4, .2, 0);
-        ground.material.backFaceCulling = false;
-        ground.material.specularColor = new BABYLON.Color3(.2, .2, .298);
-        ground.position = new BABYLON.Vector3(150, 0, 150);
-        ground.rotation = new BABYLON.Vector3(Math.PI / 2, 0, 0);
-
-        //Simple crate
-        renderMap(scene, camera);
+ 
 
         //Set gravity for the scene (G force like, on Y-axis)
         scene.gravity = new BABYLON.Vector3(0, -0.9, 0);
@@ -288,15 +272,29 @@
 
         //Then apply collisions and gravity to the active camera
         camera.checkCollisions = true;
-        camera.applyGravity = true;
+        if(!DEBUG){
+            camera.applyGravity = true;
+        }
 
         //Set the ellipsoid around the camera (e.g. your player's size)
-        camera.ellipsoid = new BABYLON.Vector3(1, 1, 1);
+        camera.ellipsoid = new BABYLON.Vector3(.4, 1, .4);
 
-        //finally, say which mesh will be collisionable
-        ground.checkCollisions = true;
+        JAIL = BABYLON.Mesh.CreateBox("jail", 10, scene);
+        var black = new BABYLON.StandardMaterial("black", scene);
+        black.diffuseColor = new BABYLON.Color3(0, 0, 0);
+        black.backFaceCulling = false;
+        JAIL.position = new BABYLON.Vector3(400, 0, 400);
+        JAIL.material = black;
+        JAIL.checkCollisions = true;
+
 
         POEM = [];
+
+        initWords = getHuge();
+        createLevel(scene, initWords);
+        PLAYER_OLD_YPOS = camera.position.y;
+        PLAYER_FROZEN = false;
+        PLAYER_JAILED = false;
         
 
         return scene;
@@ -306,25 +304,45 @@
 
     engine.runRenderLoop(function() {
         scene.render();
-        for(var i=0; i<l.letterGrid.length;i++){
-            for(var j=0; j<l.letterGrid.length; j++){
-                var letter = l.letterGrid[i][j];
-                if(letter!=null){
-                    if(letter.xBegin <= camera.position.x && letter.xEnd >= camera.position.x && letter.zBegin <= camera.position.z && letter.zEnd >= camera.position.z){
-                        if(letter == l.eastExit){
-                            console.log("IN the east exit");
-                        }else if(letter == l.westExit){
-                            console.log("IN the west exit");
-                        }else if(letter == l.northExit){
-                            console.log("IN the north exit");
-                        }else if(letter == l.southExit){
-                            console.log("IN the south exit");
+        if(LEVEL!=null){
+            for(var i=0; i<LEVEL.letterGrid.length;i++){
+                for(var j=0; j<LEVEL.letterGrid.length; j++){
+                    var letter = LEVEL.letterGrid[i][j];
+                    if(letter!=null){
+                        if(letter.xBegin <= camera.position.x && letter.xEnd >= camera.position.x && letter.zBegin <= camera.position.z && letter.zEnd >= camera.position.z){
+                            addToPoem(letter.objletter.word);
+
                         }
-                        addToPoem(letter.objletter.word);
                     }
                 }
             }
         }
+        //Player fell out of maze, jail them
+        if(camera.position.x < LEVEL.xBegin || camera.position.x > LEVEL.xEnd || camera.position.z < LEVEL.zBegin || camera.position.z > LEVEL.zEnd){
+            console.log(LEVEL.xBegin + " " + LEVEL.xEnd +  " " + LEVEL.zBegin + " " + LEVEL.zEnd);
+            jailPlayer();
+        }
+        //Player should not be able to move while falling
+        if(!DEBUG){
+            if(camera.position.y != PLAYER_OLD_YPOS){
+                if(!PLAYER_FROZEN){
+                    freezePlayer();
+                }else{
+                    camera.position.x = PLAYER_STUCK_X;
+                    camera.position.z = PLAYER_STUCK_Z;
+                }
+            }else{
+                unfreezePlayer();
+            }
+            PLAYER_OLD_YPOS = camera.position.y;
+        }
+        if(PLAYER_JAILED){
+            clearWorld(scene);
+            var wordList = getHuge();
+            createLevel(scene, wordList);
+            PLAYER_JAILED = false;
+        }
+
         miniMap.position.x = camera.position.x;
         miniMap.position.z = camera.position.z;
     });
@@ -332,6 +350,165 @@
     window.addEventListener("resize", function(){
         engine.resize();
     });
+
+    function createLevel(scene, wordList){
+
+        var grid = renderCrossword(wordList);
+        LEVEL = renderLetterGrid(scene, grid);
+
+        //alert(LEVEL.gridWidth + " " + LEVEL.gridHeight);
+        var gridWidth = LEVEL.westExit.xEnd - LEVEL.eastExit.xBegin + 3.4; 
+        var gridHeight = LEVEL.northExit.zEnd - LEVEL.southExit.zBegin + 3.4;
+
+        var ground = BABYLON.Mesh.CreatePlane("ground", 1, scene);
+        ground.scaling.x = gridWidth;
+        ground.scaling.y = gridHeight;
+        ground.material = new BABYLON.StandardMaterial("groundMat", scene);
+        if(TEXTURES_ON){
+            ground.material.bumpTexture = new BABYLON.Texture("ground_bump2.jpg", scene);
+            ground.material.bumpTexture.uScale = 10;
+            ground.material.bumpTexture.vScale = 10;
+        }
+        ground.material.diffuseColor = new BABYLON.Color3(.4, .2, 0);
+        ground.material.backFaceCulling = false;
+        ground.material.specularColor = new BABYLON.Color3(.2, .2, .298);
+        ground.position = new BABYLON.Vector3((LEVEL.eastExit.xBegin)+gridWidth/2, 0, LEVEL.southExit.zBegin+gridHeight/2);
+        ground.rotation = new BABYLON.Vector3(Math.PI / 2, 0, 0);
+
+        //finally, say which mesh will be collisionable
+        ground.checkCollisions = true;
+
+        var skybox = BABYLON.Mesh.CreateBox("skyBox", 400, scene);
+        var skyboxMaterial = new BABYLON.StandardMaterial("skyBox", scene);
+        skyboxMaterial.backFaceCulling = false;
+        skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture("skybox/skybox", scene);
+        skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
+        skyboxMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
+        skyboxMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
+        skybox.position = new BABYLON.Vector3(100, 0, 100);
+        skybox.material = skyboxMaterial;
+
+        initPlayer();
+
+
+    }
+
+    //Does not work. Two meshes cannot share the same name in Babylon, as far as I can tell.
+    //So it should only work for the ground and the skybox, since they are unique.
+    //We will need to update all existing code so that we can retain references to walls and floors
+    //So that we can delete them here.
+    function clearWorld(scene){
+/*        var skybox = scene.getMeshByName("skyBox");
+        var crate = scene.getMeshByName("crate");
+        var ground1 = scene.getMeshByName("ground1");
+        var ground = scene.getMeshByName("ground");
+        skybox.dispose();
+        crate.dispose();
+        ground1.dispose();
+        ground.dispose();*/
+    }
+
+    //Searches for a good place to put the player, starting with the middle and moving outwards
+    function initPlayer(){
+
+        var done = false;
+        var startX = Math.floor(LEVEL.letterGrid.length/2);
+        var startZ = Math.floor(LEVEL.letterGrid.length/2);
+        var loopCount = 0;
+        while(!done){
+            //check north side
+            var j = startZ+loopCount;
+            for(var i=startX-loopCount; i<=startX+loopCount; i++){
+                if(LEVEL.letterGrid[i]!=null&&LEVEL.letterGrid[i][j]!=null){
+                    placePlayer(LEVEL.letterGrid[i][j].xBegin+4.5, LEVEL.letterGrid[i][j].zBegin+4.5);
+                    done = true;
+                }
+            }
+            if(done) break;
+            //check south side
+            var j = startZ-loopCount;
+            for(var i=startX-loopCount; i<=startX+loopCount; i++){
+                if(LEVEL.letterGrid[i]!=null&&LEVEL.letterGrid[i][j]!=null){
+                    placePlayer(LEVEL.letterGrid[i][j].xBegin+4.5, LEVEL.letterGrid[i][j].zBegin+4.5);
+                    done = true;
+                }
+            }
+            if(done) break;
+            //check east side
+            var i = startX+loopCount;
+            for(var j=startZ-loopCount; j<=startZ+loopCount; j++){
+                if(LEVEL.letterGrid[i]!=null&&LEVEL.letterGrid[i][j]!=null){
+                    placePlayer(LEVEL.letterGrid[i][j].xBegin+4.5, LEVEL.letterGrid[i][j].zBegin+4.5);
+                    done = true;
+                }
+            }
+            if(done) break;
+            //check west side
+            var i = startX-loopCount;
+            for(var j=startZ-loopCount; j<=startZ+loopCount; j++){
+                if(LEVEL.letterGrid[i]!=null&&LEVEL.letterGrid[i][j]!=null){
+                    placePlayer(LEVEL.letterGrid[i][j].xBegin+4.5, LEVEL.letterGrid[i][j].zBegin+4.5);
+                    done = true;
+                }
+            }
+            loopCount++;
+
+        }
+                //Put the player somewhere sane
+        for(var i=Math.floor(LEVEL.letterGrid.length/2); i<LEVEL.letterGrid.length; i++){
+            for(var j=Math.floor(LEVEL.letterGrid.length/2); j<LEVEL.letterGrid.length; j++){
+                if(LEVEL.letterGrid[i][j]!=null){
+
+                    //alert(l.letterGrid[i][j].xBegin +  " " + l.letterGrid[i][j].zBegin) ;
+                    done = true;
+                    break;
+                }
+            }
+            if(done) break;
+        }
+        if(!done){
+            for(var i=0; i<Math.floor(LEVEL.letterGrid.length/2); i++){
+                for(var j=0; j<Math.floor(LEVEL.letterGrid.length/2); j++){
+                    if(LEVEL.letterGrid[i][j]!=null){
+                        camera.position.x = LEVEL.letterGrid[i][j].xBegin+4.5;
+                        camera.position.z = LEVEL.letterGrid[i][j].zBegin+4.5;
+                        miniMap.position.x = LEVEL.letterGrid[i][j].xBegin+4.5;
+                        miniMap.position.z = LEVEL.letterGrid[i][j].zBegin+4.5;
+                        camera.position.y = 50;
+                        //alert(l.letterGrid[i][j].xBegin +  " " + l.letterGrid[i][j].zBegin) ;
+                        done = true;
+                        break;
+                    }
+                }
+                if(done) break;
+            }
+        }
+    }
+
+    function placePlayer(x, z){
+        camera.position.x = x;
+        camera.position.z = z;
+        miniMap.position.x = x;
+        miniMap.position.z = z;
+        camera.position.y = 50;
+    }
+
+    function jailPlayer(){
+        PLAYER_STUCK_X = 400;
+        PLAYER_STUCK_Z = 400;
+        PLAYER_STUCK_Y = 1;
+        PLAYER_JAILED = true;
+    }
+
+    function freezePlayer(){
+        PLAYER_STUCK_X = camera.position.x;
+        PLAYER_STUCK_Z = camera.position.z;
+        PLAYER_FROZEN = true;
+    }
+
+    function unfreezePlayer(){
+        PLAYER_FROZEN = false;    
+    }
 
     function addToPoem(word){
         for(var i=0; i<POEM.length; i++){
@@ -343,41 +520,13 @@
         document.getElementById("txtPoem").innerHTML += word + " ";
     }
 
-    function renderMap(scene){
-        
-        var playerX = camera.position.x;
-        var playerZ = camera.position.z;
+    function getBlake(seed){
+        if(seed == null){
+            var rand = Math.random()*(BLAKE001.length-1);
+            rand = Math.round(rand);
 
-        var wordList = getHuge();
-
-        var grid = renderCrossword(wordList, "M", 10, 10);
-        l = renderLetterGrid(scene, grid, true, true);
-
-        var done = false;
-        //Put the player somewhere sane
-        for(var i=Math.floor(l.letterGrid.length/2); i<l.letterGrid.length; i++){
-            for(var j=Math.floor(l.letterGrid.length/2); j<l.letterGrid.length; j++){
-                if(l.letterGrid[i][j]!=null){
-                    camera.position.x = l.letterGrid[i][j].xBegin+1.5;
-                    camera.position.z = l.letterGrid[i][j].zBegin+1.5;
-                    miniMap.position.x = l.letterGrid[i][j].xBegin+1.5;
-                    miniMap.position.z = l.letterGrid[i][j].zBegin+1.5;
-                    camera.position.y = 15;
-                    //alert(l.letterGrid[i][j].xBegin +  " " + l.letterGrid[i][j].zBegin) ;
-                    done = true;
-                    break;
-                }
-            }
-            if(done) break;
+            return BLAKE001[rand].split(" ");
         }
-
-    }
-
-    function getBlake(){
-        var rand = Math.random()*(BLAKE001.length-1);
-        rand = Math.round(rand);
-
-        return BLAKE001[rand].split(" ");
     }
 
     function getHuge(){
@@ -385,7 +534,7 @@
         var cursize = 0;
         var ret = [];
         for(var i=0; i<max; i++){
-            var newWord = getBlake();
+            var newWord = getBlake(null);
             for(var j=cursize; j<cursize+newWord.length; j++){
                 ret[j] = newWord[j-cursize].toUpperCase();
             }
@@ -398,7 +547,7 @@
     function renderCrossword(wordList, dir, xPos, zPos){
         var cw = new Crossword(wordList, dir, xPos, zPos);
 
-        var grid = cw.getSquareGrid(2);
+        var grid = cw.getSquareGrid(5);
         return grid;
     }
 

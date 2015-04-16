@@ -21,7 +21,7 @@ function WordElement(word, index){
     this.index = index; // use to map this node to its word or clue
 }
 
-function Crossword(words_in, kind, xpos, zpos){
+function Crossword(words_in){
     var GRID_ROWS = 20;
     var GRID_COLS = 20;
     // This is an index of the positions of the char in the crossword (so we know where we can potentially place words)
@@ -62,33 +62,21 @@ function Crossword(words_in, kind, xpos, zpos){
             clear(); // always start with a fresh grid and char_index
             // place the first word at the specified position
             var wordCount = 0;
-            if(kind == "M"){
-                var start_dir = randomDirection();
-                var r = 10;
-                var c = 10;
-                var word_element = word_elements[0];
+            var start_dir = randomDirection();
+            var r = 10;
+            var c = 10;
+            var word_element = word_elements[0];
 
-                var wordCount = 0;
+            var wordCount = 0;
 
-                if(canPlaceWordAt(word_element.word, r, c, start_dir) !== false){
-                    placeWordAt(word_element.word, word_element.index, r, c, start_dir);
-                    wordCount++;
-                } else {
-                    bad_words = [word_element];
-                    return null;
-                }
-
-            }else if(kind == "E"){
-                var word_element = word_elements[0];
-                var start_dir = "across";
-                var r = 20-word_element.word.length;
-                var c = zpos;
-
-
+            if(canPlaceWordAt(word_element.word, r, c, start_dir) !== false){
                 placeWordAt(word_element.word, word_element.index, r, c, start_dir);
                 wordCount++;
-
+            } else {
+                bad_words = [word_element];
+                return null;
             }
+
             
 
             // start with a group containing all the words (except the first)
