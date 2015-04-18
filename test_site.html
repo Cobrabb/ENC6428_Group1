@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
     <head>
         <script src="Babylon.js/hand-1.3.8.js"></script>
@@ -42,10 +42,41 @@
         #txtPoem{
             padding:10%;
         }
+        #overlay {
+         visibility: hidden;
+         position: absolute;
+         left: 0px;
+         top: 0px;
+         width:100%;
+         height:100%;
+         text-align:center;
+         z-index: 10000;
+        }
+        #overlay div {
+             width:100%;
+             height:100%;
+             color: White;
+             background-color: Black;
+             border:1px solid #000;
+             text-align:center;
+             opacity: 0.8;
+        }
     </style>
 
 
     <body>
+    
+    <div id="overlay">
+        <div>
+            <div style="height: 90%">
+              <p style="font-style:italic">Folly: The Endless Maze</p>
+              <br />
+              <p>This is a maze genarated from the works of William Blake's works and alternatively synonmys of the words from Blake's works.</p>
+              <p>Play through to create an interesting and an unique poem by walking through the maze.</p>
+             </div>
+              <input type="button" onclick = "overlay()" value="Start the Game" />
+         </div>
+    </div>
     <canvas id ="renderCanvas"></canvas>
     <div id="parent">
     <div id="txtPoem"></div>
@@ -272,9 +303,7 @@
 
         //Then apply collisions and gravity to the active camera
         camera.checkCollisions = true;
-        if(!DEBUG){
             camera.applyGravity = true;
-        }
 
         //Set the ellipsoid around the camera (e.g. your player's size)
         camera.ellipsoid = new BABYLON.Vector3(.4, 1, .4);
@@ -551,7 +580,15 @@
         return grid;
     }
 
-
+    function overlay() {
+        el = document.getElementById("overlay");
+        var isDialogClosed = el.style.visibility;
+        el.style.visibility = (el.style.visibility == "visible") ? "hidden" : "visible";
+        if (isDialogClosed == "visible") {
+            alert("Click ↑ or W to start playing.");
+        }
+    }
+    window.onload = overlay;
 </script>
 
 </body>
