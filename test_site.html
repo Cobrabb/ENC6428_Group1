@@ -61,6 +61,56 @@
              text-align:center;
              opacity: 0.8;
         }
+		@charset "UTF-8";
+/* CSS Document */
+
+.button {
+   border: 3px solid #0a3c59;
+   background: #3e779d;
+   background: -webkit-gradient(linear, left top, left bottom, from(#65a9d7), to(#3e779d));
+   background: -webkit-linear-gradient(top, #65a9d7, #3e779d);
+   background: -moz-linear-gradient(top, #65a9d7, #3e779d);
+   background: -ms-linear-gradient(top, #65a9d7, #3e779d);
+   background: -o-linear-gradient(top, #65a9d7, #3e779d);
+   background-image: -ms-linear-gradient(top, #65a9d7 0%, #3e779d 100%);
+   padding: 14.5px 29px;
+   -webkit-border-radius: 6px;
+   -moz-border-radius: 6px;
+   border-radius: 6px;
+   -webkit-box-shadow: rgba(255,255,255,0.4) 0 1px 0, inset rgba(255,255,255,0.4) 0 1px 0;
+   -moz-box-shadow: rgba(255,255,255,0.4) 0 1px 0, inset rgba(255,255,255,0.4) 0 1px 0;
+   box-shadow: rgba(255,255,255,0.4) 0 1px 0, inset rgba(255,255,255,0.4) 0 1px 0;
+   text-shadow: #7ea4bd 0 1px 0;
+   color: #06426c;
+   font-size: 20px;
+   font-family: helvetica, serif;
+   text-decoration: none;
+   vertical-align: middle;
+   }
+.button:hover {
+   border: 3px solid #0a3c59;
+   text-shadow: #1e4158 0 1px 0;
+   background: #3e779d;
+   background: -webkit-gradient(linear, left top, left bottom, from(#65a9d7), to(#3e779d));
+   background: -webkit-linear-gradient(top, #65a9d7, #3e779d);
+   background: -moz-linear-gradient(top, #65a9d7, #3e779d);
+   background: -ms-linear-gradient(top, #65a9d7, #3e779d);
+   background: -o-linear-gradient(top, #65a9d7, #3e779d);
+   background-image: -ms-linear-gradient(top, #65a9d7 0%, #3e779d 100%);
+   color: #fff;
+   }
+.button:active {
+   text-shadow: #1e4158 0 1px 0;
+   border: 3px solid #0a3c59;
+   background: #65a9d7;
+   background: -webkit-gradient(linear, left top, left bottom, from(#3e779d), to(#3e779d));
+   background: -webkit-linear-gradient(top, #3e779d, #65a9d7);
+   background: -moz-linear-gradient(top, #3e779d, #65a9d7);
+   background: -ms-linear-gradient(top, #3e779d, #65a9d7);
+   background: -o-linear-gradient(top, #3e779d, #65a9d7);
+   background-image: -ms-linear-gradient(top, #3e779d 0%, #65a9d7 100%);
+   color: #fff;
+   }
     </style>
 
 
@@ -69,13 +119,14 @@
     <div id="overlay">
         <div>
             <div style="height: 90%">
-              <p style="font-style:italic">Folly: The Endless Maze</p>
+              <p style="font-style:italic">Folly is an Endless Maze</p>
               <br />
-              <p>This is a maze genarated from the works of William Blake's works and alternatively synonmys of the words from Blake's works.</p>
+              <p>The following is a poetry game that was created as a culminating project for ENC 6428 and CIS 6930, Data Mining and Digital Poetics, a graduate-level interdisciplinary course at the University of Florida. The purpose of this project was to reinterpret the poetry of Romantic poet and printmaker, William Blake, and to create a non-linear and interactive way of heightening the reading experience for our users. Our project is a game where the reader becomes the player that navigates the poetry of Blake in a unique labyrinth of text. Enter the maze by clicking the start button. Once inside the maze, you can use your arrows to navigate your way through the game.</p>
               <p>Play through to create an interesting and an unique poem by walking through the maze.</p>
              </div>
-              <input type="button" onclick = "overlay()" value="Start the Game" />
+              <input type="button" onclick = "overlay()" value="Enter into our Spectres" />
          </div>
+         <p><a href="http://www.blakearchive.org">The William Blake Archive</a>'s digital collection of Blake's original poetry and illuminated manuscripts states that "You do not need to acquire permission to use Archive materials for in-class teaching purposes, school projects, and assignments." </p>
     </div>
     <canvas id ="renderCanvas"></canvas>
     <div id="parent">
@@ -416,6 +467,13 @@
         skyboxMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
         skybox.position = new BABYLON.Vector3(100, 0, 100);
         skybox.material = skyboxMaterial;
+		
+		
+		scene.fogMode = BABYLON.Scene.FOGMODE_LINEAR;
+    	scene.fogColor = new BABYLON.Color3(0.9, 0.9, 0.9);
+    	scene.fogDensity = 0.01;
+	    scene.fogStart = 0.0;
+    	scene.fogEnd = 60.0;
 
         initPlayer();
 
