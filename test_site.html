@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
     <head>
         <script src="Babylon.js/hand-1.3.8.js"></script>
@@ -42,10 +42,98 @@
         #txtPoem{
             padding:10%;
         }
+        #overlay {
+         visibility: hidden;
+         position: absolute;
+         left: 0px;
+         top: 0px;
+         width:100%;
+         height:100%;
+         text-align:center;
+         z-index: 10000;
+        }
+        #overlay div {
+             width:100%;
+             height:100%;
+             color: White;
+             background-color: Black;
+             border:1px solid #000;
+             text-align:center;
+             opacity: 0.8;
+        }
+		@charset "UTF-8";
+/* CSS Document */
+
+.button {
+   border: 3px solid #0a3c59;
+   background: #3e779d;
+   background: -webkit-gradient(linear, left top, left bottom, from(#65a9d7), to(#3e779d));
+   background: -webkit-linear-gradient(top, #65a9d7, #3e779d);
+   background: -moz-linear-gradient(top, #65a9d7, #3e779d);
+   background: -ms-linear-gradient(top, #65a9d7, #3e779d);
+   background: -o-linear-gradient(top, #65a9d7, #3e779d);
+   background-image: -ms-linear-gradient(top, #65a9d7 0%, #3e779d 100%);
+   padding: 14.5px 29px;
+   -webkit-border-radius: 6px;
+   -moz-border-radius: 6px;
+   border-radius: 6px;
+   -webkit-box-shadow: rgba(255,255,255,0.4) 0 1px 0, inset rgba(255,255,255,0.4) 0 1px 0;
+   -moz-box-shadow: rgba(255,255,255,0.4) 0 1px 0, inset rgba(255,255,255,0.4) 0 1px 0;
+   box-shadow: rgba(255,255,255,0.4) 0 1px 0, inset rgba(255,255,255,0.4) 0 1px 0;
+   text-shadow: #7ea4bd 0 1px 0;
+   color: #06426c;
+   font-size: 20px;
+   font-family: helvetica, serif;
+   text-decoration: none;
+   vertical-align: middle;
+   }
+.button:hover {
+   border: 3px solid #0a3c59;
+   text-shadow: #1e4158 0 1px 0;
+   background: #3e779d;
+   background: -webkit-gradient(linear, left top, left bottom, from(#65a9d7), to(#3e779d));
+   background: -webkit-linear-gradient(top, #65a9d7, #3e779d);
+   background: -moz-linear-gradient(top, #65a9d7, #3e779d);
+   background: -ms-linear-gradient(top, #65a9d7, #3e779d);
+   background: -o-linear-gradient(top, #65a9d7, #3e779d);
+   background-image: -ms-linear-gradient(top, #65a9d7 0%, #3e779d 100%);
+   color: #fff;
+   }
+.button:active {
+   text-shadow: #1e4158 0 1px 0;
+   border: 3px solid #0a3c59;
+   background: #65a9d7;
+   background: -webkit-gradient(linear, left top, left bottom, from(#3e779d), to(#3e779d));
+   background: -webkit-linear-gradient(top, #3e779d, #65a9d7);
+   background: -moz-linear-gradient(top, #3e779d, #65a9d7);
+   background: -ms-linear-gradient(top, #3e779d, #65a9d7);
+   background: -o-linear-gradient(top, #3e779d, #65a9d7);
+   background-image: -ms-linear-gradient(top, #3e779d 0%, #65a9d7 100%);
+   color: #fff;
+   }
     </style>
 
 
     <body>
+    
+    <div id="overlay">
+        <div>
+            <div style="height: 90%">
+              <p style="font-style:italic">Folly is an Endless Maze</p>
+              <br />
+              <p>The following is a poetry game that was created as a culminating project for ENC 6428 and CIS 6930, </p>
+              <p>Data Mining and Digital Poetics, a graduate-level interdisciplinary course at the University of Florida. </p>
+              <p>The purpose of this project was to reinterpret the poetry of Romantic poet and printmaker, William Blake,</p> 
+              <p>and to create a non-linear and interactive way of heightening the reading experience for our users. </p>
+              <p>Our project is a game where the reader becomes the player that navigates the poetry of Blake in a unique </p>
+              <p>labyrinth of text. Enter the maze by clicking the start button. Once inside the maze, you can use your </p>
+              <p>arrows to navigate your way through the game.</p>
+              <p>Play through to create an interesting and an unique poem by walking through the maze.</p>
+              <p style="font-size:9px"><a href="http://www.blakearchive.org">The William Blake Archive</a>'s digital collection of Blake's original poetry and illuminated manuscripts states that "You do not need to acquire permission to use Archive materials for in-class teaching purposes, school projects, and assignments." </p>
+             </div>
+              <input type="button" onclick = "overlay()" value="Enter into our Spectres" />
+         </div>
+    </div>
     <canvas id ="renderCanvas"></canvas>
     <div id="parent">
     <div id="txtPoem"></div>
@@ -178,7 +266,7 @@
 
         var box = new BABYLON.Mesh.CreatePyramid4("box", 3, 4, scene, false);
         box.material = new BABYLON.StandardMaterial("texture1", scene);
-        box.material.emissiveColor = new BABYLON.Color3(1, 0, 0);
+        box.material.emissiveColor = new BABYLON.Color3(1, 1, 1);
         box.rotation.x = Math.PI/4;
         box.checkCollisions = false;
 
@@ -272,9 +360,7 @@
 
         //Then apply collisions and gravity to the active camera
         camera.checkCollisions = true;
-        if(!DEBUG){
             camera.applyGravity = true;
-        }
 
         //Set the ellipsoid around the camera (e.g. your player's size)
         camera.ellipsoid = new BABYLON.Vector3(.4, 1, .4);
@@ -387,6 +473,13 @@
         skyboxMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
         skybox.position = new BABYLON.Vector3(100, 0, 100);
         skybox.material = skyboxMaterial;
+		
+		
+		//scene.fogMode = BABYLON.Scene.FOGMODE_LINEAR;
+    	//scene.fogColor = new BABYLON.Color3(0.9, 0.9, 0.9);
+    	//scene.fogDensity = 0.01;
+	    //scene.fogStart = 60.0;
+    	//scene.fogEnd = 120.0;
 
         initPlayer();
 
@@ -406,6 +499,57 @@
         crate.dispose();
         ground1.dispose();
         ground.dispose();*/
+        scene.dispose();
+        scene = createScene();
+        alert("You have successfully navigated through this level. Click Ok to enter to next level.");
+        engine.runRenderLoop(function() {
+        scene.render();
+        if(LEVEL!=null){
+            for(var i=0; i<LEVEL.letterGrid.length;i++){
+                for(var j=0; j<LEVEL.letterGrid.length; j++){
+                    var letter = LEVEL.letterGrid[i][j];
+                    if(letter!=null){
+                        if(letter.xBegin <= camera.position.x && letter.xEnd >= camera.position.x && letter.zBegin <= camera.position.z && letter.zEnd >= camera.position.z){
+                            addToPoem(letter.objletter.word);
+
+                        }
+                    }
+                }
+            }
+        }
+        //Player fell out of maze, jail them
+        if(camera.position.x < LEVEL.xBegin || camera.position.x > LEVEL.xEnd || camera.position.z < LEVEL.zBegin || camera.position.z > LEVEL.zEnd){
+            console.log(LEVEL.xBegin + " " + LEVEL.xEnd +  " " + LEVEL.zBegin + " " + LEVEL.zEnd);
+            jailPlayer();
+        }
+        //Player should not be able to move while falling
+        if(!DEBUG){
+            if(camera.position.y != PLAYER_OLD_YPOS){
+                if(!PLAYER_FROZEN){
+                    freezePlayer();
+                }else{
+                    camera.position.x = PLAYER_STUCK_X;
+                    camera.position.z = PLAYER_STUCK_Z;
+                }
+            }else{
+                unfreezePlayer();
+            }
+            PLAYER_OLD_YPOS = camera.position.y;
+        }
+        if(PLAYER_JAILED){
+            clearWorld(scene);
+            var wordList = getHuge();
+            createLevel(scene, wordList);
+            PLAYER_JAILED = false;
+        }
+
+        miniMap.position.x = camera.position.x;
+        miniMap.position.z = camera.position.z;
+    });
+
+    window.addEventListener("resize", function(){
+        engine.resize();
+    });
     }
 
     //Searches for a good place to put the player, starting with the middle and moving outwards
@@ -551,7 +695,15 @@
         return grid;
     }
 
-
+    function overlay() {
+        el = document.getElementById("overlay");
+        var isDialogClosed = el.style.visibility;
+        el.style.visibility = (el.style.visibility == "visible") ? "hidden" : "visible";
+        if (isDialogClosed == "visible") {
+            alert("Click ↑ or W to start playing.");
+        }
+    }
+    window.onload = overlay;
 </script>
 
 </body>
