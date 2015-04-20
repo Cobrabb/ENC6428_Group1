@@ -256,11 +256,79 @@
     var createScene = function () {
         DEBUG = true;
 
-        var scene = new BABYLON.Scene(engine);
+        scene = startGame();
+
+        POEM = [];
+
+        initWords = getHuge();
+        createLevel(scene, initWords);
+        PLAYER_OLD_YPOS = camera.position.y;
+        PLAYER_FROZEN = false;
+        PLAYER_JAILED = false;
+        
+
+        return scene;
+    }
+
+    var scene = createScene();
+    ourScene = scene;
+
+
+    engine.runRenderLoop(function() {
+        ourScene.render();
+        if(LEVEL!=null){
+            for(var i=0; i<LEVEL.letterGrid.length;i++){
+                for(var j=0; j<LEVEL.letterGrid.length; j++){
+                    var letter = LEVEL.letterGrid[i][j];
+                    if(letter!=null){
+                        if(letter.xBegin <= camera.position.x && letter.xEnd >= camera.position.x && letter.zBegin <= camera.position.z && letter.zEnd >= camera.position.z){
+                            addToPoem(letter.objletter.word);
+
+                        }
+                    }
+                }
+            }
+        }
+        //Player fell out of maze, jail them
+        if(camera.position.x < LEVEL.xBegin || camera.position.x > LEVEL.xEnd || camera.position.z < LEVEL.zBegin || camera.position.z > LEVEL.zEnd){
+            console.log(LEVEL.xBegin + " " + LEVEL.xEnd +  " " + LEVEL.zBegin + " " + LEVEL.zEnd);
+            jailPlayer();
+        }
+        //Player should not be able to move while falling
+        if(!DEBUG){
+            if(camera.position.y != PLAYER_OLD_YPOS){
+                if(!PLAYER_FROZEN){
+                    freezePlayer();
+                }else{
+                    camera.position.x = PLAYER_STUCK_X;
+                    camera.position.z = PLAYER_STUCK_Z;
+                }
+            }else{
+                unfreezePlayer();
+            }
+            PLAYER_OLD_YPOS = camera.position.y;
+        }
+        if(PLAYER_JAILED){
+            clearWorld(ourScene);
+            var wordList = getHuge();
+            createLevel(ourScene, wordList);
+            PLAYER_JAILED = false;
+        }
+
+        miniMap.position.x = camera.position.x;
+        miniMap.position.z = camera.position.z;
+    });
+
+    window.addEventListener("resize", function(){
+        engine.resize();
+    });
+
+    function startGame(){
         //scene.fogMode = BABYLON.Scene.FOGMODE_EXP;
         //scene.fogColor = new BABYLON.Color3(.4, .4, .35);
 
         // Need a free camera for collisions
+        var scene = new BABYLON.Scene(engine);
 
         var cameraPos = 0 ;
 
@@ -373,69 +441,9 @@
         JAIL.material = black;
         JAIL.checkCollisions = true;
 
-
-        POEM = [];
-
-        initWords = getHuge();
-        createLevel(scene, initWords);
-        PLAYER_OLD_YPOS = camera.position.y;
-        PLAYER_FROZEN = false;
-        PLAYER_JAILED = false;
-        
-
         return scene;
+
     }
-
-    var scene = createScene();
-
-    engine.runRenderLoop(function() {
-        scene.render();
-        if(LEVEL!=null){
-            for(var i=0; i<LEVEL.letterGrid.length;i++){
-                for(var j=0; j<LEVEL.letterGrid.length; j++){
-                    var letter = LEVEL.letterGrid[i][j];
-                    if(letter!=null){
-                        if(letter.xBegin <= camera.position.x && letter.xEnd >= camera.position.x && letter.zBegin <= camera.position.z && letter.zEnd >= camera.position.z){
-                            addToPoem(letter.objletter.word);
-
-                        }
-                    }
-                }
-            }
-        }
-        //Player fell out of maze, jail them
-        if(camera.position.x < LEVEL.xBegin || camera.position.x > LEVEL.xEnd || camera.position.z < LEVEL.zBegin || camera.position.z > LEVEL.zEnd){
-            console.log(LEVEL.xBegin + " " + LEVEL.xEnd +  " " + LEVEL.zBegin + " " + LEVEL.zEnd);
-            jailPlayer();
-        }
-        //Player should not be able to move while falling
-        if(!DEBUG){
-            if(camera.position.y != PLAYER_OLD_YPOS){
-                if(!PLAYER_FROZEN){
-                    freezePlayer();
-                }else{
-                    camera.position.x = PLAYER_STUCK_X;
-                    camera.position.z = PLAYER_STUCK_Z;
-                }
-            }else{
-                unfreezePlayer();
-            }
-            PLAYER_OLD_YPOS = camera.position.y;
-        }
-        if(PLAYER_JAILED){
-            clearWorld(scene);
-            var wordList = getHuge();
-            createLevel(scene, wordList);
-            PLAYER_JAILED = false;
-        }
-
-        miniMap.position.x = camera.position.x;
-        miniMap.position.z = camera.position.z;
-    });
-
-    window.addEventListener("resize", function(){
-        engine.resize();
-    });
 
     function createLevel(scene, wordList){
 
@@ -474,13 +482,6 @@
         skybox.position = new BABYLON.Vector3(100, 0, 100);
         skybox.material = skyboxMaterial;
 		
-		
-		//scene.fogMode = BABYLON.Scene.FOGMODE_LINEAR;
-    	//scene.fogColor = new BABYLON.Color3(0.9, 0.9, 0.9);
-    	//scene.fogDensity = 0.01;
-	    //scene.fogStart = 60.0;
-    	//scene.fogEnd = 120.0;
-
         initPlayer();
 
 
@@ -491,65 +492,12 @@
     //We will need to update all existing code so that we can retain references to walls and floors
     //So that we can delete them here.
     function clearWorld(scene){
-/*        var skybox = scene.getMeshByName("skyBox");
-        var crate = scene.getMeshByName("crate");
-        var ground1 = scene.getMeshByName("ground1");
-        var ground = scene.getMeshByName("ground");
-        skybox.dispose();
-        crate.dispose();
-        ground1.dispose();
-        ground.dispose();*/
-        scene.dispose();
-        scene = createScene();
+
+        ourScene.dispose();
+        ourScene = startGame();
+        initPlayer();
         alert("You have successfully navigated through this level. Click Ok to enter to next level.");
-        engine.runRenderLoop(function() {
-        scene.render();
-        if(LEVEL!=null){
-            for(var i=0; i<LEVEL.letterGrid.length;i++){
-                for(var j=0; j<LEVEL.letterGrid.length; j++){
-                    var letter = LEVEL.letterGrid[i][j];
-                    if(letter!=null){
-                        if(letter.xBegin <= camera.position.x && letter.xEnd >= camera.position.x && letter.zBegin <= camera.position.z && letter.zEnd >= camera.position.z){
-                            addToPoem(letter.objletter.word);
 
-                        }
-                    }
-                }
-            }
-        }
-        //Player fell out of maze, jail them
-        if(camera.position.x < LEVEL.xBegin || camera.position.x > LEVEL.xEnd || camera.position.z < LEVEL.zBegin || camera.position.z > LEVEL.zEnd){
-            console.log(LEVEL.xBegin + " " + LEVEL.xEnd +  " " + LEVEL.zBegin + " " + LEVEL.zEnd);
-            jailPlayer();
-        }
-        //Player should not be able to move while falling
-        if(!DEBUG){
-            if(camera.position.y != PLAYER_OLD_YPOS){
-                if(!PLAYER_FROZEN){
-                    freezePlayer();
-                }else{
-                    camera.position.x = PLAYER_STUCK_X;
-                    camera.position.z = PLAYER_STUCK_Z;
-                }
-            }else{
-                unfreezePlayer();
-            }
-            PLAYER_OLD_YPOS = camera.position.y;
-        }
-        if(PLAYER_JAILED){
-            clearWorld(scene);
-            var wordList = getHuge();
-            createLevel(scene, wordList);
-            PLAYER_JAILED = false;
-        }
-
-        miniMap.position.x = camera.position.x;
-        miniMap.position.z = camera.position.z;
-    });
-
-    window.addEventListener("resize", function(){
-        engine.resize();
-    });
     }
 
     //Searches for a good place to put the player, starting with the middle and moving outwards
