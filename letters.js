@@ -701,12 +701,12 @@ function createN(scene, x, z, open1, open2, open3, open4) {
     createWall(scene, [x, z + 6], [x, z + 9]);
     createWall(scene, [x + 9, z], [x + 9, z + 3]);
     createWall(scene, [x + 9, z + 6], [x + 9, z + 9]);
-    createWall(scene, [x + 6, z + 4], [x + 6, z + 9]);
-    createWall(scene, [x + 3, z], [x + 3, z + 5]);
+    createWall(scene, [x + 6, z + 5], [x + 6, z + 9]);
+    createWall(scene, [x + 3, z], [x + 3, z + 4]);
     createWall(scene, [x + 6, z], [x + 9, z]);
     createWall(scene, [x + 6, z + 9], [x + 9, z + 9]);
-    createWall(scene, [x + 3, z + 5], [x + 6, z]);
-    createWall(scene, [x + 3, z + 9], [x + 6, z + 4]);
+    createWall(scene, [x + 3, z + 4], [x + 6, z]);
+    createWall(scene, [x + 3, z + 9], [x + 6, z + 5]);
 
     //CREATE FLOOR
     createFloor(scene, [x, z], [x + 3, z], [x + 9, z + 9], [x + 6, z + 9], 'N');
