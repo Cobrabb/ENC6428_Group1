@@ -1,6 +1,5 @@
 require 'net/http'
 require 'json'
-require 'csv'
 
 def getSynonyms word
     puts "Getting synonym for #{word}"
@@ -45,50 +44,34 @@ def getSynonyms word
 end
 
 # Get the word list
-blakeFile = File.open("PlainWilliamBlake.txt")
-blakeFile = CSV.open("BlakeText3.txt")
+blakeFile = File.open("rb_bl")
 wordList = blakeFile.read
+wordList = JSON.parse(wordList)
 
-wordList = wordList.split(/,|\s/)
-
-toDelete = Array.new
-# Delete any open quotes
-wordList.each_with_index do |word, i|
-    if not word[0].nil? and (word[0].ord == 8220 or word[0].ord == 8221)
-        wordList[i] = word[1..-1]
-        word = wordList[i]
-    end
-    if not word.nil? and not word[-1].nil? and (word[-1].ord == 8220 or word[-1].ord == 8221)
-        wordList[i] = word[0..-2]
-        word = wordList[i]
-    end
-end
-
-# Delete any words that are blank or & or end with closed quotes (just random 't's, probably a MS word relic
+realList = Array.new
 wordList.each do |word|
-    if word == "" or word.nil? or word == "&"
-        toDelete << word
+    words = word.split(/ /)
+    words.each do |wordr|
+        realList << wordr.downcase
     end
 end
-toDelete.each do |word|
-    wordList.delete word
-end
 
-#Downcase all words and get the unique set
-wordList.each_with_index do |word, i|
-    wordList[i] = word.downcase
-end
-wordList.uniq!
+realList.uniq!
 
 # Get all of the synonyms
-wordStruct = Hash.new
-wordList.each do |word|
-    #wordStruct[word] = getSynonyms word
-   
+structFile = File.open("blakeSynonyms2.txt")
+wordStruct = JSON.parse(structFile.read)
+
+realList.each do |word|
+    if not wordStruct[word].nil?
+        puts "Already had syn for #{word}"
+    else
+        wordStruct[word] = getSynonyms word
+    end
 end
 
 jsonOut = wordStruct.to_json
-outFile = File.open("blakeSynonyms.txt", "w")
+outFile = File.open("blakeSynonyms3.txt", "w")
 outFile.puts jsonOut
 outFile.close
 
