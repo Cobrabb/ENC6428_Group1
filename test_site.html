@@ -257,6 +257,8 @@
     var createScene = function () {
         DEBUG = true;
 
+        POEM_NUMBER = 0;
+        BLAKES = [BLAKE001];
         scene = startGame();
 
         POEM = [];
@@ -266,6 +268,8 @@
         PLAYER_OLD_YPOS = camera.position.y;
         PLAYER_FROZEN = false;
         PLAYER_JAILED = false;
+
+
         
 
         return scene;
@@ -419,7 +423,7 @@
         document.addEventListener("mozpointerlockchange", pointerlockchange, false);
         document.addEventListener("webkitpointerlockchange", pointerlockchange, false);
 
-        vidSetup(scene);
+        vidSetup(scene, POEM_NUMBER);
         //Ground
  
 
@@ -618,10 +622,10 @@
 
     function getBlake(seed){
         if(seed == null){
-            var rand = Math.random()*(BLAKE001.length-1);
+            var rand = Math.random()*(BLAKES[POEM_NUMBER].length-1);
             rand = Math.round(rand);
 
-            return BLAKE001[rand].split(" ");
+            return BLAKES[POEM_NUMBER][rand].split(" ");
         }
     }
 

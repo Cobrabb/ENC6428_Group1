@@ -1184,11 +1184,12 @@ function createZ(scene, x, z, open1, open2, open3, open4){
     return letter(x,z,x+9);
 }
 
-function vidSetup(scene){
+function vidSetup(scene, poemNum){
+    var walls = ["songsie29"];
     TEXTURES_ON = true; 
     if(TEXTURES_ON){
-        BUMP_TEXTURE = new BABYLON.Texture("songsie29normal.jpg", scene);
-        TEXTURE = new BABYLON.Texture("songsie29.jpg", scene);
+        BUMP_TEXTURE = new BABYLON.Texture(walls[poemNum]+"normal.jpg", scene);
+        TEXTURE = new BABYLON.Texture(walls[poemNum]+".jpg", scene);
         GROUND_BUMP_TEXTURE = new BABYLON.Texture("ground_bump2.jpg", scene);
     }
 }
