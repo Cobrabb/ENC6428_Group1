@@ -1,3 +1,11 @@
+function goodLetter(letter){
+    //TODO: Determine which letters are good, and return true if this is one of them
+    //Use letter.objletter.char
+    console.log(letter.objletter.char);
+    return true;
+}
+
+
 function renderLetterGrid(scene, stringGrid){
 
     var max_x_x = 0;

@@ -315,8 +315,16 @@
         }
         if(PLAYER_JAILED){
             clearWorld(ourScene);
-            var wordList = getHuge();
-            createLevel(ourScene, wordList);
+            updatePoemFile();
+            var managed = false;
+            while(!managed){
+                try{
+                    var wordList = getHuge();
+                    createLevel(ourScene, wordList);
+                    managed = true;
+                }catch(err){ //Do nothing 
+                }
+            }
             PLAYER_JAILED = false;
         }
 
@@ -327,6 +335,12 @@
     window.addEventListener("resize", function(){
         engine.resize();
     });
+
+    //TODO: Fill this in
+    function updatePoemFile(){
+        console.log(POEM[POEM.length-1]);
+        POEM_NUMER = 0;
+    }
 
 
     //Things that should happen for every level go here
@@ -519,7 +533,7 @@
             //check north side
             var j = startZ+loopCount;
             for(var i=startX-loopCount; i<=startX+loopCount; i++){
-                if(LEVEL.letterGrid[i]!=null&&LEVEL.letterGrid[i][j]!=null){
+                if(LEVEL.letterGrid[i]!=null&&LEVEL.letterGrid[i][j]!=null&&goodLetter(LEVEL.letterGrid[i][j])){
                     placePlayer(LEVEL.letterGrid[i][j].xBegin+4.5, LEVEL.letterGrid[i][j].zBegin+4.5);
                     done = true;
                 }
@@ -528,7 +542,7 @@
             //check south side
             var j = startZ-loopCount;
             for(var i=startX-loopCount; i<=startX+loopCount; i++){
-                if(LEVEL.letterGrid[i]!=null&&LEVEL.letterGrid[i][j]!=null){
+                if(LEVEL.letterGrid[i]!=null&&LEVEL.letterGrid[i][j]!=null&&goodLetter(LEVEL.letterGrid[i][j])){
                     placePlayer(LEVEL.letterGrid[i][j].xBegin+4.5, LEVEL.letterGrid[i][j].zBegin+4.5);
                     done = true;
                 }
@@ -537,7 +551,7 @@
             //check east side
             var i = startX+loopCount;
             for(var j=startZ-loopCount; j<=startZ+loopCount; j++){
-                if(LEVEL.letterGrid[i]!=null&&LEVEL.letterGrid[i][j]!=null){
+                if(LEVEL.letterGrid[i]!=null&&LEVEL.letterGrid[i][j]!=null&&goodLetter(LEVEL.letterGrid[i][j])){
                     placePlayer(LEVEL.letterGrid[i][j].xBegin+4.5, LEVEL.letterGrid[i][j].zBegin+4.5);
                     done = true;
                 }
@@ -546,7 +560,7 @@
             //check west side
             var i = startX-loopCount;
             for(var j=startZ-loopCount; j<=startZ+loopCount; j++){
-                if(LEVEL.letterGrid[i]!=null&&LEVEL.letterGrid[i][j]!=null){
+                if(LEVEL.letterGrid[i]!=null&&LEVEL.letterGrid[i][j]!=null&&goodLetter(LEVEL.letterGrid[i][j])){
                     placePlayer(LEVEL.letterGrid[i][j].xBegin+4.5, LEVEL.letterGrid[i][j].zBegin+4.5);
                     done = true;
                 }
@@ -555,21 +569,10 @@
 
         }
                 //Put the player somewhere sane
-        for(var i=Math.floor(LEVEL.letterGrid.length/2); i<LEVEL.letterGrid.length; i++){
-            for(var j=Math.floor(LEVEL.letterGrid.length/2); j<LEVEL.letterGrid.length; j++){
-                if(LEVEL.letterGrid[i][j]!=null){
-
-                    //alert(l.letterGrid[i][j].xBegin +  " " + l.letterGrid[i][j].zBegin) ;
-                    done = true;
-                    break;
-                }
-            }
-            if(done) break;
-        }
         if(!done){
             for(var i=0; i<Math.floor(LEVEL.letterGrid.length/2); i++){
                 for(var j=0; j<Math.floor(LEVEL.letterGrid.length/2); j++){
-                    if(LEVEL.letterGrid[i][j]!=null){
+                    if(LEVEL.letterGrid[i][j]!=null&&goodLetter(LEVEL.letterGrid[i][j])){
                         camera.position.x = LEVEL.letterGrid[i][j].xBegin+4.5;
                         camera.position.z = LEVEL.letterGrid[i][j].zBegin+4.5;
                         miniMap.position.x = LEVEL.letterGrid[i][j].xBegin+4.5;
