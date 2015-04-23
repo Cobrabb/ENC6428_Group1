@@ -1,9 +1,9 @@
 function goodLetter(letter){
     //TODO: Determine which letters are good (letters where it is OK to spawn at 4.5, 4.5), and return true if this is one of them
     //Use letter.objletter.char
-    //Bad Letters: A, H, O, W, T, R, U, D, G, J, Q, X, Y, Z, I, N, V, K
+    //Bad Letters: A, H, O, C, W, T, R, U, D, G, J, Q, X, Y, Z, I, N, V, K
 
-    var GoodLetters = "BLPSECFM";
+    var GoodLetters = "BLPSEFM";
     if (GoodLetters.indexOf(letter.objletter.char) > -1) {
         return true;
     }
