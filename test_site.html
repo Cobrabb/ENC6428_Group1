@@ -123,7 +123,7 @@
     </style>
 
 
-    <body>
+    <body style="background-color:black">
     
     <div id="overlay">
         <div>
@@ -146,13 +146,18 @@
               <input type="button" onclick = "overlay()" value="Enter into our Spectres" />
          </div>
     </div>
-    <div style="background-color:Black">
-        <label id="lblTitle" style="font-style:italic; color:White; text-align:center;margin-left:40%">Folly is an Endless Maze</label>
-        <input type="button" id="btnAbout" onclick = "overlay()" value="About" style="float:right" />
+    <div style="background-color:Black;padding:0px">
+        <label id="lblTitle" style="font-style:italic;font-weight:bold; color:White; text-align:center;margin-left:40%">Folly is an Endless Maze</label>
+        <div style="background-color: Black">
+            <p style="background-color:black">
+                <a style="color:white" href="http://www.blakearchive.org">Blake's Archive</a>
+                <a style="color:white;float:right" onclick="overlay()"><u>About</u></a>
+            </p>
+        </div>
     </div>
     <canvas id ="renderCanvas"></canvas>
     <div id="parent">
-    <div id="txtPoem" style="overflow-y:scroll"></div>
+        <div id="txtPoem" style="overflow-y:scroll"></div>
     </div>
 
  <!--   <table id="table" >
@@ -536,6 +541,7 @@ var createScene = function () {
         ourScene.dispose();
         ourScene = startGame();
         alert("You have successfully navigated through this level. Click Ok to enter to next level.");
+        alert("Click ↑ or W to continue playing.");
 
     }
 
