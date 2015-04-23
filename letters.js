@@ -1,5 +1,5 @@
 function goodLetter(letter){
-    //TODO: Determine which letters are good, and return true if this is one of them
+    //TODO: Determine which letters are good (letters where it is OK to spawn at 4.5, 4.5), and return true if this is one of them
     //Use letter.objletter.char
     console.log(letter.objletter.char);
     return true;
