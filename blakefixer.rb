@@ -3,33 +3,29 @@ require 'json'
 require 'csv'
 
 # Get the word list
-blakeFile = File.open("BlakeText3.txt")
+num = 6
+blakeFile = File.open("blake00#{num}.txt")
 lines = blakeFile.read
-lines = lines.split(/"/)
+lines = lines.split(/,/)
+lines[0] = " "+lines[0]
+lines[-1] = lines[-1][0..-3]
 
-toDelete = Array.new
-lines.each do |line|
-    if line.nil? or line == "" or line == " " or line == ", " or line == "t" or line == "t "
-        toDelete << line
+lines.each_with_index do |line,i|
+    line = line[2..-2]
+    if line.nil?
+        lines[i] = line
+        next
     end
-end
-
-lines.each_with_index do |word,i|
-    word = word.gsub(",","").gsub("&","").gsub("-","").gsub("(","").gsub(")","").gsub("'", "")
-    word = word.gsub("  "," ").strip!
-    lines[i] = word
-end
-
-lines.each do |line|
-    if line.nil? or line == "" 
-        toDelete << line
+    line = line.gsub(",","").gsub("&","").gsub("-","").gsub("(","").gsub(")","").gsub("'", "")
+    if line.nil?
+        lines[i] = line
+        next
     end
+    line = line.gsub("  "," ")
+    line.strip!
+    lines[i] = line
 end
 
-toDelete.each do |line|
-    lines.delete line
-end
-
-outFile = File.open("blake002.js", "w")
-outFile.puts "BLAKE002 = #{lines.to_json};"
+outFile = File.open("blake00#{num}.js", "w")
+outFile.puts "BLAKE00#{num} = #{lines.to_json};"
 outFile.close

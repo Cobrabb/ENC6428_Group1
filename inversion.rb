@@ -2,7 +2,7 @@ require 'net/http'
 require 'json'
 require 'csv'
 
-num = 3;
+num = 7;
 word_to_filenum = Hash.new
 
 #For each blake00X
@@ -11,6 +11,9 @@ num.times do |i|
     
     # For each line in the Blake File
     blakeFile.each do |line|
+        if line.nil?
+            next
+        end
         
         splitline = line.split(/ /)
         # For each word in the Line
