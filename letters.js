@@ -1200,11 +1200,13 @@ function createZ(scene, x, z, open1, open2, open3, open4){
 }
 
 function vidSetup(scene, poemNum){
-    var walls = ["songsie29"];
+	console.log(poemNum);
+    var walls = ["songsie", "ahania", "b-los", "europe", "s-los", "urizen", "vda"];
+
     TEXTURES_ON = true; 
     if(TEXTURES_ON){
-        BUMP_TEXTURE = new BABYLON.Texture(walls[poemNum]+"normal.jpg", scene);
-        TEXTURE = new BABYLON.Texture(walls[poemNum]+".jpg", scene);
+        BUMP_TEXTURE = new BABYLON.Texture("NormalBlakeImages/normal"+walls[poemNum]+".jpg", scene);
+        TEXTURE = new BABYLON.Texture("BlakeImages/"+walls[poemNum]+".jpg", scene);
         GROUND_BUMP_TEXTURE = new BABYLON.Texture("ground_bump2.jpg", scene);
     }
 }

@@ -270,7 +270,7 @@
     
     //Things that should only happen one time go here
 var createScene = function () {
-    DEBUG = true;
+    DEBUG = false;
 
     POEM_NUMBER = 0;
     BLAKES = [BLAKE001, BLAKE002, BLAKE003, BLAKE004, BLAKE005, BLAKE006, BLAKE007];
@@ -280,7 +280,6 @@ var createScene = function () {
 
     initWords = getHuge();
     createLevel(scene, initWords);
-    //if(goodLetter("A");
     PLAYER_OLD_YPOS = camera.position.y;
     PLAYER_FROZEN = false;
     PLAYER_JAILED = false;
@@ -330,8 +329,8 @@ var createScene = function () {
             PLAYER_OLD_YPOS = camera.position.y;
         }
         if(PLAYER_JAILED){
-            clearWorld(ourScene);
             updatePoemFile();
+            clearWorld(ourScene);
             var managed = false;
             while(!managed){
                 try{
@@ -354,8 +353,17 @@ var createScene = function () {
 
     //TODO: Fill this in
     function updatePoemFile(){
-        console.log(POEM[POEM.length-1]);
-        POEM_NUMER = 0;
+	var options = BLAKEINV[POEM[POEM.length-1]];
+	console.log(options);
+        var rand = Math.random()*(options.length-1);
+        rand = Math.round(rand);
+	console.log(rand);
+        POEM_NUMBER = options[rand];
+	console.log(POEM_NUMBER);
+	if(POEM_NUMBER>6 || POEM_NUMBER<0){
+		console.log("PROBLEM");
+		POEM_NUMBER = 0;
+	}
     }
 
 
