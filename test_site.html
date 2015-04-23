@@ -48,6 +48,8 @@
         }
         #txtPoem{
             padding:10%;
+            overflow-y: scroll;
+            height:80%;
         }
         #overlay {
          visibility: hidden;
@@ -141,9 +143,13 @@
               <input type="button" onclick = "overlay()" value="Enter into our Spectres" />
          </div>
     </div>
+    <div style="background-color:Black">
+        <label id="lblTitle" style="font-style:italic; color:White; text-align:center;margin-left:40%">Folly is an Endless Maze</label>
+        <input type="button" id="btnAbout" onclick = "overlay()" value="About" style="float:right" />
+    </div>
     <canvas id ="renderCanvas"></canvas>
     <div id="parent">
-    <div id="txtPoem"></div>
+    <div id="txtPoem" style="overflow-y:scroll"></div>
     </div>
 
  <!--   <table id="table" >
@@ -261,26 +267,27 @@
 }
     
     //Things that should only happen one time go here
-    var createScene = function () {
-        DEBUG = true;
+var createScene = function () {
+    DEBUG = true;
 
-        POEM_NUMBER = 0;
-        BLAKES = [BLAKE001, BLAKE002, BLAKE003, BLAKE004, BLAKE005, BLAKE006, BLAKE007];
-        scene = startGame();
+    POEM_NUMBER = 0;
+    BLAKES = [BLAKE001, BLAKE002, BLAKE003, BLAKE004, BLAKE005, BLAKE006, BLAKE007];
+    scene = startGame();
 
-        POEM = [];
+    POEM = [];
 
-        initWords = getHuge();
-        createLevel(scene, initWords);
-        PLAYER_OLD_YPOS = camera.position.y;
-        PLAYER_FROZEN = false;
-        PLAYER_JAILED = false;
+    initWords = getHuge();
+    createLevel(scene, initWords);
+    //if(goodLetter("A");
+    PLAYER_OLD_YPOS = camera.position.y;
+    PLAYER_FROZEN = false;
+    PLAYER_JAILED = false;
 
 
-        
 
-        return scene;
-    }
+
+    return scene;
+}
 
     var scene = createScene();
     ourScene = scene;
