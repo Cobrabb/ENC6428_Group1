@@ -5,7 +5,6 @@ function goodLetter(letter){
 
     var GoodLetters = "BLPSECFM";
     if (GoodLetters.indexOf(letter.objletter.char) > -1) {
-        alert("hi");
         return true;
     }
     else {
